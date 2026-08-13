@@ -20,3 +20,9 @@ D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04>"C:\Users\Vidur Shah\App
 file has 27014 docs with word count 38094556 and 180075064 characters
 tokens per word is 1.9070050324251056
 the execution took 253.40180706977844 secs
+
+D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04>"C:\Users\Vidur Shah\AppData\Local\Programs\Python\Python312\python.exe" "d:/Desktop/IIIT HYD/LMA/individual-project-Vidur-Shah04/Gujarati/data/corpus_stats.py"
+file has 213908 docs with word count 182567291 and 865748588 characters
+the execution took 36.51017713546753 secs
+so with an approx 1.9 tokens per word we can get something like 182567291*1.9 -> 346,877,852.9 (346M) ill get the whole 10gb of iitb data cause cleaning and deduplication is yet to be done
+need approx 70M word corpus for the >20% manual collection
