@@ -26,3 +26,37 @@ file has 213908 docs with word count 182567291 and 865748588 characters
 the execution took 36.51017713546753 secs
 so with an approx 1.9 tokens per word we can get something like 182567291*1.9 -> 346,877,852.9 (346M) ill get the whole 10gb of iitb data cause cleaning and deduplication is yet to be done
 need approx 70M word corpus for the >20% manual collection
+
+==================================================
+VISHWAKOSH DATASET
+==================================================
+Articles/files : 25,562
+Total words    : 15,624,309
+Total chars    : 101,434,063
+Avg words/article: 611.2
+
+
+==================================================
+ebooks DATASET
+==================================================
+Articles/files : 14
+Total words    : 737,808
+Total chars    : 4,014,803
+Avg words/book: 52700.6
+
+==================================================
+Guj wikidumps DATASET
+==================================================
+Articles/files : 30,884
+Total words    : 6,929,744
+Total chars    : 44,041,586
+Avg words/article: 224.4
+
+D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04>"C:\Users\Vidur Shah\AppData\Local\Programs\Python\Python312\python.exe" "d:/Desktop/IIIT HYD/LMA/individual-project-Vidur-Shah04/Gujarati/data/corpus_stats.py"
+==================================================
+wikisource DATASET ### before chaning the code
+==================================================
+Articles/files : 188
+Total words    : 261,055
+Total chars    : 1,534,372
+Avg words/article: 1388.6

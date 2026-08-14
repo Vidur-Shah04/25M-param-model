@@ -1,349 +1,836 @@
+# # # import requests
+# # # from bs4 import BeautifulSoup
+# # # from urllib.parse import urljoin
+# # # from pathlib import Path
+# # # import time
+
+
+# # # # ============================================================
+# # # # INDEX PAGES
+# # # # ============================================================
+
+# # INDEX_URLS = [
+# #     "https://gujarativishwakosh.org/%E0%AA%96%E0%AA%82%E0%AA%A1/%E0%AA%96%E0%AA%82%E0%AA%A1-%E0%AB%A7/",
+# #     "https://gujarativishwakosh.org/%E0%AA%96%E0%AA%82%E0%AA%A1/%E0%AA%96%E0%AA%82%E0%AA%A1-%E0%AB%A8/",
+# #     "https://gujarativishwakosh.org/%E0%AA%96%E0%AA%82%E0%AA%A1/%E0%AA%96%E0%AA%82%E0%AA%A1-%E0%AB%A9/",
+# #     "https://gujarativishwakosh.org/%E0%AA%96%E0%AA%82%E0%AA%A1/%E0%AA%96%E0%AA%82%E0%AA%A1-%E0%AB%AA/",
+# #     "https://gujarativishwakosh.org/%E0%AA%96%E0%AA%82%E0%AA%A1/%E0%AA%96%E0%AA%82%E0%AA%A1-%E0%AB%AB/",
+# # ]
+
+# # # # Currently testing Part 1 only
+# # # INDEX_URLS = INDEX_URLS[:1]
+
+
+# # # # ============================================================
+# # # # OUTPUT
+# # # # ============================================================
+
+# # # OUTPUT_DIR = Path("Gujarati/data/raw/manual/vishwakosh")
+# # # OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+
+# # # # ============================================================
+# # # # REQUEST SETTINGS
+# # # # ============================================================
+
+# # # HEADERS = {
+# # #     "User-Agent": "Mozilla/5.0"
+# # # }
+
+
+# # # # ============================================================
+# # # # GET ARTICLE LINKS FROM INDEX PAGE
+# # # # ============================================================
+
+# # # def get_article_links(index_url):
+
+# # #     response = requests.get(
+# # #         index_url,
+# # #         headers=HEADERS,
+# # #         timeout=30
+# # #     )
+
+# # #     response.raise_for_status()
+
+# # #     soup = BeautifulSoup(
+# # #         response.text,
+# # #         "html.parser"
+# # #     )
+
+# # #     links = []
+
+# # #     # The "વધુ વાંચો" links point to the actual article pages
+# # #     for tag in soup.find_all(
+# # #         "a",
+# # #         class_="fl-post-grid-more"
+# # #     ):
+
+# # #         href = tag.get("href")
+
+# # #         if href:
+# # #             links.append(
+# # #                 urljoin(index_url, href)
+# # #             )
+
+# # #     return links
+
+
+# # # # ============================================================
+# # # # SCRAPE ONE ARTICLE
+# # # # ============================================================
+
+# # # def scrape_article(url):
+
+# # #     response = requests.get(
+# # #         url,
+# # #         headers=HEADERS,
+# # #         timeout=30
+# # #     )
+
+# # #     response.raise_for_status()
+
+# # #     soup = BeautifulSoup(
+# # #         response.text,
+# # #         "html.parser"
+# # #     )
+
+# # #     # There are multiple divs with this class.
+# # #     # From our inspection:
+# # #     #
+# # #     # DIV 0 -> title
+# # #     # DIV 1 -> date
+# # #     # DIV 2 -> navigation/breadcrumb
+# # #     # DIV 3 -> ACTUAL ARTICLE
+# # #     # DIV 4 -> tags/author metadata
+# # #     # DIV 5 -> empty
+# # #     # DIV 6 -> post navigation
+
+# # #     articles = soup.find_all(
+# # #         "div",
+# # #         class_="fl-module-content fl-node-content"
+# # #     )
+
+# # #     if len(articles) <= 3:
+# # #         return None
+
+# # #     # Actual article body
+# # #     article = articles[3]
+
+# # #     # Remove author/credit elements.
+# # #     # These have style="text-align: right;"
+# # #     for element in article.find_all(
+# # #         style=lambda value:
+# # #             value and "text-align: right" in value
+# # #     ):
+# # #         element.decompose()
+
+# # #     # Extract text while preserving paragraph boundaries
+# # #     text = article.get_text(
+# # #         "\n",
+# # #         strip=True
+# # #     )
+
+# # #     return text
+
+
+# # # # ============================================================
+# # # # MAIN
+# # # # ============================================================
+
+# # # def main():
+
+# # #     # --------------------------------------------------------
+# # #     # 1. Collect article URLs
+# # #     # --------------------------------------------------------
+
+# # #     article_urls = []
+
+# # #     for index_url in INDEX_URLS:
+
+# # #         print(f"Reading index: {index_url}")
+
+# # #         links = get_article_links(index_url)
+
+# # #         print(f"Found {len(links)} article links")
+
+# # #         article_urls.extend(links)
+
+
+# # #     print(
+# # #         f"\nTotal article URLs before deduplication: "
+# # #         f"{len(article_urls)}"
+# # #     )
+
+
+# # #     # --------------------------------------------------------
+# # #     # 2. Remove duplicate URLs
+# # #     # --------------------------------------------------------
+
+# # #     article_urls = list(
+# # #         dict.fromkeys(article_urls)
+# # #     )
+
+
+# # #     print(
+# # #         f"Total unique article URLs: "
+# # #         f"{len(article_urls)}"
+# # #     )
+
+
+# # #     # --------------------------------------------------------
+# # #     # 3. Scrape articles
+# # #     # --------------------------------------------------------
+
+# # #     successful = 0
+# # #     failed = 0
+
+# # #     for i, url in enumerate(
+# # #         article_urls,
+# # #         start=1
+# # #     ):
+
+# # #         print(
+# # #             f"[{i}/{len(article_urls)}] {url}"
+# # #         )
+
+# # #         try:
+
+# # #             text = scrape_article(url)
+
+# # #             if text is None:
+
+# # #                 print(
+# # #                     "  -> article body not found"
+# # #                 )
+
+# # #                 failed += 1
+# # #                 continue
+
+
+# # #             # ------------------------------------------------
+# # #             # Save article
+# # #             # ------------------------------------------------
+
+# # #             output_file = (
+# # #                 OUTPUT_DIR /
+# # #                 f"article_{i:06d}.txt"
+# # #             )
+
+# # #             output_file.write_text(
+# # #                 text,
+# # #                 encoding="utf-8"
+# # #             )
+
+
+# # #             print(
+# # #                 f"  -> saved "
+# # #                 f"({len(text):,} characters)"
+# # #             )
+
+# # #             successful += 1
+
+
+# # #             # Don't hammer the website
+# # #             time.sleep(0.2)
+
+
+# # #         except Exception as e:
+
+# # #             print(
+# # #                 f"  -> FAILED: {e}"
+# # #             )
+
+# # #             failed += 1
+
+
+# # #     # --------------------------------------------------------
+# # #     # 4. Summary
+# # #     # --------------------------------------------------------
+
+# # #     print("\nDone.")
+
+# # #     print(
+# # #         f"Successful: {successful}"
+# # #     )
+
+# # #     print(
+# # #         f"Failed:     {failed}"
+# # #     )
+
+# # #     print(
+# # #         f"Output directory: "
+# # #         f"{OUTPUT_DIR.resolve()}"
+# # #     )
+
+
+# # # # ============================================================
+# # # # RUN
+# # # # ============================================================
+
+# # # if __name__ == "__main__":
+# # #     main()
 # # import requests
 # # from bs4 import BeautifulSoup
-# # from urllib.parse import urljoin
-# # from pathlib import Path
-# # import time
 
 
-# # # ============================================================
-# # # INDEX PAGES
-# # # ============================================================
+# # # INDEX_URL = (
+# # #     "https://gujarativishwakosh.org/"
+# # #     "%E0%AA%96%E0%AA%82%E0%AA%A1/"
+# # #     "%E0%AA%96%E0%AA%82%E0%AA%A1-%E0%AB%A7/"
+# # # )
+
+# # HEADERS = {
+# #     "User-Agent": "Mozilla/5.0"
+# # }
+# # pagenum=0
+# # for INDEX_URL in INDEX_URLS:
+# #     pagenum+=1
+# #     article=[]
+# #     for page in range(1, 1000):
+
+# #         if page == 1:
+# #             url = INDEX_URL
+# #         else:
+# #             url = INDEX_URL.rstrip("/") + f"/page/{page}/"
+
+# #         response = requests.get(
+# #             url,
+# #             headers=HEADERS,
+# #             timeout=30
+# #         )
+
+# #         soup = BeautifulSoup(response.text, "html.parser")
+
+# #         links = soup.find_all(
+# #             "a",
+# #             class_="fl-post-grid-more"
+# #         )
+
+# #         # print(
+# #         #     f"Page {page}: "
+# #         #     f"status={response.status_code}, "
+# #         #     f"articles={len(links)}"
+# #         # )
+# #         # No articles = reached the end
+# #         article.append(len(links))
+# #         if response.status_code == 404 or not links:
+# #             break
+# #     print(f"page {pagenum} has {page} pages with {sum(article)} articles \n {article}\n ")
+
+# import requests
+# from bs4 import BeautifulSoup
+# from urllib.parse import urljoin
+# from pathlib import Path
+# from concurrent.futures import ThreadPoolExecutor, as_completed
+# import time
+
+
+# # ============================================================
+# # VOLUMES
+# # ============================================================
 
 # INDEX_URLS = [
 #     "https://gujarativishwakosh.org/%E0%AA%96%E0%AA%82%E0%AA%A1/%E0%AA%96%E0%AA%82%E0%AA%A1-%E0%AB%A7/",
 #     "https://gujarativishwakosh.org/%E0%AA%96%E0%AA%82%E0%AA%A1/%E0%AA%96%E0%AA%82%E0%AA%A1-%E0%AB%A8/",
 #     "https://gujarativishwakosh.org/%E0%AA%96%E0%AA%82%E0%AA%A1/%E0%AA%96%E0%AA%82%E0%AA%A1-%E0%AB%A9/",
 #     "https://gujarativishwakosh.org/%E0%AA%96%E0%AA%82%E0%AA%A1/%E0%AA%96%E0%AA%82%E0%AA%A1-%E0%AB%AA/",
-#     "https://gujarativishwakosh.org/%E0%AA%96%E0%AA%82%E0%AA%A1/%E0%AA%96%E0%AA%82%E0%AA%A1-%E0%AB%AB/",
+#     "https://gujarativishwakosh.org/%E0%AA%96%E0%AA%82%E0%AA%A1-%E0%AB%A5/",
 # ]
 
-# # # Currently testing Part 1 only
-# # INDEX_URLS = INDEX_URLS[:1]
 
+# # ============================================================
+# # OUTPUT
+# # ============================================================
 
-# # # ============================================================
-# # # OUTPUT
-# # # ============================================================
+# OUTPUT_DIR = Path(
+#     "Gujarati/data/raw/manual/vishwakosh"
+# )
 
-# # OUTPUT_DIR = Path("Gujarati/data/raw/manual/vishwakosh")
-# # OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+# OUTPUT_DIR.mkdir(
+#     parents=True,
+#     exist_ok=True
+# )
 
+# URL_FILE = OUTPUT_DIR / "article_urls.txt"
 
-# # # ============================================================
-# # # REQUEST SETTINGS
-# # # ============================================================
+# FAILED_FILE = OUTPUT_DIR / "failed_urls.txt"
 
-# # HEADERS = {
-# #     "User-Agent": "Mozilla/5.0"
-# # }
 
-
-# # # ============================================================
-# # # GET ARTICLE LINKS FROM INDEX PAGE
-# # # ============================================================
-
-# # def get_article_links(index_url):
-
-# #     response = requests.get(
-# #         index_url,
-# #         headers=HEADERS,
-# #         timeout=30
-# #     )
-
-# #     response.raise_for_status()
-
-# #     soup = BeautifulSoup(
-# #         response.text,
-# #         "html.parser"
-# #     )
-
-# #     links = []
-
-# #     # The "વધુ વાંચો" links point to the actual article pages
-# #     for tag in soup.find_all(
-# #         "a",
-# #         class_="fl-post-grid-more"
-# #     ):
-
-# #         href = tag.get("href")
-
-# #         if href:
-# #             links.append(
-# #                 urljoin(index_url, href)
-# #             )
-
-# #     return links
-
-
-# # # ============================================================
-# # # SCRAPE ONE ARTICLE
-# # # ============================================================
-
-# # def scrape_article(url):
-
-# #     response = requests.get(
-# #         url,
-# #         headers=HEADERS,
-# #         timeout=30
-# #     )
-
-# #     response.raise_for_status()
-
-# #     soup = BeautifulSoup(
-# #         response.text,
-# #         "html.parser"
-# #     )
-
-# #     # There are multiple divs with this class.
-# #     # From our inspection:
-# #     #
-# #     # DIV 0 -> title
-# #     # DIV 1 -> date
-# #     # DIV 2 -> navigation/breadcrumb
-# #     # DIV 3 -> ACTUAL ARTICLE
-# #     # DIV 4 -> tags/author metadata
-# #     # DIV 5 -> empty
-# #     # DIV 6 -> post navigation
-
-# #     articles = soup.find_all(
-# #         "div",
-# #         class_="fl-module-content fl-node-content"
-# #     )
-
-# #     if len(articles) <= 3:
-# #         return None
-
-# #     # Actual article body
-# #     article = articles[3]
-
-# #     # Remove author/credit elements.
-# #     # These have style="text-align: right;"
-# #     for element in article.find_all(
-# #         style=lambda value:
-# #             value and "text-align: right" in value
-# #     ):
-# #         element.decompose()
-
-# #     # Extract text while preserving paragraph boundaries
-# #     text = article.get_text(
-# #         "\n",
-# #         strip=True
-# #     )
-
-# #     return text
-
-
-# # # ============================================================
-# # # MAIN
-# # # ============================================================
-
-# # def main():
-
-# #     # --------------------------------------------------------
-# #     # 1. Collect article URLs
-# #     # --------------------------------------------------------
-
-# #     article_urls = []
-
-# #     for index_url in INDEX_URLS:
-
-# #         print(f"Reading index: {index_url}")
-
-# #         links = get_article_links(index_url)
-
-# #         print(f"Found {len(links)} article links")
-
-# #         article_urls.extend(links)
-
-
-# #     print(
-# #         f"\nTotal article URLs before deduplication: "
-# #         f"{len(article_urls)}"
-# #     )
-
-
-# #     # --------------------------------------------------------
-# #     # 2. Remove duplicate URLs
-# #     # --------------------------------------------------------
-
-# #     article_urls = list(
-# #         dict.fromkeys(article_urls)
-# #     )
-
-
-# #     print(
-# #         f"Total unique article URLs: "
-# #         f"{len(article_urls)}"
-# #     )
-
-
-# #     # --------------------------------------------------------
-# #     # 3. Scrape articles
-# #     # --------------------------------------------------------
-
-# #     successful = 0
-# #     failed = 0
-
-# #     for i, url in enumerate(
-# #         article_urls,
-# #         start=1
-# #     ):
-
-# #         print(
-# #             f"[{i}/{len(article_urls)}] {url}"
-# #         )
-
-# #         try:
-
-# #             text = scrape_article(url)
-
-# #             if text is None:
-
-# #                 print(
-# #                     "  -> article body not found"
-# #                 )
-
-# #                 failed += 1
-# #                 continue
-
-
-# #             # ------------------------------------------------
-# #             # Save article
-# #             # ------------------------------------------------
-
-# #             output_file = (
-# #                 OUTPUT_DIR /
-# #                 f"article_{i:06d}.txt"
-# #             )
-
-# #             output_file.write_text(
-# #                 text,
-# #                 encoding="utf-8"
-# #             )
-
-
-# #             print(
-# #                 f"  -> saved "
-# #                 f"({len(text):,} characters)"
-# #             )
-
-# #             successful += 1
-
-
-# #             # Don't hammer the website
-# #             time.sleep(0.2)
-
-
-# #         except Exception as e:
-
-# #             print(
-# #                 f"  -> FAILED: {e}"
-# #             )
-
-# #             failed += 1
-
-
-# #     # --------------------------------------------------------
-# #     # 4. Summary
-# #     # --------------------------------------------------------
-
-# #     print("\nDone.")
-
-# #     print(
-# #         f"Successful: {successful}"
-# #     )
-
-# #     print(
-# #         f"Failed:     {failed}"
-# #     )
-
-# #     print(
-# #         f"Output directory: "
-# #         f"{OUTPUT_DIR.resolve()}"
-# #     )
-
-
-# # # ============================================================
-# # # RUN
-# # # ============================================================
-
-# # if __name__ == "__main__":
-# #     main()
-# import requests
-# from bs4 import BeautifulSoup
-
-
-# # INDEX_URL = (
-# #     "https://gujarativishwakosh.org/"
-# #     "%E0%AA%96%E0%AA%82%E0%AA%A1/"
-# #     "%E0%AA%96%E0%AA%82%E0%AA%A1-%E0%AB%A7/"
-# # )
+# # ============================================================
+# # SETTINGS
+# # ============================================================
 
 # HEADERS = {
-#     "User-Agent": "Mozilla/5.0"
+#     "User-Agent": (
+#         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+#         "AppleWebKit/537.36 "
+#         "(KHTML, like Gecko) "
+#         "Chrome/151.0.0.0 Safari/537.36"
+#     )
 # }
-# pagenum=0
-# for INDEX_URL in INDEX_URLS:
-#     pagenum+=1
-#     article=[]
-#     for page in range(1, 1000):
 
-#         if page == 1:
-#             url = INDEX_URL
-#         else:
-#             url = INDEX_URL.rstrip("/") + f"/page/{page}/"
+# # Number of simultaneous article downloads
+# WORKERS = 8
 
-#         response = requests.get(
-#             url,
-#             headers=HEADERS,
-#             timeout=30
+# # Maximum number of pagination pages
+# MAX_PAGES = 1000
+
+# # Retry failed requests
+# RETRIES = 3
+
+
+# # ============================================================
+# # SESSION
+# # ============================================================
+
+# session = requests.Session()
+
+# session.headers.update(HEADERS)
+
+
+# # ============================================================
+# # GET ARTICLE LINKS FROM ONE INDEX PAGE
+# # ============================================================
+
+# def get_article_links(url):
+
+#     for attempt in range(RETRIES):
+
+#         try:
+
+#             response = session.get(
+#                 url,
+#                 timeout=30
+#             )
+
+#             if response.status_code == 404:
+#                 return []
+
+#             response.raise_for_status()
+
+#             soup = BeautifulSoup(
+#                 response.text,
+#                 "html.parser"
+#             )
+
+#             links = []
+
+#             for tag in soup.find_all(
+#                 "a",
+#                 class_="fl-post-grid-more"
+#             ):
+
+#                 href = tag.get("href")
+
+#                 if href:
+
+#                     links.append(
+#                         urljoin(url, href)
+#                     )
+
+#             return links
+
+#         except Exception as e:
+
+#             if attempt == RETRIES - 1:
+
+#                 print(
+#                     f"FAILED INDEX: {url} | {e}"
+#                 )
+
+#                 return []
+
+#             time.sleep(1)
+
+
+# # ============================================================
+# # COLLECT ALL ARTICLE URLS
+# # ============================================================
+
+# def collect_urls():
+
+#     # If URL file already exists, don't download indexes again
+
+#     if URL_FILE.exists():
+
+#         urls = [
+#             x.strip()
+#             for x in URL_FILE.read_text(
+#                 encoding="utf-8"
+#             ).splitlines()
+#             if x.strip()
+#         ]
+
+#         print(
+#             f"Existing URL list found: {len(urls)} URLs"
 #         )
 
-#         soup = BeautifulSoup(response.text, "html.parser")
+#         return urls
 
-#         links = soup.find_all(
-#             "a",
-#             class_="fl-post-grid-more"
+
+#     all_urls = []
+
+#     for volume_number, index_url in enumerate(
+#         INDEX_URLS,
+#         start=1
+#     ):
+
+#         print()
+#         print("=" * 60)
+#         print(f"VOLUME {volume_number}")
+#         print("=" * 60)
+
+#         volume_urls = []
+
+#         for page in range(1, MAX_PAGES + 1):
+
+#             if page == 1:
+
+#                 url = index_url
+
+#             else:
+
+#                 url = (
+#                     index_url.rstrip("/")
+#                     + f"/page/{page}/"
+#                 )
+
+#             links = get_article_links(url)
+
+#             print(
+#                 f"Volume {volume_number} | "
+#                 f"Page {page} | "
+#                 f"Articles: {len(links)}"
+#             )
+
+#             if not links:
+#                 break
+
+#             volume_urls.extend(links)
+
+#         # Deduplicate this volume
+
+#         volume_urls = list(
+#             dict.fromkeys(volume_urls)
 #         )
 
-#         # print(
-#         #     f"Page {page}: "
-#         #     f"status={response.status_code}, "
-#         #     f"articles={len(links)}"
-#         # )
-#         # No articles = reached the end
-#         article.append(len(links))
-#         if response.status_code == 404 or not links:
-#             break
-#     print(f"page {pagenum} has {page} pages with {sum(article)} articles \n {article}\n ")
+#         print(
+#             f"Volume {volume_number}: "
+#             f"{len(volume_urls)} unique articles"
+#         )
 
+#         all_urls.extend(volume_urls)
+
+
+#     # Deduplicate everything
+
+#     all_urls = list(
+#         dict.fromkeys(all_urls)
+#     )
+
+
+#     # Save URL list
+
+#     URL_FILE.write_text(
+#         "\n".join(all_urls),
+#         encoding="utf-8"
+#     )
+
+#     print()
+#     print("=" * 60)
+#     print(f"TOTAL UNIQUE ARTICLES: {len(all_urls)}")
+#     print(f"Saved URL list to: {URL_FILE}")
+#     print("=" * 60)
+
+#     return all_urls
+
+
+# # ============================================================
+# # SCRAPE ONE ARTICLE
+# # ============================================================
+
+# def scrape_article(url):
+
+#     for attempt in range(RETRIES):
+
+#         try:
+
+#             response = session.get(
+#                 url,
+#                 timeout=30
+#             )
+
+#             response.raise_for_status()
+
+#             soup = BeautifulSoup(
+#                 response.text,
+#                 "html.parser"
+#             )
+
+#             articles = soup.find_all(
+#                 "div",
+#                 class_="fl-module-content fl-node-content"
+#             )
+
+#             if len(articles) <= 3:
+
+#                 return None, "ARTICLE_BODY_NOT_FOUND"
+
+
+#             # Based on our inspection:
+#             # DIV 3 = actual article
+
+#             article = articles[3]
+
+
+#             # Remove author / credit elements
+
+#             for element in article.find_all(
+#                 style=lambda value:
+#                     value and
+#                     "text-align: right" in value
+#             ):
+
+#                 element.decompose()
+
+
+#             text = article.get_text(
+#                 "\n",
+#                 strip=True
+#             )
+
+
+#             if not text:
+
+#                 return None, "EMPTY_ARTICLE"
+
+
+#             return text, None
+
+
+#         except Exception as e:
+
+#             if attempt == RETRIES - 1:
+
+#                 return None, str(e)
+
+#             time.sleep(1)
+
+
+# # ============================================================
+# # SAVE ONE ARTICLE
+# # ============================================================
+
+# def process_article(args):
+
+#     number, url = args
+
+#     output_file = (
+#         OUTPUT_DIR /
+#         f"article_{number:06d}.txt"
+#     )
+
+#     # --------------------------------------------------------
+#     # CHECKPOINT
+#     #
+#     # If already downloaded, skip it.
+#     # --------------------------------------------------------
+
+#     if output_file.exists():
+
+#         return number, url, "SKIPPED", None
+
+
+#     text, error = scrape_article(url)
+
+
+#     if text is None:
+
+#         return number, url, "FAILED", error
+
+
+#     output_file.write_text(
+#         text,
+#         encoding="utf-8"
+#     )
+
+
+#     return number, url, "SAVED", len(text)
+
+
+# # ============================================================
+# # SCRAPE ALL ARTICLES
+# # ============================================================
+
+# def scrape_all(urls):
+
+#     print()
+#     print("=" * 60)
+#     print("STARTING ARTICLE SCRAPE")
+#     print("=" * 60)
+
+#     total = len(urls)
+
+#     successful = 0
+#     failed = 0
+#     skipped = 0
+
+#     failed_urls = []
+
+
+#     jobs = [
+#         (i, url)
+#         for i, url in enumerate(
+#             urls,
+#             start=1
+#         )
+#     ]
+
+
+#     # --------------------------------------------------------
+#     # Concurrent downloading
+#     # --------------------------------------------------------
+
+#     with ThreadPoolExecutor(
+#         max_workers=WORKERS
+#     ) as executor:
+
+#         futures = [
+#             executor.submit(
+#                 process_article,
+#                 job
+#             )
+#             for job in jobs
+#         ]
+
+
+#         for completed, future in enumerate(
+#             as_completed(futures),
+#             start=1
+#         ):
+
+#             number, url, status, info = (
+#                 future.result()
+#             )
+
+
+#             if status == "SAVED":
+
+#                 successful += 1
+
+#                 print(
+#                     f"[{completed}/{total}] "
+#                     f"SAVED article_{number:06d}.txt "
+#                     f"({info:,} chars)"
+#                 )
+
+
+#             elif status == "SKIPPED":
+
+#                 skipped += 1
+
+#                 print(
+#                     f"[{completed}/{total}] "
+#                     f"SKIP article_{number:06d}.txt"
+#                 )
+
+
+#             else:
+
+#                 failed += 1
+
+#                 failed_urls.append(url)
+
+#                 print(
+#                     f"[{completed}/{total}] "
+#                     f"FAILED article_{number:06d} "
+#                     f"| {info}"
+#                 )
+
+
+#     # --------------------------------------------------------
+#     # Save failed URLs
+#     # --------------------------------------------------------
+
+#     if failed_urls:
+
+#         FAILED_FILE.write_text(
+#             "\n".join(failed_urls),
+#             encoding="utf-8"
+#         )
+
+
+#     print()
+#     print("=" * 60)
+#     print("SCRAPE FINISHED")
+#     print("=" * 60)
+
+#     print(
+#         f"Successful : {successful}"
+#     )
+
+#     print(
+#         f"Skipped    : {skipped}"
+#     )
+
+#     print(
+#         f"Failed     : {failed}"
+#     )
+
+#     print(
+#         f"Output     : {OUTPUT_DIR.resolve()}"
+#     )
+
+
+# # ============================================================
+# # MAIN
+# # ============================================================
+
+# def main():
+
+#     print("STEP 1: Collecting article URLs")
+
+#     urls = collect_urls()
+
+
+#     print()
+#     print(
+#         f"STEP 2: Scraping {len(urls)} articles"
+#     )
+
+
+#     scrape_all(urls)
+
+
+# # ============================================================
+# # RUN
+# # ============================================================
+
+# if __name__ == "__main__":
+
+#     main()
 import requests
 from bs4 import BeautifulSoup
-from urllib.parse import urljoin
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from threading import Lock
 import time
 
 
 # ============================================================
-# VOLUMES
+# PATHS
 # ============================================================
 
-INDEX_URLS = [
-    "https://gujarativishwakosh.org/%E0%AA%96%E0%AA%82%E0%AA%A1/%E0%AA%96%E0%AA%82%E0%AA%A1-%E0%AB%A7/",
-    "https://gujarativishwakosh.org/%E0%AA%96%E0%AA%82%E0%AA%A1/%E0%AA%96%E0%AA%82%E0%AA%A1-%E0%AB%A8/",
-    "https://gujarativishwakosh.org/%E0%AA%96%E0%AA%82%E0%AA%A1/%E0%AA%96%E0%AA%82%E0%AA%A1-%E0%AB%A9/",
-    "https://gujarativishwakosh.org/%E0%AA%96%E0%AA%82%E0%AA%A1/%E0%AA%96%E0%AA%82%E0%AA%A1-%E0%AB%AA/",
-    "https://gujarativishwakosh.org/%E0%AA%96%E0%AA%82%E0%AA%A1-%E0%AB%A5/",
-]
-
-
-# ============================================================
-# OUTPUT
-# ============================================================
+URL_FILE = Path(
+    "Gujarati/data/raw/manual/article_urls.txt"
+)
 
 OUTPUT_DIR = Path(
     "Gujarati/data/raw/manual/vishwakosh"
+)
+
+FAILED_FILE = Path(
+    "Gujarati/data/raw/manual/vishwakosh_failed.txt"
 )
 
 OUTPUT_DIR.mkdir(
@@ -351,435 +838,256 @@ OUTPUT_DIR.mkdir(
     exist_ok=True
 )
 
-URL_FILE = OUTPUT_DIR / "article_urls.txt"
-
-FAILED_FILE = OUTPUT_DIR / "failed_urls.txt"
-
 
 # ============================================================
 # SETTINGS
 # ============================================================
+
+MAX_WORKERS = 12
 
 HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
         "AppleWebKit/537.36 "
         "(KHTML, like Gecko) "
-        "Chrome/151.0.0.0 Safari/537.36"
+        "Chrome/151.0 Safari/537.36"
     )
 }
 
-# Number of simultaneous article downloads
-WORKERS = 8
-
-# Maximum number of pagination pages
-MAX_PAGES = 1000
-
-# Retry failed requests
-RETRIES = 3
+print_lock = Lock()
+failed_lock = Lock()
 
 
 # ============================================================
-# SESSION
+# LOAD URLS
 # ============================================================
 
-session = requests.Session()
+with open(
+    URL_FILE,
+    "r",
+    encoding="utf-8"
+) as f:
 
-session.headers.update(HEADERS)
+    article_urls = [
+        line.strip()
+        for line in f
+        if line.strip()
+    ]
 
 
-# ============================================================
-# GET ARTICLE LINKS FROM ONE INDEX PAGE
-# ============================================================
+# Deduplicate just in case
+article_urls = list(
+    dict.fromkeys(article_urls)
+)
 
-def get_article_links(url):
-
-    for attempt in range(RETRIES):
-
-        try:
-
-            response = session.get(
-                url,
-                timeout=30
-            )
-
-            if response.status_code == 404:
-                return []
-
-            response.raise_for_status()
-
-            soup = BeautifulSoup(
-                response.text,
-                "html.parser"
-            )
-
-            links = []
-
-            for tag in soup.find_all(
-                "a",
-                class_="fl-post-grid-more"
-            ):
-
-                href = tag.get("href")
-
-                if href:
-
-                    links.append(
-                        urljoin(url, href)
-                    )
-
-            return links
-
-        except Exception as e:
-
-            if attempt == RETRIES - 1:
-
-                print(
-                    f"FAILED INDEX: {url} | {e}"
-                )
-
-                return []
-
-            time.sleep(1)
+print(
+    f"Total article URLs: "
+    f"{len(article_urls):,}"
+)
 
 
 # ============================================================
-# COLLECT ALL ARTICLE URLS
+# GET NEXT ARTICLE NUMBER
 # ============================================================
 
-def collect_urls():
+existing_files = list(
+    OUTPUT_DIR.glob("article_*.txt")
+)
 
-    # If URL file already exists, don't download indexes again
+completed_numbers = set()
 
-    if URL_FILE.exists():
+for file in existing_files:
 
-        urls = [
-            x.strip()
-            for x in URL_FILE.read_text(
-                encoding="utf-8"
-            ).splitlines()
-            if x.strip()
-        ]
-
-        print(
-            f"Existing URL list found: {len(urls)} URLs"
+    try:
+        number = int(
+            file.stem.split("_")[1]
         )
 
-        return urls
+        completed_numbers.add(number)
+
+    except (IndexError, ValueError):
+        pass
 
 
-    all_urls = []
-
-    for volume_number, index_url in enumerate(
-        INDEX_URLS,
-        start=1
-    ):
-
-        print()
-        print("=" * 60)
-        print(f"VOLUME {volume_number}")
-        print("=" * 60)
-
-        volume_urls = []
-
-        for page in range(1, MAX_PAGES + 1):
-
-            if page == 1:
-
-                url = index_url
-
-            else:
-
-                url = (
-                    index_url.rstrip("/")
-                    + f"/page/{page}/"
-                )
-
-            links = get_article_links(url)
-
-            print(
-                f"Volume {volume_number} | "
-                f"Page {page} | "
-                f"Articles: {len(links)}"
-            )
-
-            if not links:
-                break
-
-            volume_urls.extend(links)
-
-        # Deduplicate this volume
-
-        volume_urls = list(
-            dict.fromkeys(volume_urls)
-        )
-
-        print(
-            f"Volume {volume_number}: "
-            f"{len(volume_urls)} unique articles"
-        )
-
-        all_urls.extend(volume_urls)
-
-
-    # Deduplicate everything
-
-    all_urls = list(
-        dict.fromkeys(all_urls)
-    )
-
-
-    # Save URL list
-
-    URL_FILE.write_text(
-        "\n".join(all_urls),
-        encoding="utf-8"
-    )
-
-    print()
-    print("=" * 60)
-    print(f"TOTAL UNIQUE ARTICLES: {len(all_urls)}")
-    print(f"Saved URL list to: {URL_FILE}")
-    print("=" * 60)
-
-    return all_urls
+print(
+    f"Already downloaded: "
+    f"{len(completed_numbers):,}"
+)
 
 
 # ============================================================
 # SCRAPE ONE ARTICLE
 # ============================================================
 
-def scrape_article(url):
-
-    for attempt in range(RETRIES):
-
-        try:
-
-            response = session.get(
-                url,
-                timeout=30
-            )
-
-            response.raise_for_status()
-
-            soup = BeautifulSoup(
-                response.text,
-                "html.parser"
-            )
-
-            articles = soup.find_all(
-                "div",
-                class_="fl-module-content fl-node-content"
-            )
-
-            if len(articles) <= 3:
-
-                return None, "ARTICLE_BODY_NOT_FOUND"
-
-
-            # Based on our inspection:
-            # DIV 3 = actual article
-
-            article = articles[3]
-
-
-            # Remove author / credit elements
-
-            for element in article.find_all(
-                style=lambda value:
-                    value and
-                    "text-align: right" in value
-            ):
-
-                element.decompose()
-
-
-            text = article.get_text(
-                "\n",
-                strip=True
-            )
-
-
-            if not text:
-
-                return None, "EMPTY_ARTICLE"
-
-
-            return text, None
-
-
-        except Exception as e:
-
-            if attempt == RETRIES - 1:
-
-                return None, str(e)
-
-            time.sleep(1)
-
-
-# ============================================================
-# SAVE ONE ARTICLE
-# ============================================================
-
-def process_article(args):
-
-    number, url = args
+def scrape_article(index, url):
 
     output_file = (
         OUTPUT_DIR /
-        f"article_{number:06d}.txt"
+        f"article_{index:06d}.txt"
     )
 
     # --------------------------------------------------------
-    # CHECKPOINT
-    #
-    # If already downloaded, skip it.
+    # Resume support
     # --------------------------------------------------------
 
-    if output_file.exists():
+    if index in completed_numbers:
 
-        return number, url, "SKIPPED", None
-
-
-    text, error = scrape_article(url)
-
-
-    if text is None:
-
-        return number, url, "FAILED", error
-
-
-    output_file.write_text(
-        text,
-        encoding="utf-8"
-    )
-
-
-    return number, url, "SAVED", len(text)
-
-
-# ============================================================
-# SCRAPE ALL ARTICLES
-# ============================================================
-
-def scrape_all(urls):
-
-    print()
-    print("=" * 60)
-    print("STARTING ARTICLE SCRAPE")
-    print("=" * 60)
-
-    total = len(urls)
-
-    successful = 0
-    failed = 0
-    skipped = 0
-
-    failed_urls = []
-
-
-    jobs = [
-        (i, url)
-        for i, url in enumerate(
-            urls,
-            start=1
-        )
-    ]
-
-
-    # --------------------------------------------------------
-    # Concurrent downloading
-    # --------------------------------------------------------
-
-    with ThreadPoolExecutor(
-        max_workers=WORKERS
-    ) as executor:
-
-        futures = [
-            executor.submit(
-                process_article,
-                job
+        return (
+            index,
+            "skipped",
+            len(
+                output_file.read_text(
+                    encoding="utf-8"
+                )
             )
-            for job in jobs
-        ]
+        )
 
 
-        for completed, future in enumerate(
-            as_completed(futures),
-            start=1
+    try:
+
+        # ----------------------------------------------------
+        # Request
+        # ----------------------------------------------------
+
+        response = requests.get(
+            url,
+            headers=HEADERS,
+            timeout=30
+        )
+
+        response.raise_for_status()
+
+
+        # ----------------------------------------------------
+        # Parse HTML
+        # ----------------------------------------------------
+
+        soup = BeautifulSoup(
+            response.text,
+            "html.parser"
+        )
+
+
+        # ----------------------------------------------------
+        # Find possible article containers
+        # ----------------------------------------------------
+
+        articles = soup.find_all(
+            "div",
+            class_="fl-module-content fl-node-content"
+        )
+
+
+        if len(articles) <= 3:
+
+            raise ValueError(
+                f"Could not find article body "
+                f"(matching divs={len(articles)})"
+            )
+
+
+        # Based on the page structure we inspected:
+        #
+        # DIV 0 -> title
+        # DIV 1 -> date
+        # DIV 2 -> navigation
+        # DIV 3 -> actual article
+        # DIV 4 -> metadata/tags
+        # ...
+
+        article = articles[3]
+
+
+        # ----------------------------------------------------
+        # Remove author / credit elements
+        # ----------------------------------------------------
+
+        for element in article.find_all(
+            style=lambda value:
+                value and
+                "text-align: right" in value
         ):
 
-            number, url, status, info = (
-                future.result()
+            element.decompose()
+
+
+        # ----------------------------------------------------
+        # Remove scripts/styles just in case
+        # ----------------------------------------------------
+
+        for element in article.find_all(
+            ["script", "style"]
+        ):
+
+            element.decompose()
+
+
+        # ----------------------------------------------------
+        # Extract text
+        # ----------------------------------------------------
+
+        text = article.get_text(
+            "\n",
+            strip=True
+        )
+
+
+        # ----------------------------------------------------
+        # Basic validation
+        # ----------------------------------------------------
+
+        if not text:
+
+            raise ValueError(
+                "Article body was empty"
             )
 
 
-            if status == "SAVED":
+        if len(text) < 50:
 
-                successful += 1
-
-                print(
-                    f"[{completed}/{total}] "
-                    f"SAVED article_{number:06d}.txt "
-                    f"({info:,} chars)"
-                )
+            raise ValueError(
+                f"Article suspiciously short "
+                f"({len(text)} characters)"
+            )
 
 
-            elif status == "SKIPPED":
+        # ----------------------------------------------------
+        # Save
+        # ----------------------------------------------------
 
-                skipped += 1
-
-                print(
-                    f"[{completed}/{total}] "
-                    f"SKIP article_{number:06d}.txt"
-                )
-
-
-            else:
-
-                failed += 1
-
-                failed_urls.append(url)
-
-                print(
-                    f"[{completed}/{total}] "
-                    f"FAILED article_{number:06d} "
-                    f"| {info}"
-                )
-
-
-    # --------------------------------------------------------
-    # Save failed URLs
-    # --------------------------------------------------------
-
-    if failed_urls:
-
-        FAILED_FILE.write_text(
-            "\n".join(failed_urls),
+        output_file.write_text(
+            text,
             encoding="utf-8"
         )
 
 
-    print()
-    print("=" * 60)
-    print("SCRAPE FINISHED")
-    print("=" * 60)
+        return (
+            index,
+            "success",
+            len(text)
+        )
 
-    print(
-        f"Successful : {successful}"
-    )
 
-    print(
-        f"Skipped    : {skipped}"
-    )
+    except Exception as e:
 
-    print(
-        f"Failed     : {failed}"
-    )
+        with failed_lock:
 
-    print(
-        f"Output     : {OUTPUT_DIR.resolve()}"
-    )
+            with open(
+                FAILED_FILE,
+                "a",
+                encoding="utf-8"
+            ) as f:
+
+                f.write(
+                    f"{index}\t{url}\t{repr(e)}\n"
+                )
+
+
+        return (
+            index,
+            "failed",
+            str(e)
+        )
 
 
 # ============================================================
@@ -788,18 +1096,151 @@ def scrape_all(urls):
 
 def main():
 
-    print("STEP 1: Collecting article URLs")
+    start_time = time.time()
 
-    urls = collect_urls()
+    total = len(article_urls)
+
+    success = 0
+    skipped = 0
+    failed = 0
 
 
     print()
+    print("=" * 60)
+    print("STARTING VISHWAKOSH ARTICLE SCRAPING")
+    print("=" * 60)
     print(
-        f"STEP 2: Scraping {len(urls)} articles"
+        f"Articles : {total:,}"
+    )
+    print(
+        f"Workers  : {MAX_WORKERS}"
+    )
+    print(
+        f"Output   : {OUTPUT_DIR.resolve()}"
+    )
+    print("=" * 60)
+    print()
+
+
+    # --------------------------------------------------------
+    # Thread pool
+    # --------------------------------------------------------
+
+    with ThreadPoolExecutor(
+        max_workers=MAX_WORKERS
+    ) as executor:
+
+        futures = [
+
+            executor.submit(
+                scrape_article,
+                index,
+                url
+            )
+
+            for index, url
+            in enumerate(
+                article_urls,
+                start=1
+            )
+        ]
+
+
+        # ----------------------------------------------------
+        # Process results as they finish
+        # ----------------------------------------------------
+
+        for completed, future in enumerate(
+            as_completed(futures),
+            start=1
+        ):
+
+            index, status, info = future.result()
+
+
+            if status == "success":
+
+                success += 1
+
+                message = (
+                    f"[{completed:,}/{total:,}] "
+                    f"#{index:06d} "
+                    f"SAVED "
+                    f"({info:,} chars)"
+                )
+
+
+            elif status == "skipped":
+
+                skipped += 1
+
+                message = (
+                    f"[{completed:,}/{total:,}] "
+                    f"#{index:06d} "
+                    f"SKIPPED "
+                    f"(already exists)"
+                )
+
+
+            else:
+
+                failed += 1
+
+                message = (
+                    f"[{completed:,}/{total:,}] "
+                    f"#{index:06d} "
+                    f"FAILED: {info}"
+                )
+
+
+            with print_lock:
+
+                print(message)
+
+
+    # ========================================================
+    # SUMMARY
+    # ========================================================
+
+    elapsed = time.time() - start_time
+
+    print()
+    print("=" * 60)
+    print("SCRAPING COMPLETE")
+    print("=" * 60)
+
+    print(
+        f"Successful : {success:,}"
     )
 
+    print(
+        f"Skipped    : {skipped:,}"
+    )
 
-    scrape_all(urls)
+    print(
+        f"Failed     : {failed:,}"
+    )
+
+    print(
+        f"Total      : {total:,}"
+    )
+
+    print(
+        f"Time       : {elapsed / 3600:.2f} hours"
+    )
+
+    print(
+        f"Output     : {OUTPUT_DIR.resolve()}"
+    )
+
+    if failed > 0:
+
+        print(
+            f"Failed URLs: "
+            f"{FAILED_FILE.resolve()}"
+        )
+
+    print("=" * 60)
 
 
 # ============================================================
@@ -807,5 +1248,4 @@ def main():
 # ============================================================
 
 if __name__ == "__main__":
-
     main()
