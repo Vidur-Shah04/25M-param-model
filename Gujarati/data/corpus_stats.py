@@ -77,7 +77,8 @@
 from pathlib import Path
 import re
 
-DATA_DIR = Path("Gujarati/data/raw/manual/wikisource")
+# DATA_DIR = Path(r"individual-project-Vidur-Shah04\Gujarati\data\raw\manual\archive_org")
+DATA_DIR = Path(r"Gujarati\data\raw\manual\archive_org")
 
 total_words = 0
 total_chars = 0
@@ -105,10 +106,10 @@ for file in DATA_DIR.glob("*.txt"):
     total_files += 1
 
 print("=" * 50)
-print("wikisource DATASET")
+print("internetarchive DATASET")
 print("=" * 50)
 
-print(f"Articles/files : {total_files:,}")
+print(f"books/files : {total_files:,}")
 print(f"Total words    : {total_words:,}")
 print(f"Total chars    : {total_chars:,}")
-print(f"Avg words/article: {total_words / total_files:.1f}")
+print(f"Avg words/book: {total_words / total_files:.1f}")

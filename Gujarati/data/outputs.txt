@@ -60,3 +60,41 @@ Articles/files : 188
 Total words    : 261,055
 Total chars    : 1,534,372
 Avg words/article: 1388.6
+
+======================================================================
+
+ARCHIVE.ORG COLLECTION COMPLETE
+
+======================================================================
+
+Items considered : 4,259
+
+Successful books : 1,943
+
+Words this run   : 65,582,635
+
+Output directory  : D:\Desktop\IIIT HYD\LMA\Gujarati\data\raw\manual\archive_org
+
+
+
+Progress files:
+
+  Gujarati\data\raw\manual\archive_org\processed.tsv
+
+  Gujarati\data\raw\manual\archive_org\failures.tsv
+
+  Gujarati\data\raw\manual\archive_org\stats.tsv
+
+======================================================================
+
+D:\Desktop\IIIT HYD\LMA>"C:\Users\Vidur Shah\AppData\Local\Programs\Python\Python312\python.exe" "d:/Desktop/IIIT HYD/LMA/individual-project-Vidur-Shah04/Gujarati/data/corpus_stats.py"
+1 done
+==================================================
+internetarchive DATASET
+==================================================
+books/files : 1,953
+Total words    : 65,835,277
+Total chars    : 372,062,167
+Avg words/book: 33709.8
+
+D:\Desktop\IIIT HYD\LMA>
