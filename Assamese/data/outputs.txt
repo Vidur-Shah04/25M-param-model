@@ -12,3 +12,9 @@ file has 0 docs with word count 67269308 and 375424525 characters
 tokens per word is 2.4992252038626592
 the execution took 409.6243269443512 secs
 
+D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04>"C:\Users\Vidur Shah\AppData\Local\Programs\Python\Python312\python.exe" "d:/Desktop/IIIT HYD/LMA/individual-project-Vidur-Shah04/Assamese/data/corpus_stats.py"
+[transformers] Disabling PyTorch because PyTorch >= 2.5 is required but found 2.4.1
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+file has 0 docs with word count 82258162 and 427721583 characters
+tokens per word is 2.4561252535645033
+the execution took 689.474014043808 secs

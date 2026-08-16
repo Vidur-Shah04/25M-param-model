@@ -20,7 +20,7 @@ SEARCH_QUERY = (
 
 # Start small.
 # Increase after you verify the pipeline.
-MAX_ITEMS = 5000
+MAX_ITEMS = 20000
 
 BATCH_SIZE = 500
 
@@ -446,10 +446,34 @@ def get_identifiers():
             params=params
         )
 
-        data = response.json()
+        # data = response.json()
 
-        docs = (
-            data["response"]["docs"]
+        # docs = (
+        #     data["response"]["docs"]
+        # )
+
+        # if not docs:
+        #     break
+        try:
+            data = response.json()
+        except ValueError:
+            print(
+                "  -> Archive.org returned "
+                "non-JSON response. Stopping search."
+            )
+            break
+
+        if "response" not in data:
+            print(
+                "  -> Archive.org returned an "
+                "unexpected response:"
+            )
+            print(data)
+            break
+
+        docs = data["response"].get(
+            "docs",
+            []
         )
 
         if not docs:
