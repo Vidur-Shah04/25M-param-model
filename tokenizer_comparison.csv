@@ -1,0 +1,7 @@
+language,vocab,test_files,lines,words,tokens,fertility,unk_tokens,unk_percentage,characters,characters_per_token,tokens_per_character,time_seconds,model
+Gujarati,16K,2,5975863,130941945,217406357,1.6603263148412832,0,0.0,760776501,3.499329603319741,0.2857690224582791,210.68533730506897,D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati\tokenizer\gujarati_16k.model
+Gujarati,24K,2,5975863,130941945,205589237,1.5700792973557862,0,0.0,760776501,3.7004685269589284,0.27023605057433286,219.05180740356445,D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati\tokenizer\gujarati_24k.model
+Gujarati,32K,2,5975863,130941945,198592114,1.5166424631923712,0,0.0,760776501,3.830849501909225,0.261038706819889,223.73458862304688,D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati\tokenizer\gujarati_32k.model
+Assamese,16K,2,2407870,33631378,63196747,1.8791007314657164,0,0.0,211652682,3.349107225408295,0.298587036095295,62.512149810791016,D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Assamese\tokenizer\assamese_16k.model
+Assamese,24K,2,2407870,33631378,58409302,1.7367501860910963,0,0.0,211652682,3.623612588282599,0.27596769125751025,66.63142800331116,D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Assamese\tokenizer\assamese_24k.model
+Assamese,32K,2,2407870,33631378,55937453,1.6632518893516643,0,0.0,211652682,3.783738276392384,0.26428889287592394,71.27154755592346,D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Assamese\tokenizer\assamese_32k.model

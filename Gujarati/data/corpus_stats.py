@@ -74,42 +74,84 @@
 # # print(f"Tokens per word: {token_count / word_count:.3f}")
 # # print(f"Time: {end - start:.2f} seconds")
 # ##outputs
-from pathlib import Path
-import re
+# from pathlib import Path
+# import re
 
-# DATA_DIR = Path(r"individual-project-Vidur-Shah04\Gujarati\data\raw\manual\archive_org")
-DATA_DIR = Path(r"Gujarati\data\raw\manual\archive_org")
+# # DATA_DIR = Path(r"individual-project-Vidur-Shah04\Gujarati\data\raw\manual\archive_org")
+# DATA_DIR = Path(r"E:\recuva")
+
+# total_words = 0
+# total_chars = 0
+# total_files = 0
+# val=0
+# file1k=0
+# for file in DATA_DIR.glob("*.txt"):
+#     val+=1
+#     if val%1000==0:
+#         val=0
+#         file1k+=1
+#         print(f"{file1k} done")
+#     text = file.read_text(
+#         encoding="utf-8"
+#     )
+
+#     # Gujarati + English + numbers separated by whitespace
+#     words = re.findall(
+#         r"\S+",
+#         text
+#     )
+
+#     total_words += len(words)
+#     total_chars += len(text)
+#     total_files += 1
+
+# print("=" * 50)
+# print("internetarchive DATASET")
+# print("=" * 50)
+
+# print(f"books/files : {total_files:,}")
+# print(f"Total words    : {total_words:,}")
+# print(f"Total chars    : {total_chars:,}")
+# print(f"Avg words/book: {total_words / total_files:.1f}")
+from pathlib import Path
+
+DATA_DIR = Path(r"D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati\data\splits_v2")
 
 total_words = 0
 total_chars = 0
 total_files = 0
-val=0
-file1k=0
-for file in DATA_DIR.glob("*.txt"):
-    val+=1
-    if val%1000==0:
-        val=0
-        file1k+=1
-        print(f"{file1k} done")
-    text = file.read_text(
-        encoding="utf-8"
-    )
+bad_files = 0
 
-    # Gujarati + English + numbers separated by whitespace
-    words = re.findall(
-        r"\S+",
-        text
-    )
+for file in DATA_DIR.rglob("test*.txt"):
 
-    total_words += len(words)
-    total_chars += len(text)
-    total_files += 1
+    try:
+        with open(
+            file,
+            encoding="utf-8",
+            errors="ignore"
+        ) as f:
+
+            for line in f:
+                total_words += len(line.split())
+                total_chars += len(line)
+
+        total_files += 1
+
+    except Exception as e:
+        bad_files += 1
+        print(f"SKIPPED: {file.name} -> {e}")
+
+    if total_files % 100 == 0:
+        print(f"{total_files:,} files done")
 
 print("=" * 50)
-print("internetarchive DATASET")
+print("RECOVERED DATASET")
 print("=" * 50)
 
-print(f"books/files : {total_files:,}")
-print(f"Total words    : {total_words:,}")
-print(f"Total chars    : {total_chars:,}")
-print(f"Avg words/book: {total_words / total_files:.1f}")
+print(f"Files       : {total_files:,}")
+print(f"Bad files   : {bad_files:,}")
+print(f"Total words : {total_words:,}")
+print(f"Total chars : {total_chars:,}")
+
+if total_files:
+    print(f"Avg words/file: {total_words / total_files:,.1f}")
