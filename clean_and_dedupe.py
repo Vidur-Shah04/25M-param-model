@@ -8,7 +8,6 @@ from pathlib import Path
 import pandas as pd
 import pyarrow.parquet as pq
 from datasketch import MinHash, MinHashLSH
-from huggingface_hub import hf_hub_download, list_repo_files
 
 
 # ============================================================
@@ -37,126 +36,6 @@ HPLT_REPO = "HPLT/HPLT2.0_cleaned"
 # LANGUAGE CONFIG
 # ============================================================
 
-# CONFIG = {
-
-#     "Gujarati": {
-
-#         "script": (0x0A80, 0x0AFF),
-
-#         # Measured using your 32K tokenizer
-#         "tokens_per_word": 1.4886,
-
-#         # ----------------------------------------------------
-#         # MANUAL
-#         # ----------------------------------------------------
-
-#         "manual": [
-
-#             (
-#                 "archive_org",
-#                 ROOT / "Gujarati/data/raw/manual/archive_org",
-#                 "file"
-#             ),
-
-#             (
-#                 "ebooks",
-#                 ROOT / "Gujarati/data/raw/manual/ebooks",
-#                 "file"
-#             ),
-
-#             (
-#                 "vishwakosh",
-#                 ROOT / "Gujarati/data/raw/manual/vishwakosh",
-#                 "file"
-#             ),
-
-#             (
-#                 "wiki_dumps",
-#                 ROOT / "Gujarati/data/raw/manual/wiki dumps",
-#                 "file"
-#             ),
-
-#             (
-#                 "wikisource",
-#                 ROOT / "Gujarati/data/raw/manual/wikisource",
-#                 "file"
-#             ),
-#         ],
-
-#         # ----------------------------------------------------
-#         # PREMADE
-#         # ----------------------------------------------------
-
-#         "premade": [
-
-#             (
-#                 "iitb",
-#                 ROOT / "Gujarati/data/raw/downloaded/IITB-IndicMonoDoc/gu",
-#                 "markers"
-#             ),
-#         ],
-#     },
-
-
-#     # ========================================================
-#     # ASSAMESE
-#     # ========================================================
-
-#     "Assamese": {
-
-#         "script": (0x0980, 0x09FF),
-
-#         # Measured using your 32K tokenizer
-#         "tokens_per_word": 1.7205,
-
-#         # ----------------------------------------------------
-#         # MANUAL
-#         # ----------------------------------------------------
-
-#         "manual": [
-
-#             (
-#                 "archive_org",
-#                 ROOT / "Assamese/data/raw/manual/archive_org",
-#                 "file"
-#             ),
-#         ],
-
-#         # ----------------------------------------------------
-#         # PREMADE
-#         # ----------------------------------------------------
-
-#         "premade": [
-
-#             (
-#                 "iitb",
-#                 ROOT / "Assamese/data/raw/downloaded/IITB-IndicMonoDoc/as",
-#                 "markers"
-#             ),
-
-#             (
-#                 "indiccorpv2",
-#                 ROOT / "Assamese/data/raw/downloaded/IndicCorpV2/data/as.txt",
-#                 "lines"
-#             ),
-
-#             (
-#                 "sangraha",
-#                 ROOT / "Assamese/data/raw/downloaded/SangrahaVerified/sangraha_train.txt",
-#                 "lines"
-#             ),
-
-#             # HPLT will be downloaded automatically
-#             (
-#                 "hplt",
-#                 ROOT / "Assamese/data/raw/downloaded/HPLT2",
-#                 "hplt"
-#             ),
-#         ],
-#     },
-# }
-
-
 CONFIG = {
 
     # ========================================================
@@ -167,8 +46,12 @@ CONFIG = {
 
         "script": (0x0A80, 0x0AFF),
 
-        # Measured using your 32K tokenizer
-        "tokens_per_word": 1.4886,
+        # Measured on the held-out test set using the 32K tokenizer
+        "tokens_per_word": 1.5166424632,
+
+        # ========================================================
+        # MANUAL SOURCES
+        # ========================================================
 
         "manual": [
 
@@ -203,6 +86,10 @@ CONFIG = {
             ),
         ],
 
+        # ========================================================
+        # PREMADE SOURCES
+        # ========================================================
+
         "premade": [
 
             (
@@ -212,21 +99,20 @@ CONFIG = {
             ),
         ],
     },
+        # ========================================================
+        # ASSAMESE
+        # ========================================================
 
-
-    # ========================================================
-    # ASSAMESE
-    # ========================================================
 
     "Assamese": {
 
         "script": (0x0980, 0x09FF),
 
-        # Your trained 32K Assamese tokenizer
-        "tokens_per_word": 1.7205,
+        # Measured using the 32K tokenizer
+        "tokens_per_word": 1.6633,
 
         # ----------------------------------------------------
-        # MANUAL
+        # MANUAL SOURCES
         # ----------------------------------------------------
 
         "manual": [
@@ -239,7 +125,7 @@ CONFIG = {
         ],
 
         # ----------------------------------------------------
-        # PREMADE
+        # PREMADE SOURCES
         # ----------------------------------------------------
 
         "premade": [
@@ -251,15 +137,15 @@ CONFIG = {
             ),
 
             (
-                "sangraha",
-                ROOT / "Assamese/data/raw/downloaded/SangrahaVerified/sangraha_train.txt",
+                "indiccorpv2",
+                ROOT / "Assamese/data/raw/downloaded/IndicCorpV2/data/as.txt",
                 "lines"
             ),
 
             (
-                "hplt",
-                ROOT / "Assamese/data/raw/downloaded/HPLT2",
-                "hplt"
+                "sangraha",
+                ROOT / "Assamese/data/raw/downloaded/SangrahaVerified/sangraha_train.txt",
+                "lines"
             ),
         ],
     },
@@ -416,93 +302,6 @@ def choose_split(doc_hash):
         return "val"
 
     return "train"
-
-
-# ============================================================
-# HPLT DOWNLOAD
-# ============================================================
-
-def download_hplt(directory):
-
-    directory.mkdir(
-        parents=True,
-        exist_ok=True
-    )
-
-    existing = list(
-        directory.rglob("*.parquet")
-    )
-
-    if existing:
-
-        print(
-            f"HPLT files already present: "
-            f"{len(existing)}"
-        )
-
-        return
-
-
-    print("\n")
-    print("=" * 70)
-    print("DOWNLOADING HPLT2.0 — ASSAMESE")
-    print("=" * 70)
-
-    print(
-        f"Repository: {HPLT_REPO}"
-    )
-
-    print(
-        "Finding Assamese shards..."
-    )
-
-    files = list_repo_files(
-        repo_id=HPLT_REPO,
-        repo_type="dataset"
-    )
-
-    hplt_files = sorted(
-        f for f in files
-        if f.startswith("asm_Beng/")
-        and f.endswith(".parquet")
-    )
-
-    if not hplt_files:
-
-        raise RuntimeError(
-            "Could not find asm_Beng Parquet files "
-            "in HPLT2.0."
-        )
-
-    print(
-        f"Found {len(hplt_files)} HPLT shards."
-    )
-
-    for i, file in enumerate(
-        hplt_files,
-        start=1
-    ):
-
-        print(
-            f"\nDownloading "
-            f"{i}/{len(hplt_files)}:"
-        )
-
-        print(file)
-
-        local_path = hf_hub_download(
-            repo_id=HPLT_REPO,
-            repo_type="dataset",
-            filename=file,
-            local_dir=directory
-        )
-
-        print(
-            f"Saved: {local_path}"
-        )
-
-    print("\nHPLT download complete.")
-
 
 # ============================================================
 # DOCUMENT READER
@@ -767,19 +566,6 @@ def process_language(
         parents=True,
         exist_ok=True
     )
-
-
-    # ========================================================
-    # DOWNLOAD HPLT IF NEEDED
-    # ========================================================
-
-    for source, path, mode in cfg["premade"]:
-
-        if mode == "hplt":
-
-            download_hplt(
-                path
-            )
 
 
     # ========================================================
