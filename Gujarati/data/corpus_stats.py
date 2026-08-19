@@ -122,7 +122,7 @@ total_chars = 0
 total_files = 0
 bad_files = 0
 
-for file in DATA_DIR.rglob("test*.txt"):
+for file in DATA_DIR.rglob("train*.txt"):
 
     try:
         with open(
