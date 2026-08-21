@@ -15,10 +15,11 @@ CONFIG = {
 
     "Gujarati": {
 
+        # NEW CLEANED TOKENIZERS
         "tokenizers": {
-            "16K": ROOT / "Gujarati/tokenizer/gujarati_16k.model",
-            "24K": ROOT / "Gujarati/tokenizer/gujarati_24k.model",
-            "32K": ROOT / "Gujarati/tokenizer/gujarati_32k.model",
+            "16K": ROOT / "Gujarati/tokenizer_clean/gujarati_16k.model",
+            "24K": ROOT / "Gujarati/tokenizer_clean/gujarati_24k.model",
+            "32K": ROOT / "Gujarati/tokenizer_clean/gujarati_32k.model",
         },
 
         "test": ROOT / "Gujarati/data/splits_v2",
@@ -27,10 +28,11 @@ CONFIG = {
 
     "Assamese": {
 
+        # NEW CLEANED TOKENIZERS
         "tokenizers": {
-            "16K": ROOT / "Assamese/tokenizer/assamese_16k.model",
-            "24K": ROOT / "Assamese/tokenizer/assamese_24k.model",
-            "32K": ROOT / "Assamese/tokenizer/assamese_32k.model",
+            "16K": ROOT / "Assamese/tokenizer_clean/assamese_16k.model",
+            "24K": ROOT / "Assamese/tokenizer_clean/assamese_24k.model",
+            "32K": ROOT / "Assamese/tokenizer_clean/assamese_32k.model",
         },
 
         "test": ROOT / "Assamese/data/splits_v2",
@@ -110,7 +112,7 @@ def evaluate(model_path, test_dir):
                 total_tokens += len(pieces)
 
                 # --------------------------------------------
-                # UNK COUNT
+                # UNKNOWN TOKENS
                 # --------------------------------------------
 
                 total_unk += sum(
@@ -124,29 +126,28 @@ def evaluate(model_path, test_dir):
     if total_words == 0:
         return None
 
+    # --------------------------------------------
+    # METRICS
+    # --------------------------------------------
+
     fertility = (
-        total_tokens
-        / total_words
+        total_tokens / total_words
     )
 
     unk_percentage = (
-        total_unk
-        / total_tokens
-        * 100
+        total_unk / total_tokens * 100
         if total_tokens
         else 0
     )
 
     chars_per_token = (
-        total_chars
-        / total_tokens
+        total_chars / total_tokens
         if total_tokens
         else 0
     )
 
     tokens_per_character = (
-        total_tokens
-        / total_chars
+        total_tokens / total_chars
         if total_chars
         else 0
     )
@@ -184,10 +185,14 @@ def evaluate(model_path, test_dir):
 def main():
 
     print("=" * 75)
-    print("TOKENIZER COMPARISON — GUJARATI + ASSAMESE")
+    print("TOKENIZER COMPARISON — CLEAN GUJARATI + ASSAMESE")
     print("=" * 75)
 
     all_results = []
+
+    # ========================================================
+    # EVALUATE ALL MODELS
+    # ========================================================
 
     for language, cfg in CONFIG.items():
 
@@ -202,10 +207,14 @@ def main():
                 f"\n  {vocab}"
             )
 
+            # --------------------------------------------
+            # CHECK MODEL
+            # --------------------------------------------
+
             if not model_path.exists():
 
                 print(
-                    f"    MODEL NOT FOUND:"
+                    "    MODEL NOT FOUND:"
                 )
 
                 print(
@@ -213,6 +222,10 @@ def main():
                 )
 
                 continue
+
+            # --------------------------------------------
+            # EVALUATE
+            # --------------------------------------------
 
             result = evaluate(
                 model_path,
@@ -227,8 +240,14 @@ def main():
 
                 continue
 
+            # --------------------------------------------
+            # ADD METADATA
+            # --------------------------------------------
+
             result["language"] = language
+
             result["vocab"] = vocab
+
             result["model"] = str(
                 model_path
             )
@@ -236,6 +255,10 @@ def main():
             all_results.append(
                 result
             )
+
+            # --------------------------------------------
+            # PRINT RESULTS
+            # --------------------------------------------
 
             print(
                 f"    Words       : "
@@ -263,8 +286,18 @@ def main():
             )
 
             print(
+                f"    Characters  : "
+                f"{result['characters']:,}"
+            )
+
+            print(
                 f"    Chars/token : "
                 f"{result['characters_per_token']:.4f}"
+            )
+
+            print(
+                f"    Tok/char    : "
+                f"{result['tokens_per_character']:.4f}"
             )
 
             print(
@@ -278,9 +311,9 @@ def main():
     # ========================================================
 
     print("\n")
-    print("=" * 95)
+    print("=" * 100)
     print("FERTILITY COMPARISON")
-    print("=" * 95)
+    print("=" * 100)
 
     print(
         f"{'Language':<12}"
@@ -291,7 +324,7 @@ def main():
         f"{'UNK %':>12}"
     )
 
-    print("-" * 95)
+    print("-" * 100)
 
     for r in all_results:
 
@@ -343,8 +376,7 @@ def main():
     # ========================================================
 
     output_json = (
-        ROOT
-        / "tokenizer_comparison.json"
+        ROOT / "tokenizer_comparison.json"
     )
 
     with open(
@@ -366,15 +398,12 @@ def main():
     # ========================================================
 
     output_csv = (
-        ROOT
-        / "tokenizer_comparison.csv"
+        ROOT / "tokenizer_comparison.csv"
     )
 
     if all_results:
 
         fields = [
-            "language",
-            "vocab",
             "test_files",
             "lines",
             "words",
@@ -386,6 +415,8 @@ def main():
             "characters_per_token",
             "tokens_per_character",
             "time_seconds",
+            "language",
+            "vocab",
             "model",
         ]
 
@@ -408,6 +439,10 @@ def main():
             )
 
 
+    # ========================================================
+    # DONE
+    # ========================================================
+
     print("\n")
     print("=" * 75)
     print("DONE")
@@ -421,6 +456,10 @@ def main():
         f"CSV : {output_csv}"
     )
 
+
+# ============================================================
+# ENTRY POINT
+# ============================================================
 
 if __name__ == "__main__":
     main()
