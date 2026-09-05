@@ -1,0 +1,655 @@
+from pathlib import Path
+import math
+import time
+
+import torch
+
+from config import ModelConfig
+from transformer import DecoderOnlyTransformer
+from dataset import TokenStreamDataset
+
+
+# ============================================================
+# PATHS
+# ============================================================
+
+# Automatically points to:
+# Assamese/
+#
+# because this file is:
+# Assamese/model/train.py
+
+PROJECT_DIR = Path(__file__).resolve().parent.parent
+
+# Assamese/train/
+DATA_DIR = PROJECT_DIR / "train"
+
+# Assamese/tokenizer_clean/assamese_24k.model
+TOKENIZER_PATH = (
+    PROJECT_DIR
+    / "tokenizer_clean"
+    / "assamese_24k.model"
+)
+
+# Assamese/train/checkpoints/
+CHECKPOINT_DIR = (
+    PROJECT_DIR
+    / "train"
+    / "checkpoints"
+)
+
+CHECKPOINT_DIR.mkdir(
+    parents=True,
+    exist_ok=True,
+)
+
+
+# ============================================================
+# TRAINING CONFIGURATION
+# ============================================================
+
+BATCH_SIZE = 1
+
+GRAD_ACCUMULATION = 32
+
+LEARNING_RATE = 3e-4
+
+MIN_LR = 3e-5
+
+WEIGHT_DECAY = 0.1
+
+BETAS = (0.9, 0.95)
+
+# Target approximately 500M tokens
+TARGET_TOKENS = 500_000_000
+
+WARMUP_STEPS = 2_000
+
+# Save approximately every 1,500 steps
+SAVE_EVERY = 1_500
+
+# Validate at the same interval
+VALIDATE_EVERY = 1_500
+
+# Number of validation sequences per validation run
+VAL_BATCHES = 100
+
+GRAD_CLIP = 1.0
+
+
+# ============================================================
+# DEVICE
+# ============================================================
+
+device = torch.device(
+    "cuda"
+    if torch.cuda.is_available()
+    else "cpu"
+)
+
+print("Device:", device)
+
+if device.type == "cuda":
+    print(
+        "GPU:",
+        torch.cuda.get_device_name(0),
+    )
+
+
+# ============================================================
+# MODEL
+# ============================================================
+
+config = ModelConfig()
+
+model = DecoderOnlyTransformer(
+    config
+).to(device)
+
+print(
+    "Parameters:",
+    model.count_parameters(),
+)
+
+
+# ============================================================
+# TRAINING STEPS
+# ============================================================
+
+TOKENS_PER_STEP = (
+    BATCH_SIZE
+    * GRAD_ACCUMULATION
+    * config.context_length
+)
+
+MAX_STEPS = math.ceil(
+    TARGET_TOKENS
+    / TOKENS_PER_STEP
+)
+
+print(
+    "Tokens per optimizer step:",
+    TOKENS_PER_STEP,
+)
+
+print(
+    "Target tokens:",
+    TARGET_TOKENS,
+)
+
+print(
+    "Maximum training steps:",
+    MAX_STEPS,
+)
+
+
+# ============================================================
+# DATASET
+# ============================================================
+
+train_dataset = TokenStreamDataset(
+    data_dir=DATA_DIR,
+    tokenizer_path=TOKENIZER_PATH,
+    seq_len=config.context_length,
+    split="train",
+)
+
+train_iterator = iter(
+    train_dataset
+)
+
+
+# ============================================================
+# OPTIMIZER
+# ============================================================
+
+optimizer = torch.optim.AdamW(
+    model.parameters(),
+    lr=LEARNING_RATE,
+    betas=BETAS,
+    weight_decay=WEIGHT_DECAY,
+)
+
+
+# ============================================================
+# LEARNING-RATE SCHEDULE
+# ============================================================
+
+def get_lr(step):
+
+    # --------------------------------------------------------
+    # Linear warmup
+    # --------------------------------------------------------
+
+    if step < WARMUP_STEPS:
+
+        return (
+            LEARNING_RATE
+            * (step + 1)
+            / WARMUP_STEPS
+        )
+
+    # --------------------------------------------------------
+    # Cosine decay
+    # --------------------------------------------------------
+
+    progress = (
+        step - WARMUP_STEPS
+    ) / (
+        MAX_STEPS - WARMUP_STEPS
+    )
+
+    progress = min(
+        progress,
+        1.0,
+    )
+
+    return (
+        MIN_LR
+        + (
+            LEARNING_RATE
+            - MIN_LR
+        )
+        * 0.5
+        * (
+            1.0
+            + math.cos(
+                math.pi * progress
+            )
+        )
+    )
+
+
+# ============================================================
+# MIXED PRECISION
+# ============================================================
+
+use_amp = (
+    device.type == "cuda"
+)
+
+scaler = torch.amp.GradScaler(
+    "cuda",
+    enabled=use_amp,
+)
+
+
+# ============================================================
+# CHECKPOINT STATE
+# ============================================================
+
+last_loss = 0.0
+
+
+# ============================================================
+# SAVE CHECKPOINT
+# ============================================================
+
+def save_checkpoint(step):
+
+    checkpoint_path = (
+        CHECKPOINT_DIR
+        / f"checkpoint_{step:06d}.pt"
+    )
+
+    checkpoint = {
+
+        # Current optimizer step
+        "step": step,
+
+        # Model weights
+        "model_state_dict":
+            model.state_dict(),
+
+        # AdamW state
+        "optimizer_state_dict":
+            optimizer.state_dict(),
+
+        # AMP scaler state
+        "scaler_state_dict":
+            scaler.state_dict(),
+
+        # Architecture configuration
+        "config":
+            vars(config),
+
+        # Training information
+        "loss":
+            last_loss,
+
+        "learning_rate":
+            optimizer.param_groups[0]["lr"],
+
+        "target_tokens":
+            TARGET_TOKENS,
+
+        "tokens_per_step":
+            TOKENS_PER_STEP,
+    }
+
+    torch.save(
+        checkpoint,
+        checkpoint_path,
+    )
+
+    print(
+        f"Checkpoint saved: "
+        f"{checkpoint_path}"
+    )
+
+
+# ============================================================
+# LOAD CHECKPOINT
+# ============================================================
+
+def load_checkpoint(path):
+
+    checkpoint = torch.load(
+        path,
+        map_location=device,
+    )
+
+    # Restore model
+    model.load_state_dict(
+        checkpoint[
+            "model_state_dict"
+        ]
+    )
+
+    # Restore optimizer
+    optimizer.load_state_dict(
+        checkpoint[
+            "optimizer_state_dict"
+        ]
+    )
+
+    # Restore AMP scaler
+    if "scaler_state_dict" in checkpoint:
+
+        scaler.load_state_dict(
+            checkpoint[
+                "scaler_state_dict"
+            ]
+        )
+
+    step = checkpoint["step"]
+
+    print(
+        f"Resumed from step {step}"
+    )
+
+    print(
+        "Previous loss:",
+        checkpoint.get(
+            "loss",
+            "N/A",
+        ),
+    )
+
+    return step
+
+
+# ============================================================
+# RESUME
+# ============================================================
+
+RESUME_CHECKPOINT = None
+
+# Example:
+#
+# RESUME_CHECKPOINT = (
+#     CHECKPOINT_DIR
+#     / "checkpoint_015000.pt"
+# )
+
+start_step = 0
+
+if RESUME_CHECKPOINT is not None:
+
+    start_step = load_checkpoint(
+        RESUME_CHECKPOINT
+    )
+
+
+# ============================================================
+# VALIDATION
+# ============================================================
+
+def validate():
+
+    model.eval()
+
+    # IMPORTANT:
+    # split="val" means only val_*.txt files
+    # are used here.
+    val_dataset = TokenStreamDataset(
+        data_dir=DATA_DIR,
+        tokenizer_path=TOKENIZER_PATH,
+        seq_len=config.context_length,
+        split="val",
+    )
+
+    val_iterator = iter(
+        val_dataset
+    )
+
+    losses = []
+
+    with torch.no_grad():
+
+        for _ in range(
+            VAL_BATCHES
+        ):
+
+            x, y = next(
+                val_iterator
+            )
+
+            # Add batch dimension
+            x = (
+                x
+                .unsqueeze(0)
+                .to(device)
+            )
+
+            y = (
+                y
+                .unsqueeze(0)
+                .to(device)
+            )
+
+            with torch.autocast(
+                device_type=device.type,
+                dtype=torch.float16,
+                enabled=use_amp,
+            ):
+
+                _, loss = model(
+                    x,
+                    y,
+                )
+
+            losses.append(
+                loss.item()
+            )
+
+    val_loss = (
+        sum(losses)
+        / len(losses)
+    )
+
+    perplexity = math.exp(
+        val_loss
+    )
+
+    print(
+        f"Validation loss: "
+        f"{val_loss:.4f}"
+    )
+
+    print(
+        f"Validation PPL: "
+        f"{perplexity:.2f}"
+    )
+
+    model.train()
+
+    return val_loss
+
+
+# ============================================================
+# TRAINING LOOP
+# ============================================================
+
+model.train()
+
+start_time = time.time()
+
+print(
+    "\nStarting Assamese training..."
+)
+
+print(
+    f"Starting step: {start_step}"
+)
+
+print(
+    f"Ending step: {MAX_STEPS}"
+)
+
+
+for step in range(
+    start_step + 1,
+    MAX_STEPS + 1,
+):
+
+    optimizer.zero_grad(
+        set_to_none=True
+    )
+
+    accumulated_loss = 0.0
+
+    # --------------------------------------------------------
+    # Gradient accumulation
+    # --------------------------------------------------------
+
+    for _ in range(
+        GRAD_ACCUMULATION
+    ):
+
+        x, y = next(
+            train_iterator
+        )
+
+        x = (
+            x
+            .unsqueeze(0)
+            .to(device)
+        )
+
+        y = (
+            y
+            .unsqueeze(0)
+            .to(device)
+        )
+
+        with torch.autocast(
+            device_type=device.type,
+            dtype=torch.float16,
+            enabled=use_amp,
+        ):
+
+            _, loss = model(
+                x,
+                y,
+            )
+
+            # Average gradients over 32 micro-batches
+            loss = (
+                loss
+                / GRAD_ACCUMULATION
+            )
+
+        scaler.scale(
+            loss
+        ).backward()
+
+        accumulated_loss += (
+            loss.item()
+        )
+
+    # --------------------------------------------------------
+    # Gradient clipping
+    # --------------------------------------------------------
+
+    scaler.unscale_(
+        optimizer
+    )
+
+    torch.nn.utils.clip_grad_norm_(
+        model.parameters(),
+        GRAD_CLIP,
+    )
+
+    # --------------------------------------------------------
+    # Learning rate
+    # --------------------------------------------------------
+
+    lr = get_lr(step)
+
+    for group in optimizer.param_groups:
+
+        group["lr"] = lr
+
+    # --------------------------------------------------------
+    # Optimizer update
+    # --------------------------------------------------------
+
+    scaler.step(
+        optimizer
+    )
+
+    scaler.update()
+
+    last_loss = accumulated_loss
+
+    # --------------------------------------------------------
+    # Training log
+    # --------------------------------------------------------
+
+    if step % 100 == 0:
+
+        elapsed = (
+            time.time()
+            - start_time
+        )
+
+        tokens_done = (
+            step
+            * TOKENS_PER_STEP
+        )
+
+        print(
+            f"step={step} | "
+            f"loss={last_loss:.4f} | "
+            f"lr={lr:.6e} | "
+            f"tokens={tokens_done:,} | "
+            f"time={elapsed:.1f}s"
+        )
+
+    # --------------------------------------------------------
+    # Validation
+    # --------------------------------------------------------
+
+    if (
+        step % VALIDATE_EVERY
+        == 0
+    ):
+
+        validate()
+
+    # --------------------------------------------------------
+    # Checkpoint
+    # --------------------------------------------------------
+
+    if (
+        step % SAVE_EVERY
+        == 0
+    ):
+
+        save_checkpoint(step)
+
+
+# ============================================================
+# FINAL CHECKPOINT
+# ============================================================
+
+if (
+    MAX_STEPS % SAVE_EVERY
+    != 0
+):
+
+    save_checkpoint(
+        MAX_STEPS
+    )
+
+
+print(
+    "\n================================"
+)
+
+print(
+    "ASSAMESE TRAINING COMPLETE"
+)
+
+print(
+    "================================"
+)
+
+print(
+    f"Final step: {MAX_STEPS}"
+)
+
+print(
+    f"Target tokens: {TARGET_TOKENS:,}"
+)
