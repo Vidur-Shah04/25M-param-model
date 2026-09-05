@@ -1,0 +1,21 @@
+temp.py
+Gujarati/data/raw/
+Gujarati/data copy/
+Gujarati/data/cleaned/
+Gujarati/data/splits/
+Assamese/data/raw/
+Assamese/data/cleaned/
+Assamese/data/cleaned_v2/
+Gujarati/data/cleaned_v2/
+Assamese/data/splits/
+Assamese/data/splits_v2/
+Gujarati/data/splits_v2/
+Assamese/tokenizer_clean/training_data
+Gujarati/tokenizer_clean/training_data
+Gujarati/model/qna.txt
+Assamese/checkpoints/
+Gujarati/checkpoints/
+*.pt
+__pycache__/
+*.pyc
+__pycache__/
