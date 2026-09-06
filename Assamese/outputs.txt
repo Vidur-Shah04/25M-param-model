@@ -9,3 +9,701 @@ Rows saved     : 302,131
 Rows skipped   : 28,583
 Words saved    : 125,357,204
 Characters     : 800,725,031
+
+
+======================================================================
+FINAL VALIDATION RESULTS
+======================================================================
+Validation sequences : 390,758
+Validation tokens    : 199,677,338
+Cross-Entropy        : 5.685608
+Perplexity           : 294.5969
+Evaluation time      : 82.22 minutes
+======================================================================
+
+D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04>"C:\Users\Vidur Shah\AppData\Local\Programs\Python\Python312\python.exe" "Assamese\evaluation\bpb.py"
+======================================================================
+ASSAMESE BPB EVALUATION
+======================================================================
+Tokenizer: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Assamese\tokenizer_clean\assamese_24k.model
+Vocabulary size: 24000
+Data directory: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Assamese\data\splits_v2
+Processing: val_0000.txt
+Processing: val_0001.txt
+
+======================================================================
+assamese BPB RESULTS
+======================================================================
+Validation words       : 32,466,286
+SentencePiece tokens   : 52,069,401
+UTF-8 bytes            : 530,517,951
+Tokens / word          : 1.603799
+Cross-Entropy          : 5.375766
+Perplexity             : 216.1053
+Bits Per Byte (BPB)    : 0.761198
+======================================================================
+
+D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04>"C:\Users\Vidur Shah\AppData\Local\Programs\Python\Python312\python.exe" "d:/Desktop/IIIT HYD/LMA/individual-project-Vidur-Shah04/Gujarati/evaluation/bpb.py"
+======================================================================
+GUJARATI BPB EVALUATION
+======================================================================
+Tokenizer: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati\tokenizer_clean\gujarati_24k.model
+Vocabulary size: 24000
+Data directory: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati\data\splits_v2
+Processing: val_0000.txt
+Processing: val_0001.txt
+
+======================================================================
+GUJARATI BPB RESULTS
+======================================================================
+Validation words       : 133,399,162
+SentencePiece tokens   : 200,068,576
+UTF-8 bytes            : 2,008,942,182
+Tokens / word          : 1.499774
+Cross-Entropy          : 5.685608
+Perplexity             : 294.5969
+Bits Per Byte (BPB)    : 0.816889
+======================================================================
+
+D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04>"C:\Users\Vidur Shah\AppData\Local\Programs\Python\Python312\python.exe" "d:/Desktop/IIIT HYD/LMA/individual-project-Vidur-Shah04/Gujarati/evaluation/generation_metrics.py"
+======================================================================
+GUJARATI GENERATION METRICS
+======================================================================
+Device: cuda
+Checkpoint step: 30518
+Vocabulary: 24000
+Samples: 50
+Prompt tokens: 128
+Reference tokens: 100
+
+Generating/evaluating T=0.0...
+Generating/evaluating T=0.5...
+Generating/evaluating T=1.0...
+Generating/evaluating T=1.5...
+
+======================================================================
+GUJARATI GENERATION METRICS
+======================================================================
+
+Temperature: 0.0
+  BLEU-4          : 0.019145
+  chrF            : 0.097091
+  ROUGE-L         : 0.041784
+  Repetition Rate : 0.780794
+  Distinct-1      : 0.202021
+  Distinct-2      : 0.099206
+
+Temperature: 0.5
+  BLEU-4          : 0.023093
+  chrF            : 0.168647
+  ROUGE-L         : 0.067666
+  Repetition Rate : 0.357645
+  Distinct-1      : 0.455065
+  Distinct-2      : 0.582355
+
+Temperature: 1.0
+  BLEU-4          : 0.027711
+  chrF            : 0.237761
+  ROUGE-L         : 0.068402
+  Repetition Rate : 0.019025
+  Distinct-1      : 0.906050
+  Distinct-2      : 0.980975
+
+Temperature: 1.5
+  BLEU-4          : 0.017283
+  chrF            : 0.220833
+  ROUGE-L         : 0.015537
+  Repetition Rate : 0.000000
+  Distinct-1      : 0.993222
+  Distinct-2      : 1.000000
+
+Saved summary: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati\evaluation\results\gujarati_generation_metrics.csv
+Saved JSON:    D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati\evaluation\results\gujarati_generation_metrics.json
+======================================================================
+
+D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04>
+
+D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04>"C:\Users\Vidur Shah\AppData\Local\Programs\Python\Python312\python.exe" "d:/Desktop/IIIT HYD/LMA/individual-project-Vidur-Shah04/Assamese/evaluation/generation_metrics.py"
+======================================================================
+assamese GENERATION METRICS
+======================================================================
+Device: cuda
+Checkpoint step: 30518
+Vocabulary: 24000
+Samples: 50
+Prompt tokens: 128
+Reference tokens: 100
+
+Generating/evaluating T=0.0...
+Generating/evaluating T=0.5...
+Generating/evaluating T=1.0...
+Generating/evaluating T=1.5...
+
+======================================================================
+assamese GENERATION METRICS
+======================================================================
+
+Temperature: 0.0
+  BLEU-4          : 0.025181
+  chrF            : 0.152796
+  ROUGE-L         : 0.051417
+  Repetition Rate : 0.859897
+  Distinct-1      : 0.127992
+  Distinct-2      : 0.140103
+
+Temperature: 0.5
+  BLEU-4          : 0.023620
+  chrF            : 0.182502
+  ROUGE-L         : 0.056784
+  Repetition Rate : 0.536956
+  Distinct-1      : 0.353543
+  Distinct-2      : 0.443044
+
+Temperature: 1.0
+  BLEU-4          : 0.023371
+  chrF            : 0.245874
+  ROUGE-L         : 0.049228
+  Repetition Rate : 0.010548
+  Distinct-1      : 0.919010
+  Distinct-2      : 0.989452
+
+Temperature: 1.5
+  BLEU-4          : 0.016070
+  chrF            : 0.237912
+  ROUGE-L         : 0.014687
+  Repetition Rate : 0.000000
+  Distinct-1      : 0.990903
+  Distinct-2      : 1.000000
+
+Saved summary: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Assamese\evaluation\results\assamese_generation_metrics.csv
+Saved JSON:    D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Assamese\evaluation\results\assamese_generation_metrics.json
+======================================================================
+
+D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04>
+D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04>"C:\Users\Vidur Shah\AppData\Local\Programs\Python\Python312\python.exe" "Gujarati\evaluation\evaluate_checkpoint.py"
+============================================================
+GUJARATI PHASE 2 CHECKPOINT VERIFICATION
+============================================================
+Device: cuda
+Checkpoint: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati\checkpoints\checkpoint_030518_gujarati.pt
+
+Checkpoint keys:
+  - step
+  - model_state_dict
+  - optimizer_state_dict
+  - scaler_state_dict
+  - config
+  - loss
+  - val_loss
+  - learning_rate
+  - dataset_state
+
+Model configuration:
+  vocab_size      = 24000
+  d_model         = 512
+  n_layers        = 5
+  n_heads         = 8
+  d_ff            = 1536
+  context_length  = 512
+  dropout         = 0.1
+  head_dim        = 64
+
+Parameter count:
+  25,689,088
+  PASS: parameter count matches expected architecture.
+
+Checkpoint training information:
+  step: 30518
+  loss: 5.261827886104584
+  config: {'vocab_size': 24000, 'd_model': 512, 'n_layers': 5, 'n_heads': 8, 'd_ff': 1536, 'context_length': 512, 'dropout': 0.1}
+
+Forward-pass test:
+  Input shape:  (1, 32)
+  Logits shape: (1, 32, 24000)
+  Loss:         11.666273
+  PASS: logits shape is correct.
+  PASS: loss is finite.
+
+============================================================
+CHECKPOINT VERIFICATION COMPLETE
+============================================================
+
+D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04>D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04>"C:\Users\Vidur Shah\AppData\Local\Programs\Python\Python312\python.exe" "Assamese\evaluation\evaluate_checkpoint.py"
+============================================================
+ASSAMESE PHASE 2 CHECKPOINT VERIFICATION
+============================================================
+Device: cuda
+Checkpoint: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Assamese\checkpoints\checkpoint_030518_assamese.pt
+
+Checkpoint keys:
+  - step
+  - model_state_dict
+  - optimizer_state_dict
+  - scaler_state_dict
+  - config
+  - loss
+  - val_loss
+  - learning_rate
+  - dataset_state
+
+Model configuration:
+  vocab_size      = 24000
+  d_model         = 512
+  n_layers        = 5
+  n_heads         = 8
+  d_ff            = 1536
+  context_length  = 512
+  dropout         = 0.1
+  head_dim        = 64
+
+Parameter count:
+  25,689,088
+  PASS: parameter count matches expected architecture.
+
+Checkpoint training information:
+  step: 30518
+  loss: 5.6711384654045105
+  config: {'vocab_size': 24000, 'd_model': 512, 'n_layers': 5, 'n_heads': 8, 'd_ff': 1536, 'context_length': 512, 'dropout': 0.1}
+
+Forward-pass test:
+  Input shape:  (1, 32)
+  Logits shape: (1, 32, 24000)
+  Loss:         12.745068
+  PASS: logits shape is correct.
+  PASS: loss is finite.
+
+============================================================
+CHECKPOINT VERIFICATION COMPLETE
+============================================================
+D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04>"C:\Users\Vidur Shah\AppData\Local\Programs\Python\Python312\python.exe" "d:/Desktop/IIIT HYD/LMA/individual-project-Vidur-Shah04/Gujarati/evaluation/attention_analysis.py"
+======================================================================
+GUJARATI ATTENTION ANALYSIS
+======================================================================
+Device: cuda
+Vocabulary size: 24000
+Checkpoint step: 30518
+Parameters: 25,689,088
+Analysis sequence length: 128
+Number of attention layers: 5
+Attention shape per layer: (1, 8, 128, 128)
+
+======================================================================
+ATTENTION STATISTICS
+======================================================================
+Layer 1 Head 0: Entropy = 2.3720, Distance = 7.9717
+Layer 1 Head 1: Entropy = 1.2616, Distance = 2.9436
+Layer 1 Head 2: Entropy = 3.4149, Distance = 30.4715
+Layer 1 Head 3: Entropy = 3.3279, Distance = 29.5971
+Layer 1 Head 4: Entropy = 3.3575, Distance = 28.7030
+Layer 1 Head 5: Entropy = 3.2145, Distance = 30.0274
+Layer 1 Head 6: Entropy = 3.3302, Distance = 29.0359
+Layer 1 Head 7: Entropy = 3.2665, Distance = 27.0650
+Layer 2 Head 0: Entropy = 3.5553, Distance = 21.6109
+Layer 2 Head 1: Entropy = 3.5249, Distance = 21.5534
+Layer 2 Head 2: Entropy = 3.6410, Distance = 25.4065
+Layer 2 Head 3: Entropy = 3.7681, Distance = 28.1992
+Layer 2 Head 4: Entropy = 3.8095, Distance = 26.4652
+Layer 2 Head 5: Entropy = 3.1966, Distance = 19.6048
+Layer 2 Head 6: Entropy = 3.6391, Distance = 23.2827
+Layer 2 Head 7: Entropy = 3.6978, Distance = 27.2691
+Layer 3 Head 0: Entropy = 2.8110, Distance = 8.2599
+Layer 3 Head 1: Entropy = 2.1572, Distance = 5.8869
+Layer 3 Head 2: Entropy = 2.5259, Distance = 7.3948
+Layer 3 Head 3: Entropy = 3.3993, Distance = 15.3541
+Layer 3 Head 4: Entropy = 3.5401, Distance = 18.3416
+Layer 3 Head 5: Entropy = 3.5553, Distance = 24.1384
+Layer 3 Head 6: Entropy = 2.9430, Distance = 9.2532
+Layer 3 Head 7: Entropy = 3.3253, Distance = 21.4924
+Layer 4 Head 0: Entropy = 2.4243, Distance = 38.2101
+Layer 4 Head 1: Entropy = 3.0747, Distance = 25.8084
+Layer 4 Head 2: Entropy = 3.3340, Distance = 28.6844
+Layer 4 Head 3: Entropy = 3.2881, Distance = 28.0157
+Layer 4 Head 4: Entropy = 3.4026, Distance = 22.6792
+Layer 4 Head 5: Entropy = 3.1292, Distance = 17.4135
+Layer 4 Head 6: Entropy = 3.4612, Distance = 21.0470
+Layer 4 Head 7: Entropy = 2.7061, Distance = 9.1878
+Layer 5 Head 0: Entropy = 3.4912, Distance = 31.5670
+Layer 5 Head 1: Entropy = 3.4991, Distance = 28.9125
+Layer 5 Head 2: Entropy = 3.5824, Distance = 32.8483
+Layer 5 Head 3: Entropy = 3.1408, Distance = 31.0245
+Layer 5 Head 4: Entropy = 3.2332, Distance = 32.3456
+Layer 5 Head 5: Entropy = 2.5851, Distance = 43.5410
+Layer 5 Head 6: Entropy = 3.3993, Distance = 26.1492
+Layer 5 Head 7: Entropy = 3.5296, Distance = 30.3601
+Saved heatmap: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati\evaluation\figures\attention\gujarati_layer1_head0.png
+Saved heatmap: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati\evaluation\figures\attention\gujarati_layer1_head4.png
+Saved heatmap: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati\evaluation\figures\attention\gujarati_layer3_head0.png
+Saved heatmap: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati\evaluation\figures\attention\gujarati_layer3_head4.png
+Saved heatmap: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati\evaluation\figures\attention\gujarati_layer5_head0.png
+Saved heatmap: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati\evaluation\figures\attention\gujarati_layer5_head4.png
+
+======================================================================
+GUJARATI ATTENTION ANALYSIS COMPLETE
+======================================================================
+Statistics: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati\evaluation\results\gujarati_attention_statistics.csv
+Sequence:   D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati\evaluation\results\gujarati_attention_sequence.txt
+Figures:    D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati\evaluation\figures\attention
+
+D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04> 
+D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04>"C:\Users\Vidur Shah\AppData\Local\Programs\Python\Python312\python.exe" "d:/Desktop/IIIT HYD/LMA/individual-project-Vidur-Shah04/Assamese/evaluation/attention_analysis.py"
+======================================================================
+assamese ATTENTION ANALYSIS
+======================================================================
+Device: cuda
+Vocabulary size: 24000
+Checkpoint step: 30518
+Parameters: 25,689,088
+Analysis sequence length: 128
+Number of attention layers: 5
+Attention shape per layer: (1, 8, 128, 128)
+
+======================================================================
+ATTENTION STATISTICS
+======================================================================
+Layer 1 Head 0: Entropy = 3.7066, Distance = 32.3734
+Layer 1 Head 1: Entropy = 3.0992, Distance = 16.4129
+Layer 1 Head 2: Entropy = 2.8134, Distance = 21.0852
+Layer 1 Head 3: Entropy = 3.7478, Distance = 28.4840
+Layer 1 Head 4: Entropy = 0.4625, Distance = 2.6481
+Layer 1 Head 5: Entropy = 3.5255, Distance = 23.2574
+Layer 1 Head 6: Entropy = 3.7320, Distance = 29.6196
+Layer 1 Head 7: Entropy = 3.7421, Distance = 32.7049
+Layer 2 Head 0: Entropy = 3.6749, Distance = 24.7184
+Layer 2 Head 1: Entropy = 3.3977, Distance = 30.9381
+Layer 2 Head 2: Entropy = 3.2316, Distance = 19.1659
+Layer 2 Head 3: Entropy = 3.6341, Distance = 29.1669
+Layer 2 Head 4: Entropy = 3.2169, Distance = 16.3144
+Layer 2 Head 5: Entropy = 3.4877, Distance = 25.0838
+Layer 2 Head 6: Entropy = 3.6663, Distance = 27.9921
+Layer 2 Head 7: Entropy = 3.6862, Distance = 28.8684
+Layer 3 Head 0: Entropy = 2.3203, Distance = 6.2074
+Layer 3 Head 1: Entropy = 3.4483, Distance = 25.6187
+Layer 3 Head 2: Entropy = 2.7459, Distance = 7.4321
+Layer 3 Head 3: Entropy = 3.0125, Distance = 11.4056
+Layer 3 Head 4: Entropy = 2.6011, Distance = 6.3819
+Layer 3 Head 5: Entropy = 2.6110, Distance = 7.9976
+Layer 3 Head 6: Entropy = 2.9442, Distance = 39.7620
+Layer 3 Head 7: Entropy = 3.6032, Distance = 31.5309
+Layer 4 Head 0: Entropy = 3.5201, Distance = 26.3530
+Layer 4 Head 1: Entropy = 3.3630, Distance = 18.2539
+Layer 4 Head 2: Entropy = 3.6361, Distance = 30.3388
+Layer 4 Head 3: Entropy = 3.3934, Distance = 33.0150
+Layer 4 Head 4: Entropy = 3.2573, Distance = 33.9312
+Layer 4 Head 5: Entropy = 3.4142, Distance = 21.7354
+Layer 4 Head 6: Entropy = 3.7895, Distance = 27.7649
+Layer 4 Head 7: Entropy = 3.6620, Distance = 32.2424
+Layer 5 Head 0: Entropy = 3.6349, Distance = 32.2390
+Layer 5 Head 1: Entropy = 3.8012, Distance = 30.3535
+Layer 5 Head 2: Entropy = 3.8374, Distance = 31.0231
+Layer 5 Head 3: Entropy = 3.7423, Distance = 30.9253
+Layer 5 Head 4: Entropy = 3.7518, Distance = 30.3048
+Layer 5 Head 5: Entropy = 3.7087, Distance = 33.3120
+Layer 5 Head 6: Entropy = 3.6392, Distance = 27.6764
+Layer 5 Head 7: Entropy = 3.2604, Distance = 30.5581
+Saved heatmap: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Assamese\evaluation\figures\attention\assamese_layer1_head0.png
+Saved heatmap: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Assamese\evaluation\figures\attention\assamese_layer1_head4.png
+Saved heatmap: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Assamese\evaluation\figures\attention\assamese_layer3_head0.png
+Saved heatmap: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Assamese\evaluation\figures\attention\assamese_layer3_head4.png
+Saved heatmap: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Assamese\evaluation\figures\attention\assamese_layer5_head0.png
+Saved heatmap: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Assamese\evaluation\figures\attention\assamese_layer5_head4.png
+
+======================================================================
+assamese ATTENTION ANALYSIS COMPLETE
+======================================================================
+Statistics: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Assamese\evaluation\results\assamese_attention_statistics.csv
+Sequence:   D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Assamese\evaluation\results\assamese_attention_sequence.txt
+Figures:    D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Assamese\evaluation\figures\attention
+
+D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04>
+D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04>"C:\Users\Vidur Shah\AppData\Local\Programs\Python\Python312\python.exe" "d:/Desktop/IIIT HYD/LMA/individual-project-Vidur-Shah04/Gujarati/evaluation/attention_analysis_aggregate.py"
+======================================================================
+GUJARATI AGGREGATED ATTENTION ANALYSIS
+======================================================================
+Device: cuda
+Vocabulary size: 24000
+Checkpoint step: 30518
+Parameters: 25,689,088
+Validation sequences selected: 10
+Processing sequence 1/10...
+Processing sequence 2/10...
+Processing sequence 3/10...
+Processing sequence 4/10...
+Processing sequence 5/10...
+Processing sequence 6/10...
+Processing sequence 7/10...
+Processing sequence 8/10...
+Processing sequence 9/10...
+Processing sequence 10/10...
+
+======================================================================
+AGGREGATED ATTENTION STATISTICS
+======================================================================
+
+Layer 1
+  Head 0: Entropy = 2.5676 (±0.2373), Distance = 11.7800 (±3.5993)
+  Head 1: Entropy = 1.5510 (±0.4316), Distance = 5.3645 (±3.0592)
+  Head 2: Entropy = 3.4441 (±0.0935), Distance = 30.6259 (±0.7880)
+  Head 3: Entropy = 3.2860 (±0.0942), Distance = 29.7949 (±0.6554)
+  Head 4: Entropy = 3.4627 (±0.1042), Distance = 29.0882 (±0.4401)
+  Head 5: Entropy = 3.3488 (±0.1593), Distance = 30.3175 (±1.1233)
+  Head 6: Entropy = 3.3539 (±0.1087), Distance = 29.9159 (±0.6745)
+  Head 7: Entropy = 3.3639 (±0.1164), Distance = 28.2815 (±0.9762)
+
+Layer 2
+  Head 0: Entropy = 3.5667 (±0.0657), Distance = 22.4949 (±1.2566)
+  Head 1: Entropy = 3.5976 (±0.0844), Distance = 23.4996 (±1.4660)
+  Head 2: Entropy = 3.6475 (±0.0776), Distance = 27.6810 (±1.2655)
+  Head 3: Entropy = 3.7608 (±0.0256), Distance = 26.8547 (±1.0248)
+  Head 4: Entropy = 3.8192 (±0.0159), Distance = 27.0249 (±0.3515)
+  Head 5: Entropy = 3.2354 (±0.1640), Distance = 20.9249 (±1.5827)
+  Head 6: Entropy = 3.6074 (±0.1110), Distance = 23.7319 (±1.6827)
+  Head 7: Entropy = 3.7383 (±0.0329), Distance = 28.1219 (±0.7463)
+
+Layer 3
+  Head 0: Entropy = 2.8615 (±0.0981), Distance = 9.1971 (±0.6902)
+  Head 1: Entropy = 2.1954 (±0.1364), Distance = 6.6070 (±0.5740)
+  Head 2: Entropy = 2.5809 (±0.1370), Distance = 8.2956 (±0.7079)
+  Head 3: Entropy = 3.3682 (±0.1111), Distance = 16.5021 (±0.8434)
+  Head 4: Entropy = 3.6198 (±0.0747), Distance = 21.2765 (±2.2687)
+  Head 5: Entropy = 3.5439 (±0.0938), Distance = 23.1866 (±1.6887)
+  Head 6: Entropy = 2.9541 (±0.0796), Distance = 10.1207 (±0.8457)
+  Head 7: Entropy = 3.2398 (±0.2228), Distance = 23.6307 (±4.1176)
+
+Layer 4
+  Head 0: Entropy = 2.5934 (±0.3413), Distance = 37.3218 (±3.6302)
+  Head 1: Entropy = 3.0582 (±0.2172), Distance = 28.7920 (±3.2184)
+  Head 2: Entropy = 3.3311 (±0.1967), Distance = 26.8411 (±1.2364)
+  Head 3: Entropy = 3.3289 (±0.1087), Distance = 27.7760 (±2.0396)
+  Head 4: Entropy = 3.3119 (±0.2342), Distance = 22.2809 (±2.0124)
+  Head 5: Entropy = 3.2368 (±0.1706), Distance = 23.0813 (±4.8313)
+  Head 6: Entropy = 3.3577 (±0.1880), Distance = 22.8759 (±3.6184)
+  Head 7: Entropy = 2.9424 (±0.2380), Distance = 12.7639 (±2.9932)
+
+Layer 5
+  Head 0: Entropy = 3.4263 (±0.1822), Distance = 29.8952 (±1.3399)
+  Head 1: Entropy = 3.4828 (±0.1208), Distance = 27.9887 (±2.1342)
+  Head 2: Entropy = 3.5526 (±0.0885), Distance = 30.5563 (±3.6327)
+  Head 3: Entropy = 3.2895 (±0.1226), Distance = 27.9892 (±2.3696)
+  Head 4: Entropy = 3.1252 (±0.2335), Distance = 32.2195 (±2.9243)
+  Head 5: Entropy = 3.0969 (±0.3367), Distance = 32.9162 (±4.5286)
+  Head 6: Entropy = 3.0598 (±0.4221), Distance = 26.7780 (±3.5474)
+  Head 7: Entropy = 3.4733 (±0.1863), Distance = 28.5156 (±3.7982)
+
+======================================================================
+GUJARATI AGGREGATED ATTENTION ANALYSIS COMPLETE
+======================================================================
+CSV: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati\evaluation\results\gujarati_attention_aggregate.csv
+Entropy figure: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati\evaluation\figures\attention\gujarati_attention_entropy_heatmap.png
+Distance figure: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati\evaluation\figures\attention\gujarati_attention_distance_heatmap.png
+
+D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04>
+
+
+D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04>"C:\Users\Vidur Shah\AppData\Local\Programs\Python\Python312\python.exe" "d:/Desktop/IIIT HYD/LMA/individual-project-Vidur-Shah04/Assamese/evaluation/attention_analysis_aggregate.py"
+======================================================================
+assamese AGGREGATED ATTENTION ANALYSIS
+======================================================================
+Device: cuda
+Vocabulary size: 24000
+Checkpoint step: 30518
+Parameters: 25,689,088
+Validation sequences selected: 10
+Processing sequence 1/10...
+Processing sequence 2/10...
+Processing sequence 3/10...
+Processing sequence 4/10...
+Processing sequence 5/10...
+Processing sequence 6/10...
+Processing sequence 7/10...
+Processing sequence 8/10...
+Processing sequence 9/10...
+Processing sequence 10/10...
+
+======================================================================
+AGGREGATED ATTENTION STATISTICS
+======================================================================
+
+Layer 1
+  Head 0: Entropy = 3.5757 (±0.0662), Distance = 29.1135 (±1.3891)
+  Head 1: Entropy = 2.6842 (±0.1690), Distance = 11.6324 (±2.2782)
+  Head 2: Entropy = 2.1385 (±0.2718), Distance = 12.8649 (±3.6283)
+  Head 3: Entropy = 3.7065 (±0.0250), Distance = 27.4050 (±1.2294)
+  Head 4: Entropy = 0.1173 (±0.1289), Distance = 1.3795 (±0.4796)
+  Head 5: Entropy = 3.3281 (±0.1098), Distance = 21.3924 (±1.6955)
+  Head 6: Entropy = 3.6438 (±0.0479), Distance = 27.6366 (±1.8870)
+  Head 7: Entropy = 3.6382 (±0.0414), Distance = 31.4773 (±1.1283)
+
+Layer 2
+  Head 0: Entropy = 3.7098 (±0.0370), Distance = 26.9396 (±1.1794)
+  Head 1: Entropy = 3.4297 (±0.0623), Distance = 32.3914 (±1.3309)
+  Head 2: Entropy = 3.3414 (±0.0729), Distance = 20.5787 (±1.3038)
+  Head 3: Entropy = 3.6497 (±0.0550), Distance = 29.6995 (±0.6305)
+  Head 4: Entropy = 3.3670 (±0.0965), Distance = 18.8359 (±1.5203)
+  Head 5: Entropy = 3.5724 (±0.0779), Distance = 26.9209 (±1.6911)
+  Head 6: Entropy = 3.7088 (±0.0294), Distance = 29.4950 (±0.9983)
+  Head 7: Entropy = 3.6935 (±0.0303), Distance = 28.6149 (±0.6584)
+
+Layer 3
+  Head 0: Entropy = 2.6732 (±0.1645), Distance = 8.2710 (±1.0890)
+  Head 1: Entropy = 3.0065 (±0.2032), Distance = 25.3605 (±2.9409)
+  Head 2: Entropy = 2.6125 (±0.1096), Distance = 8.2336 (±0.9281)
+  Head 3: Entropy = 3.1215 (±0.1022), Distance = 13.3262 (±1.2710)
+  Head 4: Entropy = 2.7261 (±0.1007), Distance = 8.0772 (±1.0077)
+  Head 5: Entropy = 2.9232 (±0.1264), Distance = 10.2639 (±1.2669)
+  Head 6: Entropy = 1.8838 (±0.4853), Distance = 43.0628 (±4.1918)
+  Head 7: Entropy = 3.4576 (±0.1390), Distance = 30.2920 (±1.0849)
+
+Layer 4
+  Head 0: Entropy = 3.0828 (±0.2418), Distance = 23.3696 (±2.9340)
+  Head 1: Entropy = 3.1213 (±0.1510), Distance = 16.3943 (±2.9411)
+  Head 2: Entropy = 3.2429 (±0.1907), Distance = 25.6217 (±3.5835)
+  Head 3: Entropy = 3.0038 (±0.2583), Distance = 30.6566 (±2.4741)
+  Head 4: Entropy = 3.0901 (±0.2237), Distance = 29.9248 (±2.9528)
+  Head 5: Entropy = 3.3376 (±0.1445), Distance = 22.0932 (±1.8981)
+  Head 6: Entropy = 3.5023 (±0.1728), Distance = 25.8538 (±1.7351)
+  Head 7: Entropy = 3.1694 (±0.2544), Distance = 29.0372 (±2.4754)
+
+Layer 5
+  Head 0: Entropy = 3.5093 (±0.1381), Distance = 28.3181 (±3.6277)
+  Head 1: Entropy = 3.6260 (±0.2087), Distance = 28.5270 (±1.7745)
+  Head 2: Entropy = 3.7611 (±0.0640), Distance = 29.2698 (±1.5814)
+  Head 3: Entropy = 3.7034 (±0.0540), Distance = 29.6005 (±1.5984)
+  Head 4: Entropy = 3.4680 (±0.2338), Distance = 30.9851 (±2.4557)
+  Head 5: Entropy = 3.4280 (±0.1700), Distance = 30.8434 (±3.4591)
+  Head 6: Entropy = 3.5579 (±0.0858), Distance = 28.8276 (±2.9837)
+  Head 7: Entropy = 3.2780 (±0.2437), Distance = 28.3550 (±4.3416)
+
+======================================================================
+assamese AGGREGATED ATTENTION ANALYSIS COMPLETE
+======================================================================
+CSV: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Assamese\evaluation\results\assamese_attention_aggregate.csv
+Entropy figure: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Assamese\evaluation\figures\attention\assamese_attention_entropy_heatmap.png
+Distance figure: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Assamese\evaluation\figures\attention\assamese_attention_distance_heatmap.png
+
+D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04>
+
+D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04>"C:\Users\Vidur Shah\AppData\Local\Programs\Python\Python312\python.exe" "d:/Desktop/IIIT HYD/LMA/individual-project-Vidur-Shah04/final_phase2_audit.py"
+===========================================================================
+FINAL PHASE 2 MODEL AUDIT
+===========================================================================
+Project directory: D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04
+Device: cuda
+GPU: NVIDIA GeForce RTX 3050 Laptop GPU
+
+
+===========================================================================
+GUJARATI MODEL AUDIT
+===========================================================================
+
+File checks:
+  [PASS] Model directory exists - D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati
+  [PASS] Checkpoint exists - D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati\checkpoints\checkpoint_030518_gujarati.pt
+  [PASS] Tokenizer exists - D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati\tokenizer_clean\gujarati_24k.model
+  [PASS] Transformer directory exists - D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Gujarati\model
+
+Module loading:
+  [PASS] Model modules import - gujarati_model_package.config, gujarati_model_package.transformer
+
+Checkpoint:
+  [PASS] Checkpoint loads
+  [PASS] Checkpoint contains required states - all required keys present
+  [PASS] Checkpoint step - step=30518
+
+Configuration:
+  [PASS] vocab_size - actual=24000, expected=24000
+  [PASS] d_model - actual=512, expected=512
+  [PASS] n_layers - actual=5, expected=5
+  [PASS] n_heads - actual=8, expected=8
+  [PASS] d_ff - actual=1536, expected=1536
+  [PASS] context_length - actual=512, expected=512
+  [PASS] dropout - actual=0.1, expected=0.1
+
+Tokenizer:
+  [PASS] Tokenizer loads
+  [PASS] Tokenizer vocabulary = 24K - vocab_size=24000
+
+Model construction:
+  [PASS] Model construction
+
+Model weights:
+  [PASS] Model weights load
+  [PASS] Parameter count - 25,689,088
+
+Forward-pass checks:
+  [PASS] Logits shape - actual=(1, 32, 24000), expected=(1, 32, 24000)
+  [PASS] Logits finite
+  [PASS] Loss finite - loss=8.612861
+
+Attention extraction:
+  [PASS] Attention-enabled forward returns 3 values
+  [PASS] Number of attention maps - layers=5
+  [PASS] Attention shapes and values - expected per layer=(1, 8, 32, 32)
+
+Causal-mask test:
+  [PASS] Future token cannot affect earlier logits - earlier_max_diff=0.000000000000
+  [PASS] Changed future position can affect itself/later logits - at_or_after_max_diff=10.835713386536
+
+
+===========================================================================
+ASSAMESE MODEL AUDIT
+===========================================================================
+
+File checks:
+  [PASS] Model directory exists - D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Assamese
+  [PASS] Checkpoint exists - D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Assamese\checkpoints\checkpoint_030518_assamese.pt
+  [PASS] Tokenizer exists - D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Assamese\tokenizer_clean\assamese_24k.model
+  [PASS] Transformer directory exists - D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Assamese\model
+
+Module loading:
+  [PASS] Model modules import - assamese_model_package.config, assamese_model_package.transformer
+
+Checkpoint:
+  [PASS] Checkpoint loads
+  [PASS] Checkpoint contains required states - all required keys present
+  [PASS] Checkpoint step - step=30518
+
+Configuration:
+  [PASS] vocab_size - actual=24000, expected=24000
+  [PASS] d_model - actual=512, expected=512
+  [PASS] n_layers - actual=5, expected=5
+  [PASS] n_heads - actual=8, expected=8
+  [PASS] d_ff - actual=1536, expected=1536
+  [PASS] context_length - actual=512, expected=512
+  [PASS] dropout - actual=0.1, expected=0.1
+
+Tokenizer:
+  [PASS] Tokenizer loads
+  [PASS] Tokenizer vocabulary = 24K - vocab_size=24000
+
+Model construction:
+  [PASS] Model construction
+
+Model weights:
+  [PASS] Model weights load
+  [PASS] Parameter count - 25,689,088
+
+Forward-pass checks:
+  [PASS] Logits shape - actual=(1, 32, 24000), expected=(1, 32, 24000)
+  [PASS] Logits finite
+  [PASS] Loss finite - loss=8.512903
+
+Attention extraction:
+  [PASS] Attention-enabled forward returns 3 values
+  [PASS] Number of attention maps - layers=5
+  [PASS] Attention shapes and values - expected per layer=(1, 8, 32, 32)
+
+Causal-mask test:
+  [PASS] Future token cannot affect earlier logits - earlier_max_diff=0.000000000000
+  [PASS] Changed future position can affect itself/later logits - at_or_after_max_diff=11.601015090942
+
+
+===========================================================================
+FINAL AUDIT SUMMARY
+===========================================================================
+Total tests : 56
+Passed      : 56
+Failed      : 0
+
+OVERALL RESULT: PASS
+Both Phase 2 models passed the final sanity audit.
+===========================================================================

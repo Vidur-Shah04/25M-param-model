@@ -3,8 +3,10 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from config import ModelConfig
-
+try:
+    from .config import ModelConfig
+except ImportError:
+    from config import ModelConfig
 
 class CausalSelfAttention(nn.Module):
     def __init__(self, config):
@@ -38,7 +40,7 @@ class CausalSelfAttention(nn.Module):
 
         self.register_buffer("causal_mask", mask)
 
-    def forward(self, x):
+    def forward(self, x, return_attention=False):
         B, T, C = x.shape
 
         # X -> Q, K, V
@@ -47,12 +49,22 @@ class CausalSelfAttention(nn.Module):
         v = self.v_proj(x)
 
         # [B, T, C] -> [B, heads, T, head_dim]
-        q = q.view(B, T, self.n_heads, self.head_dim).transpose(1, 2)
-        k = k.view(B, T, self.n_heads, self.head_dim).transpose(1, 2)
-        v = v.view(B, T, self.n_heads, self.head_dim).transpose(1, 2)
+        q = q.view(
+            B, T, self.n_heads, self.head_dim
+        ).transpose(1, 2)
+
+        k = k.view(
+            B, T, self.n_heads, self.head_dim
+        ).transpose(1, 2)
+
+        v = v.view(
+            B, T, self.n_heads, self.head_dim
+        ).transpose(1, 2)
 
         # Scaled dot-product attention.
-        scores = (q @ k.transpose(-2, -1)) / math.sqrt(self.head_dim)
+        scores = (
+            q @ k.transpose(-2, -1)
+        ) / math.sqrt(self.head_dim)
 
         # Prevent each position from seeing future tokens.
         scores = scores.masked_fill(
@@ -60,17 +72,30 @@ class CausalSelfAttention(nn.Module):
             float("-inf"),
         )
 
+        # Convert attention scores into probabilities.
         attention = F.softmax(scores, dim=-1)
+
+        # Save attention before dropout for analysis.
+        attention_for_analysis = attention
+
+        # Dropout is used during training.
         attention = self.attn_dropout(attention)
 
         # Weighted combination of V.
         out = attention @ v
 
         # [B, heads, T, head_dim] -> [B, T, C]
-        out = out.transpose(1, 2).contiguous().view(B, T, C)
+        out = (
+            out.transpose(1, 2)
+            .contiguous()
+            .view(B, T, C)
+        )
 
         out = self.out_proj(out)
         out = self.resid_dropout(out)
+
+        if return_attention:
+            return out, attention_for_analysis
 
         return out
 
@@ -100,11 +125,23 @@ class TransformerBlock(nn.Module):
         self.ln2 = nn.LayerNorm(config.d_model)
         self.ffn = FeedForward(config)
 
-    def forward(self, x):
-        # Pre-LayerNorm + residual connection.
-        x = x + self.attention(self.ln1(x))
+    def forward(self, x, return_attention=False):
+        if return_attention:
+            attention_output, attention_weights = self.attention(
+                self.ln1(x),
+                return_attention=True,
+            )
 
-        # Pre-LayerNorm + residual connection.
+            # Pre-LayerNorm + residual connection.
+            x = x + attention_output
+
+            # Pre-LayerNorm + residual connection.
+            x = x + self.ffn(self.ln2(x))
+
+            return x, attention_weights
+
+        # Normal training/inference path.
+        x = x + self.attention(self.ln1(x))
         x = x + self.ffn(self.ln2(x))
 
         return x
@@ -143,15 +180,28 @@ class DecoderOnlyTransformer(nn.Module):
     def _init_weights(self):
         for module in self.modules():
             if isinstance(module, nn.Linear):
-                nn.init.normal_(module.weight, mean=0.0, std=0.02)
+                nn.init.normal_(
+                    module.weight,
+                    mean=0.0,
+                    std=0.02,
+                )
 
                 if module.bias is not None:
                     nn.init.zeros_(module.bias)
 
             elif isinstance(module, nn.Embedding):
-                nn.init.normal_(module.weight, mean=0.0, std=0.02)
-            
-    def forward(self, input_ids, targets=None):
+                nn.init.normal_(
+                    module.weight,
+                    mean=0.0,
+                    std=0.02,
+                )
+
+    def forward(
+        self,
+        input_ids,
+        targets=None,
+        return_attention=False,
+    ):
         B, T = input_ids.shape
 
         if T > self.config.context_length:
@@ -174,9 +224,21 @@ class DecoderOnlyTransformer(nn.Module):
 
         x = self.embedding_dropout(x)
 
+        attention_maps = []
+
         # Pass through Transformer blocks.
         for block in self.blocks:
-            x = block(x)
+
+            if return_attention:
+                x, attention_weights = block(
+                    x,
+                    return_attention=True,
+                )
+
+                attention_maps.append(attention_weights)
+
+            else:
+                x = block(x)
 
         x = self.final_ln(x)
 
@@ -193,6 +255,9 @@ class DecoderOnlyTransformer(nn.Module):
                 logits.view(-1, self.config.vocab_size),
                 targets.view(-1),
             )
+
+        if return_attention:
+            return logits, loss, attention_maps
 
         return logits, loss
 
