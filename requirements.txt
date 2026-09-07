@@ -1,5 +1,9 @@
+torch
 sentencepiece
 pandas
 pyarrow
 datasketch
 huggingface_hub
+numpy
+matplotlib
+tqdm

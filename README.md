@@ -1,278 +1,289 @@
-# LMA Individual Project --- Gujarati & Assamese
+# LMA Individual Project — Gujarati & Assamese
+
+This repository contains two independent monolingual decoder-only language-model pipelines:
+
+- **Model H:** Gujarati — higher-resource language
+- **Model L:** Assamese — lower-resource language
+
+Each language has its own corpus, preprocessing pipeline, tokenizer, vocabulary and model weights. Phase 1 established the final cleaned corpora and SentencePiece tokenizers; Phase 2 implements, pretrains and evaluates the two Transformer language models independently.
 
 ## Phase 1: Data Collection and Tokenizer Construction
 
-This repository contains two independent monolingual pipelines:
+The Phase 1 pipeline covers corpus collection, cleaning, exact and near-deduplication, document-level train/validation/test splitting, SentencePiece tokenizer training and tokenizer evaluation. The final cleaned datasets are supplied separately through Google Drive so that reproduction does not require repeating the original collection step.
 
--   **Model H:** Gujarati --- higher-resource language
--   **Model L:** Assamese --- lower-resource language
+### Phase 1 dataset links
 
-Each language has its own corpus, preprocessing pipeline, tokenizer and
-vocabulary. The Phase 1 target is approximately **500M pretraining
-tokens per language**.
-
-## 1. Reproduction
-
-### Clone
-
-``` bash
-git clone https://github.com/CL3-410/individual-project-Vidur-Shah04.git
-cd individual-project-Vidur-Shah04
-```
-
-### Install dependencies
-
-Python 3.12 was used.
-
-``` bash
-pip install -r requirements.txt
-```
-
-### Obtain final datasets
-
-The final cleaned datasets are supplied through Google Drive so
-reproduction does not require repeating the original data collection.
-
-**Gujarati**
-
+**Gujarati**  
 https://drive.google.com/drive/folders/129j6mhhpm2RhNcGUcCj3BajeBfRYW93p?usp=sharing
 
 Place the extracted `splits_v2` at:
 
-``` text
+```text
 Gujarati/data/splits_v2/
 ```
 
-**Assamese**
-
-https://drive.google.com/file/d/16zlWmnr8lRZn80Mc2s\_\_1UXltB18AfsB/view?usp=sharing
+**Assamese**  
+https://drive.google.com/file/d/16zlWmnr8lRZn80Mc2s__1UXltB18AfsB/view?usp=sharing
 
 Place the extracted `splits_v2` at:
 
-``` text
+```text
 Assamese/data/splits_v2/
 ```
 
-## 2. Original Data Sources
+The repository retains the Phase 1 collection and preprocessing scripts for provenance.
 
-### Gujarati
+### Phase 1 final tokenizer decision
 
-Manual: - Archive.org - eBooks - Vishwakosh - Wiki dumps - Wikisource
+SentencePiece BPE vocabularies of 16K, 24K and 32K were evaluated independently for both languages. All six tokenizers had 0% UNK on held-out text. Fertility decreased as vocabulary size increased, but larger vocabularies consume more of the approximately 25M model budget. The working 24K choice was therefore retained when the complete Transformer architecture was fixed.
 
-Premade: - IITB-IndicMonoDoc
+Relevant Phase 1 values:
 
-### Assamese
+| Language | 16K fertility | 24K fertility | 32K fertility | UNK |
+|---|---:|---:|---:|---:|
+| Gujarati | 1.6603 | 1.5701 | 1.5166 | 0% |
+| Assamese | 1.8791 | 1.7368 | 1.6633 | 0% |
 
-Manual: - Archive.org
+## Phase 2: Model Implementation, Pretraining and Evaluation
 
-Premade: - IITB-IndicMonoDoc - Sangraha - HPLT
+Phase 2 implements two **fully independent** GPT-style decoder-only Transformers from scratch in PyTorch. No Hugging Face model classes, `nn.Transformer*` modules, or pre-built attention blocks are used. Only primitive components such as `nn.Linear`, `nn.Embedding`, `nn.LayerNorm` and `nn.Dropout` are used.
 
-The collection scripts are retained for provenance. They do not need to
-be rerun when using the supplied final datasets.
+### Final architecture
 
-## 3. Cleaning and Deduplication
+Both models use the same architecture, but their tokenizers, vocabulary instances, data and weights remain independent.
 
-The preprocessing pipeline:
+| Parameter | Value |
+|---|---:|
+| Vocabulary | 24,000 |
+| Model dimension (`d_model`) | 512 |
+| Transformer layers | 5 |
+| Attention heads | 8 |
+| Head dimension | 64 |
+| FFN dimension (`d_ff`) | 1,536 |
+| Context length | 512 |
+| Dropout | 0.1 |
+| Parameters | 25,689,088 |
 
-1.  Converts source data into a common document representation.
-2.  Normalizes and filters text for the target script.
-3.  Removes invalid or very short documents.
-4.  Removes exact duplicates.
-5.  Removes near duplicates using MinHash.
-6.  Creates document-level train/validation/test splits.
+The 24K vocabulary was kept after the full architecture was fixed because tied input/output embeddings cost 24,000 × 512 = 12,288,000 parameters, while a 32K vocabulary would push the same architecture beyond the target model budget. The final configuration therefore keeps substantial capacity in the five Transformer blocks while remaining close to the approximately 25M target.
 
-Parameters:
+### Transformer implementation
 
-  Parameter                    Value
-  ---------------------------- -----------------------------------------
-  Minimum document size        50 words
-  Script filtering threshold   30% target-script alphabetic characters
-  Exact duplicate detection    Hash matching
-  Near-duplicate method        MinHash
-  MinHash threshold            0.85
-  MinHash permutations         64
-  Shingle size                 5 words
-  Split                        Approximately 80/10/10
+Each input sequence follows this path:
 
-To reproduce preprocessing from raw data:
-
-``` bash
-python clean_and_dedupe.py
+```text
+Token IDs
+   ↓
+Token embedding + learned positional embedding
+   ↓
+Embedding dropout
+   ↓
+5 × Transformer block
+      ├─ Pre-LayerNorm
+      ├─ Multi-head causal self-attention
+      │    ├─ Q, K, V projections
+      │    ├─ reshape to 8 heads × 64 dimensions
+      │    ├─ scaled dot-product attention
+      │    ├─ causal upper-triangular mask
+      │    └─ output projection
+      └─ Pre-LayerNorm + position-wise FFN
+   ↓
+Final LayerNorm
+   ↓
+Tied vocabulary projection
+   ↓
+Logits over 24,000 tokens
+   ↓
+Causal next-token cross-entropy
 ```
 
-This can be skipped when using the supplied `splits_v2` data.
+### Training configuration
 
-## 4. Final Dataset Statistics
+The final training setup used:
 
-### Gujarati
+| Setting | Value |
+|---|---:|
+| Batch size | 1 |
+| Gradient accumulation | 32 |
+| Tokens per optimizer step | 16,384 |
+| Target pretraining tokens | approximately 500M |
+| Optimizer | AdamW |
+| Learning rate | 3e-4 |
+| Minimum LR | 3e-5 |
+| Betas | (0.9, 0.95) |
+| Weight decay | 0.1 |
+| Gradient clipping | 1.0 |
+| LR schedule | 2,000-step linear warmup + cosine decay |
+| Precision on CUDA | float16 AMP |
+| Validation/checkpoint cadence | 1,500 optimizer steps |
 
-  Split                  Words
-  ------------ ---------------
-  Train          1,014,306,216
-  Validation       133,399,162
-  Test             130,941,945
+With 1 × 32 × 512 = 16,384 source tokens per optimizer step, the approximate 500M-token target gives `ceil(500,000,000 / 16,384) = 30,518` optimizer steps. The final checkpoints are therefore `checkpoint_030518_gujarati.pt` and `checkpoint_030518_assamese.pt`.
 
-Final source accounting:
+### Checkpoints and large files
 
-  Source              Type            Documents             Words
-  ------------------- --------- --------------- -----------------
-  Archive.org         Manual              1,934        65,304,956
-  eBooks              Manual                 14           702,628
-  Vishwakosh          Manual             25,143        15,377,594
-  Wiki dumps          Manual             18,587         6,028,936
-  Wikisource          Manual                109         3,857,632
-  IITB-IndicMonoDoc   Premade         1,110,905       506,990,013
-  **Total**                       **1,156,692**   **598,261,759**
+Final checkpoints are intentionally **not committed to Git**. They are protected by `.gitignore` and should be stored/downloaded separately from Google Drive or the designated project storage. Add the final Drive links here before submission if they are not already present in the repository:
 
-### Assamese
+- Gujarati checkpoint: <https://kaggle.com/datasets/7675e723bf3ee6067b0bdb2863eda06180da5f9a6ebdefb6b078522d70cb3707>
+- Assamese checkpoint: <https://kaggle.com/datasets/a66bb0be411e6283524dbc18977ff9cd952a4741cd82195f68509a1f2d417788>
 
-  Split                Words
-  ------------ -------------
-  Train          280,833,391
-  Validation      32,466,286
-  Test            33,631,378
+Expected local locations:
 
-Final source accounting:
-
-  Source              Type            Documents             Words
-  ------------------- --------- --------------- -----------------
-  Archive.org         Manual              4,108       152,394,605
-  IITB-IndicMonoDoc   Premade           138,471        52,504,259
-  Sangraha            Premade           839,987        88,303,035
-  HPLT                Premade           145,556        53,729,156
-  **Total**                       **1,128,122**   **346,931,055**
-
-## 5. Manual Data Requirement
-
-Manual-token estimates use the mean fertility of the 16K, 24K and 32K
-tokenizers.
-
-  ---------------------------------------------------------------------------
-  Language   Manual words         Mean    Estimated  500M target     Manual /
-                             fertility       manual                    target
-                                             tokens              
-  ---------- ------------ ------------ ------------ ------------ ------------
-  Gujarati         91.27M       1.5823      144.42M         500M   **28.88%**
-
-  Assamese        152.39M       1.7597      268.17M         500M   **53.63%**
-  ---------------------------------------------------------------------------
-
-Both satisfy the required 20% manual-data contribution relative to the
-nominal 500M-token training target.
-
-## 6. Train Tokenizers
-
-Separate SentencePiece BPE tokenizers were trained from scratch.
-
-Vocabulary sizes evaluated:
-
--   16K
--   24K
--   32K
-
-Run:
-
-``` bash
-python train_tokenizer.py
+```text
+Gujarati/checkpoints/checkpoint_030518_gujarati.pt
+Assamese/checkpoints/checkpoint_030518_assamese.pt
 ```
 
-Run independently for Gujarati and Assamese using their respective
-training shards.
+### Phase 2 reproduction / evaluation
 
-## 7. Evaluate Tokenizers
+After cloning the repository, installing dependencies and placing the final `splits_v2` data and checkpoints in the expected locations, the following commands reproduce the main Phase 2 checks.
 
-Run:
+#### 1. Verify the checkpoints
 
-``` bash
-python vocab_size_metrics.py
+```bash
+python Gujarati/evaluation/evaluate_checkpoint.py
+python Assamese/evaluation/evaluate_checkpoint.py
 ```
 
-The evaluation reports fertility, token count, UNK statistics,
-characters/token, tokens/character and processing time.
+These verify the checkpoint state, configuration, parameter count and a finite forward pass.
 
-Measured fertility:
+#### 2. Run full validation LM evaluation
 
-  Language        16K      24K          32K
-  ---------- -------- -------- ------------
-  Gujarati     1.6603   1.5701   **1.5166**
-  Assamese     1.8791   1.7368   **1.6633**
-
-All six evaluated tokenizers produced **0 unknown tokens** on the
-held-out test sets.
-
-## 8. Vocabulary Selection
-
-Increasing vocabulary size reduces fertility, but larger vocabularies
-consume more of the approximately 25M-parameter model budget.
-
-For illustration, assuming `d_model = 512` and tied input/output
-embeddings:
-
-  -----------------------------------------------------------------------
-  Vocabulary              Embedding       Share of 25M   Remaining budget
-                         parameters             budget 
-  -------------- ------------------ ------------------ ------------------
-  16K                         8.19M              32.8%             16.81M
-
-  24K                        12.29M              49.2%             12.71M
-
-  32K                        16.38M              65.5%              8.62M
-  -----------------------------------------------------------------------
-
-Thus 16K is cheapest, 32K has the best fertility, and 24K provides an
-intermediate trade-off. **24K is the working candidate for Phase 1; the
-final choice will be revisited in Phase 2 after fixing the complete
-Transformer architecture and parameter count.**
-
-## 9. Phase 1 Artifacts
-
-The repository contains:
-
-1.  Dataset collection scripts.
-2.  Cleaning and deduplication pipeline.
-3.  Per-language dataset statistics.
-4.  Train/validation/test splits.
-5.  SentencePiece tokenizer training code.
-6.  Vocabulary files.
-7.  Tokenizer model files.
-8.  Tokenizer evaluation results.
-9.  Phase 1 report and figures.
-
-## 10. Recommended Reproduction Order
-
-``` text
-Clone repository
-      ↓
-Install requirements
-      ↓
-Download Gujarati splits_v2
-Download Assamese splits_v2
-      ↓
-Verify directory structure
-      ↓
-Train Gujarati tokenizer
-Train Assamese tokenizer
-      ↓
-Evaluate 16K / 24K / 32K
-      ↓
-Generate tokenizer statistics
-      ↓
-Review report/
+```bash
+python Gujarati/evaluation/evaluate_lm.py
+python Assamese/evaluation/evaluate_lm.py
 ```
 
-The raw collection scripts are included for provenance and do not need
-to be rerun when reproducing the final Phase 1 tokenizer results from
-the supplied cleaned datasets.
+This streams `val_*.txt`, tokenizes with the 24K SentencePiece model, evaluates next-token cross-entropy over the full validation stream and reports perplexity.
 
-## 11. Report
+#### 3. Compute BPB
 
-The Phase 1 report is stored under:
+```bash
+python Gujarati/evaluation/bpb.py
+python Assamese/evaluation/bpb.py
+```
 
-``` text
+BPB converts the token-level cross-entropy into bits per UTF-8 byte, providing a metric less tied to the tokenization boundary than perplexity.
+
+#### 4. Generate validation continuations
+
+```bash
+python Gujarati/evaluation/generate.py
+python Assamese/evaluation/generate.py
+```
+
+The generation script uses held-out validation prompts and temperatures 0.0, 0.5, 1.0 and 1.5, with 100 generated tokens per sample.
+
+#### 5. Compute automatic generation metrics
+
+```bash
+python Gujarati/evaluation/generation_metrics_standard.py
+python Assamese/evaluation/generation_metrics_standard.py
+```
+
+The final reported generation table uses 50 held-out examples, a 128-token prompt, a 100-token reference continuation and a 100-token generated continuation for each temperature.
+
+#### 6. Inspect attention
+
+```bash
+python Gujarati/evaluation/attention_analysis.py
+python Assamese/evaluation/attention_analysis.py
+python Gujarati/evaluation/attention_analysis_aggregate.py
+python Assamese/evaluation/attention_analysis_aggregate.py
+```
+
+The first analysis records all 5 × 8 heads for one 128-token validation sequence and produces selected head heatmaps. The aggregate analysis repeats the statistics over 10 validation sequences and saves layer/head CSV summaries plus entropy and distance heatmaps.
+
+#### 7. Verify causal masking
+
+```bash
+python Gujarati/evaluation/causal_mask_test.py
+python Assamese/evaluation/causal_mask_test.py
+```
+
+These tests change a future input token and verify that logits at earlier positions remain unchanged.
+
+#### 8. Run the final combined audit
+
+```bash
+python final_phase2_audit.py
+```
+
+The final audit checks files, checkpoint state, configuration, tokenizer size, parameter count, forward shapes, attention extraction and causal masking for both models. The final run produced **56/56 PASS**.
+
+### Final Phase 2 validation results
+
+| Metric | Gujarati | Assamese |
+|---|---:|---:|
+| Validation prediction tokens | 199,677,338 | 51,967,678 |
+| Cross-Entropy | 5.685608 | 5.375766 |
+| Perplexity | 294.5969 | 216.1053 |
+| BPB | 0.816889 | 0.761198 |
+| Model parameters | 25,689,088 | 25,689,088 |
+| Final checkpoint step | 30,518 | 30,518 |
+
+Cross-language perplexity/BPB values should be interpreted with care because the validation corpora and linguistic/tokenization characteristics differ. The metrics are most directly used to evaluate each model on its own held-out distribution.
+
+### Generation evaluation
+
+The final generation evaluation tracks reference overlap (BLEU-4, chrF, ROUGE-L) and diversity/repetition (repetition rate, Distinct-1 and Distinct-2). The results show a strong temperature trade-off: 0.0 is highly repetitive, 0.5 improves diversity but still repeats, 1.0 provides the strongest balance for these experiments, and 1.5 maximizes diversity at the cost of reference overlap/coherence.
+
+### Attention analysis
+
+The final attention analysis reports mean entropy and mean attention distance for every layer/head over 10 validation sequences. Low entropy indicates concentrated attention; higher entropy indicates attention spread over more positions. Mean attention distance is the expected absolute positional gap under the attention distribution.
+
+The analysis identifies candidate concentrated/local heads and candidate long-range heads, but the statistics alone do **not** prove a semantic role for any head.
+
+### Phase 2 artifact layout
+
+```text
+Gujarati/
+  model/
+    config.py
+    dataset.py
+    train.py
+    transformer.py
+  evaluation/
+    evaluate_checkpoint.py
+    evaluate_lm.py
+    generate.py
+    generation_metrics_standard.py
+    bpb.py
+    attention_analysis.py
+    attention_analysis_aggregate.py
+    causal_mask_test.py
+    figures/attention/
+    results/
+
+Assamese/
+  model/
+    config.py
+    dataset.py
+    train.py
+    transformer.py
+  evaluation/
+    evaluate_checkpoint.py
+    evaluate_lm.py
+    generate.py
+    generation_metrics_standard.py
+    bpb.py
+    attention_analysis.py
+    attention_analysis_aggregate.py
+    causal_mask_test.py
+    figures/attention/
+    results/
+
+final_phase2_audit.py
 report/
 ```
 
-It contains dataset methodology, source accounting,
-cleaning/deduplication parameters, split statistics, manual-data
-calculations, tokenizer comparison, vocabulary-size analysis and
-figures.
+## Report
+
+- Phase 1 report: `report/`
+- Phase 2 report: `report/Phase_2_Model_Implementation_Pretraining_and_Evaluation.docx`
+
+## Requirements
+
+Python 3.12 was used. Install the repository dependencies with:
+
+```bash
+pip install -r requirements.txt
+```
