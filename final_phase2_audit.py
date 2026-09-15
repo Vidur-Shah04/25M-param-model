@@ -643,7 +643,7 @@ for language, paths in MODELS.items():
     # CLEANUP
     # --------------------------------------------------------
 
-    del model
+    del model 
 
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
