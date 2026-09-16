@@ -1,12 +1,16 @@
+# %%writefile /kaggle/working/transformer.py
+
 import math
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+
 try:
     from .config import ModelConfig
 except ImportError:
     from config import ModelConfig
+
 
 class CausalSelfAttention(nn.Module):
     def __init__(self, config):
@@ -17,18 +21,15 @@ class CausalSelfAttention(nn.Module):
         self.n_heads = config.n_heads
         self.head_dim = config.d_model // config.n_heads
 
-        # Create Q, K, V from the same input X.
         self.q_proj = nn.Linear(config.d_model, config.d_model)
         self.k_proj = nn.Linear(config.d_model, config.d_model)
         self.v_proj = nn.Linear(config.d_model, config.d_model)
 
-        # Combine the attention heads back into d_model.
         self.out_proj = nn.Linear(config.d_model, config.d_model)
 
         self.attn_dropout = nn.Dropout(config.dropout)
         self.resid_dropout = nn.Dropout(config.dropout)
 
-        # True = future position, therefore cannot be attended to.
         mask = torch.triu(
             torch.ones(
                 config.context_length,
@@ -43,12 +44,10 @@ class CausalSelfAttention(nn.Module):
     def forward(self, x, return_attention=False):
         B, T, C = x.shape
 
-        # X -> Q, K, V
         q = self.q_proj(x)
         k = self.k_proj(x)
         v = self.v_proj(x)
 
-        # [B, T, C] -> [B, heads, T, head_dim]
         q = q.view(
             B, T, self.n_heads, self.head_dim
         ).transpose(1, 2)
@@ -61,32 +60,22 @@ class CausalSelfAttention(nn.Module):
             B, T, self.n_heads, self.head_dim
         ).transpose(1, 2)
 
-        # Scaled dot-product attention.
         scores = (
             q @ k.transpose(-2, -1)
         ) / math.sqrt(self.head_dim)
 
-        # Prevent each position from seeing future tokens.
         scores = scores.masked_fill(
             self.causal_mask[:T, :T],
             float("-inf"),
         )
 
-        # Convert attention scores into probabilities.
         attention = F.softmax(scores, dim=-1)
-
-        # Save the attention probabilities BEFORE dropout.
-        # This is important for analysis because these values
-        # represent the actual normalized attention distribution.
         attention_for_analysis = attention
 
-        # Dropout is used during training.
         attention = self.attn_dropout(attention)
 
-        # Weighted combination of V.
         out = attention @ v
 
-        # [B, heads, T, head_dim] -> [B, T, C]
         out = (
             out.transpose(1, 2)
             .contiguous()
@@ -134,16 +123,11 @@ class TransformerBlock(nn.Module):
                 return_attention=True,
             )
 
-            # Pre-LayerNorm + residual connection.
             x = x + attention_output
-
-            # Pre-LayerNorm + residual connection.
             x = x + self.ffn(self.ln2(x))
 
             return x, attention_weights
 
-        # Normal training/inference path.
-        # This is unchanged from the original implementation.
         x = x + self.attention(self.ln1(x))
         x = x + self.ffn(self.ln2(x))
 
@@ -156,15 +140,10 @@ class DecoderOnlyTransformer(nn.Module):
 
         self.config = config
 
-        # Token embeddings: token ID -> vector.
+        # Ablation: token embeddings only.
+        # Positional embeddings are deliberately removed.
         self.token_embedding = nn.Embedding(
             config.vocab_size,
-            config.d_model,
-        )
-
-        # Learned positional embeddings.
-        self.position_embedding = nn.Embedding(
-            config.context_length,
             config.d_model,
         )
 
@@ -213,39 +192,26 @@ class DecoderOnlyTransformer(nn.Module):
                 f"context length {self.config.context_length}"
             )
 
-        # Token positions: 0, 1, 2, ..., T-1
-        positions = torch.arange(
-            T,
-            device=input_ids.device,
-        )
-
-        # Token + positional information.
-        x = (
-            self.token_embedding(input_ids)
-            + self.position_embedding(positions)
-        )
+        # IMPORTANT:
+        # No positional information is added here.
+        x = self.token_embedding(input_ids)
 
         x = self.embedding_dropout(x)
 
         attention_maps = []
 
-        # Pass through Transformer blocks.
         for block in self.blocks:
-
             if return_attention:
                 x, attention_weights = block(
                     x,
                     return_attention=True,
                 )
-
                 attention_maps.append(attention_weights)
-
             else:
                 x = block(x)
 
         x = self.final_ln(x)
 
-        # Tied output projection.
         logits = F.linear(
             x,
             self.token_embedding.weight,

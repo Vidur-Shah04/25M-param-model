@@ -7,26 +7,73 @@ import torch
 import matplotlib.pyplot as plt
 import sentencepiece as spm
 
+
 # ============================================================
-# PATHS
+# DIRECTORY STRUCTURE
 # ============================================================
 
-PROJECT_DIR = Path("/kaggle/working")
-sys.path.insert(0, str(PROJECT_DIR))
+ROOT = Path(__file__).resolve().parent
+
+CHECKPOINT_PATH = Path(
+    os.environ.get(
+        "ABLATION_CHECKPOINT",
+        ROOT / "checkpoint_030518.pt"
+    )
+)
+
+TOKENIZER_PATH = Path(
+    os.environ.get(
+        "ABLATION_TOKENIZER",
+        ROOT / "assamese_10k.model"
+    )
+)
+
+DATA_DIR = Path(
+    os.environ.get(
+        "ABLATION_DATA_DIR",
+        ROOT.parent.parent / "Assamese" / "data" / "splits_v2" / "val"
+    )
+)
+
+EVAL_DIR = Path(
+    os.environ.get(
+        "ABLATION_EVAL_DIR",
+        ROOT / "evaluation_results"
+    )
+)
+
+RESULTS_DIR = (
+    EVAL_DIR / "attention"
+)
+
+FIGURES_DIR = (
+    EVAL_DIR / "attention_figures"
+)
+
+RESULTS_DIR.mkdir(
+    parents=True,
+    exist_ok=True
+)
+
+FIGURES_DIR.mkdir(
+    parents=True,
+    exist_ok=True
+)
+
+
+# ============================================================
+# IMPORT MODEL
+# ============================================================
+
+sys.path.insert(0, str(ROOT))
 
 from config import ModelConfig
 from transformer import DecoderOnlyTransformer
 
 
-DATA_DIR = Path("/kaggle/input/datasets/vidurshah04/assam-data")
-
-TOKENIZER_PATH = Path("/kaggle/working/assamese_10k.model")
-
-CHECKPOINT_PATH = Path(os.environ["ABLATION_CHECKPOINT"])
-
-RESULTS_DIR = Path(os.environ["ABLATION_EVAL_DIR"]) / "attention"
-
-FIGURES_DIR = Path(os.environ["ABLATION_EVAL_DIR"]) / "attention_figures"
+# ============================================================
+# SETTINGS
+# ============================================================
 
 SEQUENCE_LENGTH = 128
 NUM_SEQUENCES = 10
@@ -37,14 +84,28 @@ NUM_SEQUENCES = 10
 # ============================================================
 
 device = torch.device(
-    "cuda" if torch.cuda.is_available() else "cpu"
+    "cuda"
+    if torch.cuda.is_available()
+    else "cpu"
 )
 
-print("=" * 70)
-print("assamese AGGREGATED ATTENTION ANALYSIS")
-print("=" * 70)
 
-print(f"Device: {device}")
+print("=" * 80)
+print("ASSAMESE AGGREGATED ATTENTION ANALYSIS")
+print("=" * 80)
+
+print("Root       :", ROOT)
+print("Checkpoint :", CHECKPOINT_PATH)
+print("Tokenizer  :", TOKENIZER_PATH)
+print("Validation :", DATA_DIR)
+print("Device     :", device)
+
+if device.type == "cuda":
+
+    print(
+        "GPU        :",
+        torch.cuda.get_device_name(0)
+    )
 
 
 # ============================================================
@@ -53,12 +114,18 @@ print(f"Device: {device}")
 
 sp = spm.SentencePieceProcessor()
 
-if not sp.load(str(TOKENIZER_PATH)):
+if not sp.load(
+    str(TOKENIZER_PATH)
+):
+
     raise RuntimeError(
-        f"Could not load tokenizer: {TOKENIZER_PATH}"
+        f"Could not load tokenizer:\n{TOKENIZER_PATH}"
     )
 
-print(f"Vocabulary size: {sp.get_piece_size()}")
+print(
+    "Vocabulary size:",
+    sp.get_piece_size()
+)
 
 
 # ============================================================
@@ -68,12 +135,16 @@ print(f"Vocabulary size: {sp.get_piece_size()}")
 checkpoint = torch.load(
     CHECKPOINT_PATH,
     map_location=device,
-    weights_only=False,
+    weights_only=False
 )
 
-config = ModelConfig(**checkpoint["config"])
+config = ModelConfig(
+    **checkpoint["config"]
+)
 
-model = DecoderOnlyTransformer(config).to(device)
+model = DecoderOnlyTransformer(
+    config
+).to(device)
 
 model.load_state_dict(
     checkpoint["model_state_dict"]
@@ -81,32 +152,60 @@ model.load_state_dict(
 
 model.eval()
 
-print(f"Checkpoint step: {checkpoint['step']}")
-print(f"Parameters: {model.count_parameters():,}")
+print(
+    "Checkpoint step:",
+    checkpoint["step"]
+)
+
+print(
+    "Parameters:",
+    model.count_parameters()
+)
+
+
+# ============================================================
+# FIND VALIDATION FILES
+# ============================================================
+
+def get_text_files(directory):
+
+    if directory.is_file():
+        return [directory]
+
+    if not directory.exists():
+        raise FileNotFoundError(
+            f"Validation directory not found:\n{directory}"
+        )
+
+    files = sorted(
+        directory.rglob("*.txt")
+    )
+
+    if not files:
+        raise FileNotFoundError(
+            f"No .txt files found in:\n{directory}"
+        )
+
+    return files
 
 
 # ============================================================
 # COLLECT VALIDATION SEQUENCES
 # ============================================================
 
-validation_files = sorted(
-    DATA_DIR.glob("val_*.txt")
+validation_files = get_text_files(
+    DATA_DIR
 )
 
-if not validation_files:
-    raise FileNotFoundError(
-        f"No validation files found in {DATA_DIR}"
-    )
-
-
 sequences = []
+
 
 for file_path in validation_files:
 
     with open(
         file_path,
         "r",
-        encoding="utf-8",
+        encoding="utf-8"
     ) as f:
 
         for line in f:
@@ -118,7 +217,7 @@ for file_path in validation_files:
 
             ids = sp.encode(
                 line,
-                out_type=int,
+                out_type=int
             )
 
             if len(ids) >= SEQUENCE_LENGTH:
@@ -135,14 +234,16 @@ for file_path in validation_files:
 
 
 if len(sequences) < NUM_SEQUENCES:
+
     raise RuntimeError(
-        f"Only found {len(sequences)} usable sequences."
+        f"Only found {len(sequences)} usable "
+        f"validation sequences."
     )
 
 
 print(
-    f"Validation sequences selected: "
-    f"{len(sequences)}"
+    "Validation sequences selected:",
+    len(sequences)
 )
 
 
@@ -153,13 +254,13 @@ print(
 entropy_values = torch.zeros(
     NUM_SEQUENCES,
     config.n_layers,
-    config.n_heads,
+    config.n_heads
 )
 
 distance_values = torch.zeros(
     NUM_SEQUENCES,
     config.n_layers,
-    config.n_heads,
+    config.n_heads
 )
 
 
@@ -170,7 +271,7 @@ distance_values = torch.zeros(
 positions = torch.arange(
     SEQUENCE_LENGTH,
     device=device,
-    dtype=torch.float32,
+    dtype=torch.float32
 )
 
 distance_matrix = torch.abs(
@@ -180,41 +281,58 @@ distance_matrix = torch.abs(
 
 
 # ============================================================
-# RUN ALL SEQUENCES
+# RUN ATTENTION ANALYSIS
 # ============================================================
 
-for sequence_index, ids in enumerate(sequences):
+for sequence_index, ids in enumerate(
+    sequences
+):
 
     print(
         f"Processing sequence "
-        f"{sequence_index + 1}/{NUM_SEQUENCES}..."
+        f"{sequence_index + 1}/"
+        f"{NUM_SEQUENCES}..."
     )
 
     input_tensor = torch.tensor(
         [ids],
         dtype=torch.long,
-        device=device,
+        device=device
     )
 
     with torch.no_grad():
 
         logits, loss, attention_maps = model(
             input_tensor,
-            return_attention=True,
+            return_attention=True
+        )
+
+    # attention_maps:
+    # list of [B, heads, T, T]
+
+    if len(attention_maps) != config.n_layers:
+
+        raise RuntimeError(
+            "Unexpected number of attention maps: "
+            f"{len(attention_maps)} "
+            f"(expected {config.n_layers})"
         )
 
     for layer_index, attention in enumerate(
         attention_maps
     ):
 
-        # [heads, T, T]
+        # [B, H, T, T] -> [H, T, T]
+
         attention = attention[0]
 
         for head_index in range(
             config.n_heads
         ):
 
-            matrix = attention[head_index]
+            matrix = attention[
+                head_index
+            ]
 
             # ------------------------------------------------
             # ENTROPY
@@ -225,8 +343,8 @@ for sequence_index, ids in enumerate(sequences):
             )
 
             entropy_per_position = -(
-                probabilities
-                * torch.log(probabilities)
+                probabilities *
+                torch.log(probabilities)
             ).sum(dim=-1)
 
             entropy = (
@@ -238,7 +356,7 @@ for sequence_index, ids in enumerate(sequences):
             entropy_values[
                 sequence_index,
                 layer_index,
-                head_index,
+                head_index
             ] = entropy
 
             # ------------------------------------------------
@@ -246,7 +364,8 @@ for sequence_index, ids in enumerate(sequences):
             # ------------------------------------------------
 
             distance_per_position = (
-                matrix * distance_matrix
+                matrix *
+                distance_matrix
             ).sum(dim=-1)
 
             distance = (
@@ -258,7 +377,7 @@ for sequence_index, ids in enumerate(sequences):
             distance_values[
                 sequence_index,
                 layer_index,
-                head_index,
+                head_index
             ] = distance
 
 
@@ -266,20 +385,20 @@ for sequence_index, ids in enumerate(sequences):
 # AGGREGATE
 # ============================================================
 
-mean_entropy = entropy_values.mean(
-    dim=0
+mean_entropy = (
+    entropy_values.mean(dim=0)
 )
 
-std_entropy = entropy_values.std(
-    dim=0
+std_entropy = (
+    entropy_values.std(dim=0)
 )
 
-mean_distance = distance_values.mean(
-    dim=0
+mean_distance = (
+    distance_values.mean(dim=0)
 )
 
-std_distance = distance_values.std(
-    dim=0
+std_distance = (
+    distance_values.std(dim=0)
 )
 
 
@@ -287,26 +406,16 @@ std_distance = distance_values.std(
 # SAVE CSV
 # ============================================================
 
-RESULTS_DIR.mkdir(
-    parents=True,
-    exist_ok=True,
-)
-
-FIGURES_DIR.mkdir(
-    parents=True,
-    exist_ok=True,
-)
-
 csv_path = (
-    RESULTS_DIR
-    / "assamese_attention_aggregate.csv"
+    RESULTS_DIR /
+    "assamese_attention_aggregate.csv"
 )
 
 with open(
     csv_path,
     "w",
     newline="",
-    encoding="utf-8",
+    encoding="utf-8"
 ) as f:
 
     writer = csv.writer(f)
@@ -317,39 +426,54 @@ with open(
         "mean_entropy",
         "std_entropy",
         "mean_attention_distance",
-        "std_attention_distance",
+        "std_attention_distance"
     ])
 
-    for layer in range(config.n_layers):
+    for layer in range(
+        config.n_layers
+    ):
 
-        for head in range(config.n_heads):
+        for head in range(
+            config.n_heads
+        ):
 
             writer.writerow([
+
                 layer + 1,
+
                 head,
+
                 f"{mean_entropy[layer, head].item():.6f}",
+
                 f"{std_entropy[layer, head].item():.6f}",
+
                 f"{mean_distance[layer, head].item():.6f}",
-                f"{std_distance[layer, head].item():.6f}",
+
+                f"{std_distance[layer, head].item():.6f}"
             ])
 
 
 # ============================================================
-# PRINT SUMMARY
+# PRINT STATISTICS
 # ============================================================
 
 print()
-print("=" * 70)
+print("=" * 80)
 print("AGGREGATED ATTENTION STATISTICS")
-print("=" * 70)
+print("=" * 80)
 
-for layer in range(config.n_layers):
+
+for layer in range(
+    config.n_layers
+):
 
     print(
         f"\nLayer {layer + 1}"
     )
 
-    for head in range(config.n_heads):
+    for head in range(
+        config.n_heads
+    ):
 
         print(
             f"  Head {head}: "
@@ -371,13 +495,13 @@ plt.figure(
 )
 
 plt.imshow(
-    mean_entropy.numpy(),
+    mean_entropy.cpu().numpy(),
     aspect="auto",
-    interpolation="nearest",
+    interpolation="nearest"
 )
 
 plt.title(
-    "assamese Mean Attention Entropy"
+    "Assamese Mean Attention Entropy"
 )
 
 plt.xlabel(
@@ -394,7 +518,7 @@ plt.xticks(
 
 plt.yticks(
     range(config.n_layers),
-    range(1, config.n_layers + 1),
+    range(1, config.n_layers + 1)
 )
 
 plt.colorbar(
@@ -404,13 +528,13 @@ plt.colorbar(
 plt.tight_layout()
 
 entropy_figure = (
-    FIGURES_DIR
-    / "assamese_attention_entropy_heatmap.png"
+    FIGURES_DIR /
+    "assamese_attention_entropy_heatmap.png"
 )
 
 plt.savefig(
     entropy_figure,
-    dpi=200,
+    dpi=200
 )
 
 plt.close()
@@ -425,13 +549,13 @@ plt.figure(
 )
 
 plt.imshow(
-    mean_distance.numpy(),
+    mean_distance.cpu().numpy(),
     aspect="auto",
-    interpolation="nearest",
+    interpolation="nearest"
 )
 
 plt.title(
-    "assamese Mean Attention Distance"
+    "Assamese Mean Attention Distance"
 )
 
 plt.xlabel(
@@ -448,7 +572,7 @@ plt.xticks(
 
 plt.yticks(
     range(config.n_layers),
-    range(1, config.n_layers + 1),
+    range(1, config.n_layers + 1)
 )
 
 plt.colorbar(
@@ -458,13 +582,13 @@ plt.colorbar(
 plt.tight_layout()
 
 distance_figure = (
-    FIGURES_DIR
-    / "assamese_attention_distance_heatmap.png"
+    FIGURES_DIR /
+    "assamese_attention_distance_heatmap.png"
 )
 
 plt.savefig(
     distance_figure,
-    dpi=200,
+    dpi=200
 )
 
 plt.close()
@@ -475,10 +599,21 @@ plt.close()
 # ============================================================
 
 print()
-print("=" * 70)
-print("assamese AGGREGATED ATTENTION ANALYSIS COMPLETE")
-print("=" * 70)
+print("=" * 80)
+print("ATTENTION ANALYSIS COMPLETE")
+print("=" * 80)
 
-print(f"CSV: {csv_path}")
-print(f"Entropy figure: {entropy_figure}")
-print(f"Distance figure: {distance_figure}")
+print(
+    "CSV:",
+    csv_path
+)
+
+print(
+    "Entropy figure:",
+    entropy_figure
+)
+
+print(
+    "Distance figure:",
+    distance_figure
+)

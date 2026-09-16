@@ -1,90 +1,124 @@
 from pathlib import Path
 import os
 import sys
-import math
 import random
 
-import sentencepiece as spm
 import torch
+import sentencepiece as spm
 
 
-# ---------------------------------------------------------
-# Paths
-# ---------------------------------------------------------
+# ============================================================
+# DIRECTORY STRUCTURE
+# ============================================================
 
-PROJECT_ROOT = Path("/kaggle/working")
-MODEL_DIR = PROJECT_ROOT
+ROOT = Path(__file__).resolve().parent
 
-CHECKPOINT_PATH = Path(os.environ["ABLATION_CHECKPOINT"])
+CHECKPOINT_PATH = Path(
+    os.environ.get(
+        "ABLATION_CHECKPOINT",
+        ROOT / "checkpoint_030518.pt"
+    )
+)
 
-TOKENIZER_PATH = Path("/kaggle/working/assamese_10k.model")
+TOKENIZER_PATH = Path(
+    os.environ.get(
+        "ABLATION_TOKENIZER",
+        ROOT / "assamese_10k.model"
+    )
+)
 
-VAL_DIR = Path("/kaggle/input/datasets/vidurshah04/assam-data")
+DATA_DIR = Path(
+    os.environ.get(
+        "ABLATION_DATA_DIR",
+        ROOT.parent.parent / "Assamese" / "data" / "splits_v2" / "val"
+    )
+)
 
-OUTPUT_DIR = Path(os.environ["ABLATION_EVAL_DIR"]) / "generations"
+EVAL_DIR = Path(
+    os.environ.get(
+        "ABLATION_EVAL_DIR",
+        ROOT / "evaluation_results"
+    )
+)
+
+OUTPUT_DIR = EVAL_DIR / "generations"
+
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-sys.path.insert(0, str(MODEL_DIR))
+
+# ============================================================
+# IMPORT LOCAL MODEL
+# ============================================================
+
+sys.path.insert(0, str(ROOT))
 
 from config import ModelConfig
 from transformer import DecoderOnlyTransformer
 
 
-# ---------------------------------------------------------
-# Settings
-# ---------------------------------------------------------
+# ============================================================
+# SETTINGS
+# ============================================================
 
 CONTEXT_LENGTH = 256
 MAX_NEW_TOKENS = 100
 
-# TEMPERATURES = [
-#     0.5,
-#     1.0,
-#     1.5,
-# ]
 TEMPERATURES = [
-    0.0,   # greedy
+    0.0,
     0.5,
     1.0,
     1.5,
 ]
 
 NUM_PROMPTS = 10
-
 SEED = 42
 
 
-# ---------------------------------------------------------
-# Load validation prompts
-# ---------------------------------------------------------
+# ============================================================
+# FIND VALIDATION TEXT FILES
+# ============================================================
+
+def get_text_files(directory):
+    if directory.is_file():
+        return [directory]
+
+    if not directory.exists():
+        raise FileNotFoundError(
+            f"Validation directory not found:\n{directory}"
+        )
+
+    files = sorted(directory.rglob("*.txt"))
+
+    if not files:
+        raise FileNotFoundError(
+            f"No .txt validation files found in:\n{directory}"
+        )
+
+    return files
+
+
+# ============================================================
+# LOAD PROMPTS
+# ============================================================
 
 def load_prompts():
 
     prompts = []
 
-    validation_files = sorted(
-        VAL_DIR.glob("val_*.txt")
-    )
-
-    if not validation_files:
-        raise FileNotFoundError(
-            f"No validation files found in {VAL_DIR}"
-        )
+    validation_files = get_text_files(DATA_DIR)
 
     for file_path in validation_files:
 
         with open(
             file_path,
             "r",
-            encoding="utf-8",
+            encoding="utf-8"
         ) as f:
 
             for line in f:
 
                 line = line.strip()
 
-                # We want reasonably long natural-language
-                # examples rather than tiny fragments.
                 if len(line) < 100:
                     continue
 
@@ -95,15 +129,15 @@ def load_prompts():
 
     if len(prompts) < NUM_PROMPTS:
         raise RuntimeError(
-            f"Only found {len(prompts)} suitable prompts."
+            f"Only found {len(prompts)} suitable validation prompts."
         )
 
     return prompts
 
 
-# ---------------------------------------------------------
-# Generation
-# ---------------------------------------------------------
+# ============================================================
+# GENERATION
+# ============================================================
 
 @torch.no_grad()
 def generate(
@@ -112,101 +146,102 @@ def generate(
     prompt,
     device,
     temperature,
-    max_new_tokens,
+    max_new_tokens
 ):
 
     encoded = tokenizer.encode(
         prompt,
-        out_type=int,
+        out_type=int
     )
 
-    # Keep only the last CONTEXT_LENGTH tokens.
     encoded = encoded[-CONTEXT_LENGTH:]
 
     input_ids = torch.tensor(
         [encoded],
         dtype=torch.long,
-        device=device,
+        device=device
     )
 
     generated = input_ids.clone()
 
     for _ in range(max_new_tokens):
 
-        # Transformer only accepts at most its context length.
         context = generated[:, -CONTEXT_LENGTH:]
 
-        logits, _ = model(
-            context
-        )
+        logits, _ = model(context)
 
-        # Only predict the next token from the
-        # final position.
         next_token_logits = logits[:, -1, :]
 
         if temperature <= 0:
+
             next_token = torch.argmax(
                 next_token_logits,
                 dim=-1,
-                keepdim=True,
+                keepdim=True
             )
 
         else:
+
             scaled_logits = (
                 next_token_logits / temperature
             )
 
             probabilities = torch.softmax(
                 scaled_logits,
-                dim=-1,
+                dim=-1
             )
 
             next_token = torch.multinomial(
                 probabilities,
-                num_samples=1,
+                num_samples=1
             )
 
         generated = torch.cat(
             [generated, next_token],
-            dim=1,
+            dim=1
         )
 
-    generated_ids = generated[0].tolist()
-
     return tokenizer.decode(
-        generated_ids
+        generated[0].tolist()
     )
 
 
-# ---------------------------------------------------------
-# Main
-# ---------------------------------------------------------
+# ============================================================
+# MAIN
+# ============================================================
 
 def main():
 
-    print("=" * 70)
-    print("ASSAMESE GENERATION EVALUATION")
-    print("=" * 70)
+    print("=" * 80)
+    print("ASSAMESE STANDARD GENERATION")
+    print("=" * 80)
 
     random.seed(SEED)
     torch.manual_seed(SEED)
 
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(SEED)
+
     device = torch.device(
-        "cuda"
-        if torch.cuda.is_available()
-        else "cpu"
+        "cuda" if torch.cuda.is_available() else "cpu"
     )
 
-    print(f"Device: {device}")
+    print("Root       :", ROOT)
+    print("Checkpoint :", CHECKPOINT_PATH)
+    print("Tokenizer  :", TOKENIZER_PATH)
+    print("Validation :", DATA_DIR)
+    print("Output     :", OUTPUT_DIR)
+    print("Device     :", device)
 
     if device.type == "cuda":
         print(
-            f"GPU: {torch.cuda.get_device_name(0)}"
+            "GPU        :",
+            torch.cuda.get_device_name(0)
         )
 
-    # -----------------------------------------------------
-    # Tokenizer
-    # -----------------------------------------------------
+    # --------------------------------------------------------
+    # TOKENIZER
+    # --------------------------------------------------------
 
     tokenizer = spm.SentencePieceProcessor()
 
@@ -214,26 +249,27 @@ def main():
         str(TOKENIZER_PATH)
     ):
         raise RuntimeError(
-            f"Could not load tokenizer: {TOKENIZER_PATH}"
+            f"Could not load tokenizer:\n{TOKENIZER_PATH}"
         )
 
     print(
-        f"Tokenizer vocabulary: "
-        f"{tokenizer.get_piece_size()}"
+        "Vocabulary :",
+        tokenizer.get_piece_size()
     )
 
-    # -----------------------------------------------------
-    # Model
-    # -----------------------------------------------------
+    # --------------------------------------------------------
+    # CHECKPOINT
+    # --------------------------------------------------------
 
     checkpoint = torch.load(
         CHECKPOINT_PATH,
         map_location=device,
-        weights_only=False,
+        weights_only=False
     )
 
-    # config = ModelConfig()
-    config = ModelConfig(**checkpoint["config"])
+    config = ModelConfig(
+        **checkpoint["config"]
+    )
 
     model = DecoderOnlyTransformer(
         config
@@ -246,13 +282,18 @@ def main():
     model.eval()
 
     print(
-        f"Checkpoint step: "
-        f"{checkpoint['step']}"
+        "Checkpoint step:",
+        checkpoint["step"]
     )
 
-    # -----------------------------------------------------
-    # Prompts
-    # -----------------------------------------------------
+    print(
+        "Parameters:",
+        model.count_parameters()
+    )
+
+    # --------------------------------------------------------
+    # PROMPTS
+    # --------------------------------------------------------
 
     prompts = load_prompts()
 
@@ -260,26 +301,25 @@ def main():
         f"Using {len(prompts)} validation prompts."
     )
 
-    # -----------------------------------------------------
-    # Generate
-    # -----------------------------------------------------
+    # --------------------------------------------------------
+    # GENERATE
+    # --------------------------------------------------------
 
     for temperature in TEMPERATURES:
 
         print(
-            f"\nGenerating at temperature "
-            f"{temperature}..."
+            f"\nGenerating T={temperature}..."
         )
 
         output_path = (
-            OUTPUT_DIR
-            / f"assamese_temp_{temperature:.1f}.txt"
+            OUTPUT_DIR /
+            f"assamese_temp_{temperature:.1f}.txt"
         )
 
         with open(
             output_path,
             "w",
-            encoding="utf-8",
+            encoding="utf-8"
         ) as out:
 
             for i, prompt in enumerate(prompts):
@@ -290,10 +330,9 @@ def main():
                     prompt=prompt,
                     device=device,
                     temperature=temperature,
-                    max_new_tokens=MAX_NEW_TOKENS,
+                    max_new_tokens=MAX_NEW_TOKENS
                 )
 
-                # Store the original prompt separately.
                 out.write(
                     f"========== SAMPLE {i + 1} ==========\n"
                 )
@@ -315,10 +354,14 @@ def main():
                 )
 
         print(
-            f"Saved: {output_path}"
+            "Saved:",
+            output_path
         )
 
-    print("\nGeneration complete.")
+    print()
+    print("=" * 80)
+    print("STANDARD GENERATION COMPLETE")
+    print("=" * 80)
 
 
 if __name__ == "__main__":
