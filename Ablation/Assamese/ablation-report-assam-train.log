@@ -1,0 +1,1267 @@
+11.3s 1 0.00s - Debugger warning: It seems that frozen modules are being used, which may
+11.3s 2 0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+11.3s 3 0.00s - to python to disable frozen modules.
+11.3s 4 0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+12.2s 5 0.00s - Debugger warning: It seems that frozen modules are being used, which may
+12.2s 6 0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+12.2s 7 0.00s - to python to disable frozen modules.
+12.2s 8 0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+13.6s 9 DATA_DIR      : /kaggle/input/datasets/vidurshah04/assam-data
+13.6s 10 TOKENIZER     : /kaggle/working/assamese_10k.model
+13.6s 11 BASE_DIR      : /kaggle/working/assamese_10k
+13.6s 12 Dataset train : 10
+13.6s 13 Dataset val   : 2
+13.6s 14 Writing /kaggle/working/config.py
+13.7s 15 Writing /kaggle/working/transformer.py
+13.8s 16 ======================================================================
+13.8s 17 TOKENIZER VERIFICATION
+13.8s 18 ======================================================================
+13.8s 19 Path: /kaggle/working/assamese_10k.model
+13.8s 20 Vocabulary size: 10000
+13.8s 21 PASS: 10K Assamese tokenizer loaded.
+13.8s 22 Writing /kaggle/working/dataset.py
+22.5s 23 ======================================================================
+22.5s 24 POSITIONAL-EMBEDDING ABLATION ARCHITECTURE CHECK
+22.5s 25 ======================================================================
+22.8s 26 Vocabulary: 10000
+22.8s 27 d_model  : 512
+22.8s 28 Layers   : 7
+22.8s 29 Heads    : 8
+22.8s 30 FFN      : 1792
+22.8s 31 Context  : 512
+22.8s 32 Params   : 25,350,912
+22.8s 33 Positional embeddings: REMOVED
+22.8s 34 Parameter count       : 25350912
+22.8s 35 Architecture check    : PASS
+23.1s 36 ======================================================================
+23.1s 37 GPU CHECK
+23.1s 38 ======================================================================
+23.1s 39 CUDA available: True
+23.1s 40 GPU            : Tesla T4
+23.1s 41 CUDA version   : 12.8
+23.1s 42 GPU memory     : 14.56 GB
+23.1s 43 ======================================================================
+23.1s 44 DATASET CHECK
+23.1s 45 ======================================================================
+23.1s 46 Data directory: /kaggle/input/datasets/vidurshah04/assam-data
+23.1s 47 Training files: 10
+23.1s 48 Validation files: 2
+23.1s 49 PASS: Assamese dataset is visible.
+23.2s 50 Writing /kaggle/working/train_assamese_10k.py
+23.2s 51 ======================================================================
+23.2s 52 TRAINING SCRIPT CHECK
+23.2s 53 ======================================================================
+23.2s 54 Script: /kaggle/working/train_assamese_10k.py
+23.2s 55 Size  : 14.7 KB
+23.2s 56 PASS  : Python syntax compilation
+23.3s 57 ================================================================================
+23.3s 58 STARTING REMOTE TRAINING
+23.3s 59 ================================================================================
+23.3s 60 This cell may run for several hours.
+23.3s 61 The training script saves checkpoints every 3,000 steps and
+23.3s 62 also writes a final checkpoint at step 30,518.
+23.3s 63 
+25.8s 64 ======================================================================
+25.8s 65 assamese POSITIONAL-EMBEDDING ABLATION
+25.8s 66 ======================================================================
+25.8s 67 GPU: Tesla T4
+25.8s 68 Vocabulary: 10000
+25.8s 69 Parameters: 25,350,912
+26.0s 70 ======================================================================
+26.0s 71 assamese POSITIONAL-EMBEDDING ABLATION
+26.0s 72 ======================================================================
+26.0s 73 GPU: Tesla T4
+26.0s 74 Vocabulary: 10000
+26.0s 75 Parameters: 25,350,912
+32.4s 76 ======================================================================
+32.4s 77 TRAIN DATASET
+32.4s 78 ======================================================================
+32.4s 79 train: found 10 files
+32.4s 80 train: tokenizer vocabulary size = 10000
+32.4s 81 
+32.4s 82 ======================================================================
+32.4s 83 TRAINING START
+32.4s 84 ======================================================================
+32.4s 85 Starting step: 1
+32.4s 86 Final step: 30518
+32.4s 87 Target tokens: 500,000,000
+32.4s 88 Tokens / optimizer step: 16,384
+32.4s 89 Loss CSV: /kaggle/working/assamese_10k/logs/training_log.csv
+32.4s 90 
+32.4s 91 Reading train: train_0000.txt
+32.6s 92 ======================================================================
+32.6s 93 TRAIN DATASET
+32.6s 94 ======================================================================
+32.6s 95 train: found 10 files
+32.6s 96 train: tokenizer vocabulary size = 10000
+32.6s 97 
+32.6s 98 ======================================================================
+32.6s 99 TRAINING START
+32.6s 100 ======================================================================
+32.6s 101 Starting step: 1
+32.6s 102 Final step: 30518
+32.6s 103 Target tokens: 500,000,000
+32.6s 104 Tokens / optimizer step: 16,384
+32.6s 105 Loss CSV: /kaggle/working/assamese_10k/logs/training_log.csv
+32.6s 106 
+32.6s 107 Reading train: train_0000.txt
+110.5s 108 step=100 | loss=8.6877 | lr=1.515000e-05 | tokens=1,638,400 | time=78.1s/100 | total=0.02h
+110.7s 109 step=100 | loss=8.6877 | lr=1.515000e-05 | tokens=1,638,400 | time=78.1s/100 | total=0.02h
+185.9s 110 step=200 | loss=8.1100 | lr=3.015000e-05 | tokens=3,276,800 | time=75.4s/100 | total=0.04h
+186.1s 111 step=200 | loss=8.1100 | lr=3.015000e-05 | tokens=3,276,800 | time=75.4s/100 | total=0.04h
+261.0s 112 step=300 | loss=7.4227 | lr=4.515000e-05 | tokens=4,915,200 | time=75.0s/100 | total=0.06h
+261.2s 113 step=300 | loss=7.4227 | lr=4.515000e-05 | tokens=4,915,200 | time=75.0s/100 | total=0.06h
+336.2s 114 step=400 | loss=6.3712 | lr=6.015000e-05 | tokens=6,553,600 | time=75.2s/100 | total=0.08h
+336.4s 115 step=400 | loss=6.3712 | lr=6.015000e-05 | tokens=6,553,600 | time=75.2s/100 | total=0.08h
+411.4s 116 step=500 | loss=6.2883 | lr=7.515000e-05 | tokens=8,192,000 | time=75.2s/100 | total=0.11h
+411.6s 117 step=500 | loss=6.2883 | lr=7.515000e-05 | tokens=8,192,000 | time=75.2s/100 | total=0.11h
+486.4s 118 step=600 | loss=5.7320 | lr=9.015000e-05 | tokens=9,830,400 | time=75.0s/100 | total=0.13h
+486.6s 119 step=600 | loss=5.7320 | lr=9.015000e-05 | tokens=9,830,400 | time=75.0s/100 | total=0.13h
+561.6s 120 step=700 | loss=5.9895 | lr=1.051500e-04 | tokens=11,468,800 | time=75.3s/100 | total=0.15h
+561.8s 121 step=700 | loss=5.9895 | lr=1.051500e-04 | tokens=11,468,800 | time=75.3s/100 | total=0.15h
+636.9s 122 step=800 | loss=5.9792 | lr=1.201500e-04 | tokens=13,107,200 | time=75.3s/100 | total=0.17h
+637.1s 123 step=800 | loss=5.9792 | lr=1.201500e-04 | tokens=13,107,200 | time=75.3s/100 | total=0.17h
+712.8s 124 step=900 | loss=5.5298 | lr=1.351500e-04 | tokens=14,745,600 | time=75.8s/100 | total=0.19h
+713.0s 125 step=900 | loss=5.5298 | lr=1.351500e-04 | tokens=14,745,600 | time=75.8s/100 | total=0.19h
+787.8s 126 step=1000 | loss=5.3842 | lr=1.501500e-04 | tokens=16,384,000 | time=75.0s/100 | total=0.21h
+787.8s 127 val: found 2 files
+787.8s 128 val: tokenizer vocabulary size = 10000
+787.8s 129 Reading val: val_0000.txt
+788.0s 130 step=1000 | loss=5.3842 | lr=1.501500e-04 | tokens=16,384,000 | time=75.0s/100 | total=0.21h
+788.0s 131 val: found 2 files
+788.0s 132 val: tokenizer vocabulary size = 10000
+788.0s 133 Reading val: val_0000.txt
+788.8s 134 Validation loss: 7.2463 | PPL: 1402.92
+789.0s 135 Validation loss: 7.2463 | PPL: 1402.92
+864.1s 136 step=1100 | loss=5.2379 | lr=1.651500e-04 | tokens=18,022,400 | time=76.2s/100 | total=0.23h
+864.3s 137 step=1100 | loss=5.2379 | lr=1.651500e-04 | tokens=18,022,400 | time=76.2s/100 | total=0.23h
+939.3s 138 step=1200 | loss=5.2980 | lr=1.801500e-04 | tokens=19,660,800 | time=75.3s/100 | total=0.25h
+939.6s 139 step=1200 | loss=5.2980 | lr=1.801500e-04 | tokens=19,660,800 | time=75.3s/100 | total=0.25h
+1014.8s 140 step=1300 | loss=5.5289 | lr=1.951500e-04 | tokens=21,299,200 | time=75.4s/100 | total=0.27h
+1015.0s 141 step=1300 | loss=5.5289 | lr=1.951500e-04 | tokens=21,299,200 | time=75.4s/100 | total=0.27h
+1090.7s 142 step=1400 | loss=4.9637 | lr=2.101500e-04 | tokens=22,937,600 | time=75.9s/100 | total=0.29h
+1090.9s 143 step=1400 | loss=4.9637 | lr=2.101500e-04 | tokens=22,937,600 | time=75.9s/100 | total=0.29h
+1165.6s 144 step=1500 | loss=5.1364 | lr=2.251500e-04 | tokens=24,576,000 | time=74.9s/100 | total=0.31h
+1165.9s 145 step=1500 | loss=5.1364 | lr=2.251500e-04 | tokens=24,576,000 | time=74.9s/100 | total=0.31h
+1241.7s 146 step=1600 | loss=5.0525 | lr=2.401500e-04 | tokens=26,214,400 | time=76.0s/100 | total=0.34h
+1241.9s 147 step=1600 | loss=5.0525 | lr=2.401500e-04 | tokens=26,214,400 | time=76.0s/100 | total=0.34h
+1324.0s 148 step=1700 | loss=4.8389 | lr=2.551500e-04 | tokens=27,852,800 | time=82.3s/100 | total=0.36h
+1324.2s 149 step=1700 | loss=4.8389 | lr=2.551500e-04 | tokens=27,852,800 | time=82.3s/100 | total=0.36h
+1406.2s 150 step=1800 | loss=4.9401 | lr=2.701500e-04 | tokens=29,491,200 | time=82.3s/100 | total=0.38h
+1406.5s 151 step=1800 | loss=4.9401 | lr=2.701500e-04 | tokens=29,491,200 | time=82.3s/100 | total=0.38h
+1487.5s 152 step=1900 | loss=4.7956 | lr=2.851500e-04 | tokens=31,129,600 | time=81.3s/100 | total=0.40h
+1487.7s 153 step=1900 | loss=4.7956 | lr=2.851500e-04 | tokens=31,129,600 | time=81.3s/100 | total=0.40h
+1569.2s 154 step=2000 | loss=5.1528 | lr=3.000000e-04 | tokens=32,768,000 | time=81.7s/100 | total=0.43h
+1569.2s 155 val: found 2 files
+1569.2s 156 val: tokenizer vocabulary size = 10000
+1569.2s 157 Reading val: val_0000.txt
+1569.4s 158 step=2000 | loss=5.1528 | lr=3.000000e-04 | tokens=32,768,000 | time=81.7s/100 | total=0.43h
+1569.4s 159 val: found 2 files
+1569.4s 160 val: tokenizer vocabulary size = 10000
+1569.4s 161 Reading val: val_0000.txt
+1570.0s 162 Validation loss: 6.6070 | PPL: 740.27
+1570.3s 163 Validation loss: 6.6070 | PPL: 740.27
+1651.3s 164 step=2100 | loss=6.7935 | lr=2.999918e-04 | tokens=34,406,400 | time=82.1s/100 | total=0.45h
+1651.5s 165 step=2100 | loss=6.7935 | lr=2.999918e-04 | tokens=34,406,400 | time=82.1s/100 | total=0.45h
+1732.6s 166 step=2200 | loss=4.7557 | lr=2.999672e-04 | tokens=36,044,800 | time=81.3s/100 | total=0.47h
+1732.8s 167 step=2200 | loss=4.7557 | lr=2.999672e-04 | tokens=36,044,800 | time=81.3s/100 | total=0.47h
+1813.8s 168 step=2300 | loss=6.1295 | lr=2.999263e-04 | tokens=37,683,200 | time=81.2s/100 | total=0.49h
+1814.0s 169 step=2300 | loss=6.1295 | lr=2.999263e-04 | tokens=37,683,200 | time=81.2s/100 | total=0.49h
+1894.9s 170 step=2400 | loss=6.5858 | lr=2.998690e-04 | tokens=39,321,600 | time=81.2s/100 | total=0.52h
+1895.2s 171 step=2400 | loss=6.5858 | lr=2.998690e-04 | tokens=39,321,600 | time=81.2s/100 | total=0.52h
+1976.5s 172 step=2500 | loss=6.2727 | lr=2.997953e-04 | tokens=40,960,000 | time=81.5s/100 | total=0.54h
+1976.7s 173 step=2500 | loss=6.2727 | lr=2.997953e-04 | tokens=40,960,000 | time=81.5s/100 | total=0.54h
+2057.8s 174 step=2600 | loss=6.3374 | lr=2.997052e-04 | tokens=42,598,400 | time=81.3s/100 | total=0.56h
+2058.0s 175 step=2600 | loss=6.3374 | lr=2.997052e-04 | tokens=42,598,400 | time=81.3s/100 | total=0.56h
+2139.1s 176 step=2700 | loss=6.2537 | lr=2.995988e-04 | tokens=44,236,800 | time=81.3s/100 | total=0.59h
+2139.4s 177 step=2700 | loss=6.2537 | lr=2.995988e-04 | tokens=44,236,800 | time=81.3s/100 | total=0.59h
+2220.5s 178 step=2800 | loss=6.0030 | lr=2.994761e-04 | tokens=45,875,200 | time=81.4s/100 | total=0.61h
+2220.8s 179 step=2800 | loss=6.0030 | lr=2.994761e-04 | tokens=45,875,200 | time=81.4s/100 | total=0.61h
+2302.0s 180 step=2900 | loss=6.2321 | lr=2.993370e-04 | tokens=47,513,600 | time=81.4s/100 | total=0.63h
+2302.2s 181 step=2900 | loss=6.2321 | lr=2.993370e-04 | tokens=47,513,600 | time=81.4s/100 | total=0.63h
+2383.2s 182 step=3000 | loss=6.1926 | lr=2.991817e-04 | tokens=49,152,000 | time=81.2s/100 | total=0.65h
+2383.2s 183 val: found 2 files
+2383.2s 184 val: tokenizer vocabulary size = 10000
+2383.2s 185 Reading val: val_0000.txt
+2383.4s 186 step=3000 | loss=6.1926 | lr=2.991817e-04 | tokens=49,152,000 | time=81.2s/100 | total=0.65h
+2383.4s 187 val: found 2 files
+2383.4s 188 val: tokenizer vocabulary size = 10000
+2383.4s 189 Reading val: val_0000.txt
+2384.1s 190 Validation loss: 6.3659 | PPL: 581.66
+2384.1s 191 
+2384.1s 192 ======================================================================
+2384.1s 193 SAVING CHECKPOINT 003000
+2384.1s 194 ======================================================================
+2384.3s 195 Validation loss: 6.3659 | PPL: 581.66
+2384.3s 196 
+2384.3s 197 ======================================================================
+2384.3s 198 SAVING CHECKPOINT 003000
+2384.3s 199 ======================================================================
+2384.5s 200 Checkpoint saved: /kaggle/working/assamese_10k/checkpoints/checkpoint_003000.pt
+2384.5s 201 Checkpoint size: 292.0 MB
+2384.7s 202 Checkpoint saved: /kaggle/working/assamese_10k/checkpoints/checkpoint_003000.pt
+2384.7s 203 Checkpoint size: 292.0 MB
+2466.0s 204 step=3100 | loss=5.7552 | lr=2.990100e-04 | tokens=50,790,400 | time=82.8s/100 | total=0.68h
+2466.2s 205 step=3100 | loss=5.7552 | lr=2.990100e-04 | tokens=50,790,400 | time=82.8s/100 | total=0.68h
+2547.8s 206 step=3200 | loss=6.0872 | lr=2.988221e-04 | tokens=52,428,800 | time=81.8s/100 | total=0.70h
+2548.1s 207 step=3200 | loss=6.0872 | lr=2.988221e-04 | tokens=52,428,800 | time=81.8s/100 | total=0.70h
+2629.1s 208 step=3300 | loss=4.6597 | lr=2.986180e-04 | tokens=54,067,200 | time=81.2s/100 | total=0.72h
+2629.3s 209 step=3300 | loss=4.6597 | lr=2.986180e-04 | tokens=54,067,200 | time=81.2s/100 | total=0.72h
+2709.1s 210 step=3400 | loss=5.8286 | lr=2.983976e-04 | tokens=55,705,600 | time=80.0s/100 | total=0.74h
+2709.3s 211 step=3400 | loss=5.8286 | lr=2.983976e-04 | tokens=55,705,600 | time=80.0s/100 | total=0.74h
+2790.5s 212 step=3500 | loss=4.9576 | lr=2.981611e-04 | tokens=57,344,000 | time=81.3s/100 | total=0.77h
+2790.7s 213 step=3500 | loss=4.9576 | lr=2.981611e-04 | tokens=57,344,000 | time=81.3s/100 | total=0.77h
+2871.5s 214 step=3600 | loss=6.4255 | lr=2.979084e-04 | tokens=58,982,400 | time=81.0s/100 | total=0.79h
+2871.7s 215 step=3600 | loss=6.4255 | lr=2.979084e-04 | tokens=58,982,400 | time=81.0s/100 | total=0.79h
+2953.3s 216 step=3700 | loss=5.7698 | lr=2.976396e-04 | tokens=60,620,800 | time=81.8s/100 | total=0.81h
+2953.5s 217 step=3700 | loss=5.7698 | lr=2.976396e-04 | tokens=60,620,800 | time=81.8s/100 | total=0.81h
+3036.3s 218 step=3800 | loss=5.7628 | lr=2.973546e-04 | tokens=62,259,200 | time=83.0s/100 | total=0.83h
+3036.6s 219 step=3800 | loss=5.7628 | lr=2.973546e-04 | tokens=62,259,200 | time=83.0s/100 | total=0.83h
+3118.6s 220 step=3900 | loss=6.0997 | lr=2.970536e-04 | tokens=63,897,600 | time=82.3s/100 | total=0.86h
+3118.9s 221 step=3900 | loss=6.0997 | lr=2.970536e-04 | tokens=63,897,600 | time=82.3s/100 | total=0.86h
+3201.0s 222 step=4000 | loss=6.0590 | lr=2.967366e-04 | tokens=65,536,000 | time=82.4s/100 | total=0.88h
+3201.0s 223 val: found 2 files
+3201.0s 224 val: tokenizer vocabulary size = 10000
+3201.0s 225 Reading val: val_0000.txt
+3201.2s 226 step=4000 | loss=6.0590 | lr=2.967366e-04 | tokens=65,536,000 | time=82.4s/100 | total=0.88h
+3201.2s 227 val: found 2 files
+3201.2s 228 val: tokenizer vocabulary size = 10000
+3201.2s 229 Reading val: val_0000.txt
+3201.9s 230 Validation loss: 6.1768 | PPL: 481.44
+3202.1s 231 Validation loss: 6.1768 | PPL: 481.44
+3283.4s 232 step=4100 | loss=6.3898 | lr=2.964036e-04 | tokens=67,174,400 | time=82.4s/100 | total=0.90h
+3283.7s 233 step=4100 | loss=6.3898 | lr=2.964036e-04 | tokens=67,174,400 | time=82.4s/100 | total=0.90h
+3365.1s 234 step=4200 | loss=5.9812 | lr=2.960547e-04 | tokens=68,812,800 | time=81.7s/100 | total=0.93h
+3365.4s 235 step=4200 | loss=5.9812 | lr=2.960547e-04 | tokens=68,812,800 | time=81.7s/100 | total=0.93h
+3446.4s 236 step=4300 | loss=5.9209 | lr=2.956898e-04 | tokens=70,451,200 | time=81.3s/100 | total=0.95h
+3446.6s 237 step=4300 | loss=5.9209 | lr=2.956898e-04 | tokens=70,451,200 | time=81.3s/100 | total=0.95h
+3526.9s 238 step=4400 | loss=5.7149 | lr=2.953091e-04 | tokens=72,089,600 | time=80.5s/100 | total=0.97h
+3527.1s 239 step=4400 | loss=5.7149 | lr=2.953091e-04 | tokens=72,089,600 | time=80.5s/100 | total=0.97h
+3607.9s 240 step=4500 | loss=5.5124 | lr=2.949126e-04 | tokens=73,728,000 | time=80.9s/100 | total=0.99h
+3608.1s 241 step=4500 | loss=5.5124 | lr=2.949126e-04 | tokens=73,728,000 | time=80.9s/100 | total=0.99h
+3688.6s 242 step=4600 | loss=5.7478 | lr=2.945003e-04 | tokens=75,366,400 | time=80.8s/100 | total=1.02h
+3688.8s 243 step=4600 | loss=5.7478 | lr=2.945003e-04 | tokens=75,366,400 | time=80.8s/100 | total=1.02h
+3770.2s 244 step=4700 | loss=6.8036 | lr=2.940723e-04 | tokens=77,004,800 | time=81.6s/100 | total=1.04h
+3770.4s 245 step=4700 | loss=6.8036 | lr=2.940723e-04 | tokens=77,004,800 | time=81.6s/100 | total=1.04h
+3852.1s 246 step=4800 | loss=6.4657 | lr=2.936286e-04 | tokens=78,643,200 | time=81.9s/100 | total=1.06h
+3852.3s 247 step=4800 | loss=6.4657 | lr=2.936286e-04 | tokens=78,643,200 | time=81.9s/100 | total=1.06h
+3934.3s 248 step=4900 | loss=6.3279 | lr=2.931693e-04 | tokens=80,281,600 | time=82.2s/100 | total=1.08h
+3934.5s 249 step=4900 | loss=6.3279 | lr=2.931693e-04 | tokens=80,281,600 | time=82.2s/100 | total=1.08h
+4016.7s 250 step=5000 | loss=5.9988 | lr=2.926945e-04 | tokens=81,920,000 | time=82.4s/100 | total=1.11h
+4016.7s 251 val: found 2 files
+4016.7s 252 val: tokenizer vocabulary size = 10000
+4016.7s 253 Reading val: val_0000.txt
+4016.9s 254 step=5000 | loss=5.9988 | lr=2.926945e-04 | tokens=81,920,000 | time=82.4s/100 | total=1.11h
+4016.9s 255 val: found 2 files
+4016.9s 256 val: tokenizer vocabulary size = 10000
+4016.9s 257 Reading val: val_0000.txt
+4017.6s 258 Validation loss: 6.2154 | PPL: 500.39
+4017.8s 259 Validation loss: 6.2154 | PPL: 500.39
+4100.8s 260 step=5100 | loss=5.7671 | lr=2.922041e-04 | tokens=83,558,400 | time=84.1s/100 | total=1.13h
+4101.0s 261 step=5100 | loss=5.7671 | lr=2.922041e-04 | tokens=83,558,400 | time=84.1s/100 | total=1.13h
+4183.5s 262 step=5200 | loss=5.6174 | lr=2.916984e-04 | tokens=85,196,800 | time=82.8s/100 | total=1.15h
+4183.8s 263 step=5200 | loss=5.6174 | lr=2.916984e-04 | tokens=85,196,800 | time=82.8s/100 | total=1.15h
+4265.2s 264 step=5300 | loss=6.1042 | lr=2.911772e-04 | tokens=86,835,200 | time=81.7s/100 | total=1.18h
+4265.4s 265 step=5300 | loss=6.1042 | lr=2.911772e-04 | tokens=86,835,200 | time=81.7s/100 | total=1.18h
+4347.8s 266 step=5400 | loss=5.9820 | lr=2.906408e-04 | tokens=88,473,600 | time=82.6s/100 | total=1.20h
+4348.0s 267 step=5400 | loss=5.9820 | lr=2.906408e-04 | tokens=88,473,600 | time=82.6s/100 | total=1.20h
+4430.1s 268 step=5500 | loss=6.0922 | lr=2.900891e-04 | tokens=90,112,000 | time=82.3s/100 | total=1.22h
+4430.4s 269 step=5500 | loss=6.0922 | lr=2.900891e-04 | tokens=90,112,000 | time=82.3s/100 | total=1.22h
+4512.6s 270 step=5600 | loss=6.1510 | lr=2.895222e-04 | tokens=91,750,400 | time=82.5s/100 | total=1.24h
+4512.8s 271 step=5600 | loss=6.1510 | lr=2.895222e-04 | tokens=91,750,400 | time=82.5s/100 | total=1.24h
+4595.4s 272 step=5700 | loss=6.4860 | lr=2.889402e-04 | tokens=93,388,800 | time=82.7s/100 | total=1.27h
+4595.6s 273 step=5700 | loss=6.4860 | lr=2.889402e-04 | tokens=93,388,800 | time=82.7s/100 | total=1.27h
+4677.6s 274 step=5800 | loss=5.8103 | lr=2.883431e-04 | tokens=95,027,200 | time=82.2s/100 | total=1.29h
+4677.8s 275 step=5800 | loss=5.8103 | lr=2.883431e-04 | tokens=95,027,200 | time=82.2s/100 | total=1.29h
+4759.1s 276 step=5900 | loss=5.8256 | lr=2.877311e-04 | tokens=96,665,600 | time=81.5s/100 | total=1.31h
+4759.3s 277 step=5900 | loss=5.8256 | lr=2.877311e-04 | tokens=96,665,600 | time=81.5s/100 | total=1.31h
+4838.2s 278 step=6000 | loss=5.6974 | lr=2.871042e-04 | tokens=98,304,000 | time=79.1s/100 | total=1.33h
+4838.3s 279 val: found 2 files
+4838.3s 280 val: tokenizer vocabulary size = 10000
+4838.3s 281 Reading val: val_0000.txt
+4838.5s 282 step=6000 | loss=5.6974 | lr=2.871042e-04 | tokens=98,304,000 | time=79.1s/100 | total=1.33h
+4838.5s 283 val: found 2 files
+4838.5s 284 val: tokenizer vocabulary size = 10000
+4838.5s 285 Reading val: val_0000.txt
+4839.1s 286 Validation loss: 6.2344 | PPL: 509.98
+4839.1s 287 
+4839.1s 288 ======================================================================
+4839.1s 289 SAVING CHECKPOINT 006000
+4839.1s 290 ======================================================================
+4839.3s 291 Validation loss: 6.2344 | PPL: 509.98
+4839.3s 292 
+4839.3s 293 ======================================================================
+4839.3s 294 SAVING CHECKPOINT 006000
+4839.3s 295 ======================================================================
+4839.4s 296 Checkpoint saved: /kaggle/working/assamese_10k/checkpoints/checkpoint_006000.pt
+4839.4s 297 Checkpoint size: 292.0 MB
+4839.6s 298 Checkpoint saved: /kaggle/working/assamese_10k/checkpoints/checkpoint_006000.pt
+4839.6s 299 Checkpoint size: 292.0 MB
+4916.1s 300 step=6100 | loss=5.9894 | lr=2.864625e-04 | tokens=99,942,400 | time=77.9s/100 | total=1.36h
+4916.3s 301 step=6100 | loss=5.9894 | lr=2.864625e-04 | tokens=99,942,400 | time=77.9s/100 | total=1.36h
+4996.3s 302 step=6200 | loss=6.1764 | lr=2.858061e-04 | tokens=101,580,800 | time=80.2s/100 | total=1.38h
+4996.5s 303 step=6200 | loss=6.1764 | lr=2.858061e-04 | tokens=101,580,800 | time=80.2s/100 | total=1.38h
+5076.6s 304 step=6300 | loss=5.3043 | lr=2.851350e-04 | tokens=103,219,200 | time=80.3s/100 | total=1.40h
+5076.8s 305 step=6300 | loss=5.3043 | lr=2.851350e-04 | tokens=103,219,200 | time=80.3s/100 | total=1.40h
+5158.0s 306 step=6400 | loss=5.9439 | lr=2.844493e-04 | tokens=104,857,600 | time=81.4s/100 | total=1.42h
+5158.2s 307 step=6400 | loss=5.9439 | lr=2.844493e-04 | tokens=104,857,600 | time=81.4s/100 | total=1.42h
+5239.5s 308 step=6500 | loss=5.5331 | lr=2.837491e-04 | tokens=106,496,000 | time=81.5s/100 | total=1.45h
+5239.8s 309 step=6500 | loss=5.5331 | lr=2.837491e-04 | tokens=106,496,000 | time=81.5s/100 | total=1.45h
+5321.0s 310 step=6600 | loss=6.0085 | lr=2.830345e-04 | tokens=108,134,400 | time=81.4s/100 | total=1.47h
+5321.2s 311 step=6600 | loss=6.0085 | lr=2.830345e-04 | tokens=108,134,400 | time=81.4s/100 | total=1.47h
+5401.4s 312 step=6700 | loss=5.9712 | lr=2.823055e-04 | tokens=109,772,800 | time=80.4s/100 | total=1.49h
+5401.6s 313 step=6700 | loss=5.9712 | lr=2.823055e-04 | tokens=109,772,800 | time=80.4s/100 | total=1.49h
+5481.5s 314 step=6800 | loss=5.8451 | lr=2.815624e-04 | tokens=111,411,200 | time=80.1s/100 | total=1.51h
+5481.7s 315 step=6800 | loss=5.8451 | lr=2.815624e-04 | tokens=111,411,200 | time=80.1s/100 | total=1.51h
+5561.2s 316 step=6900 | loss=5.6675 | lr=2.808051e-04 | tokens=113,049,600 | time=79.7s/100 | total=1.54h
+5561.4s 317 step=6900 | loss=5.6675 | lr=2.808051e-04 | tokens=113,049,600 | time=79.7s/100 | total=1.54h
+5641.4s 318 step=7000 | loss=6.1729 | lr=2.800337e-04 | tokens=114,688,000 | time=80.2s/100 | total=1.56h
+5641.4s 319 val: found 2 files
+5641.4s 320 val: tokenizer vocabulary size = 10000
+5641.4s 321 Reading val: val_0000.txt
+5641.6s 322 step=7000 | loss=6.1729 | lr=2.800337e-04 | tokens=114,688,000 | time=80.2s/100 | total=1.56h
+5641.6s 323 val: found 2 files
+5641.6s 324 val: tokenizer vocabulary size = 10000
+5641.6s 325 Reading val: val_0000.txt
+5642.3s 326 Validation loss: 5.8980 | PPL: 364.32
+5642.5s 327 Validation loss: 5.8980 | PPL: 364.32
+5723.5s 328 step=7100 | loss=5.8260 | lr=2.792484e-04 | tokens=116,326,400 | time=82.1s/100 | total=1.58h
+5723.7s 329 step=7100 | loss=5.8260 | lr=2.792484e-04 | tokens=116,326,400 | time=82.1s/100 | total=1.58h
+5804.5s 330 step=7200 | loss=5.3252 | lr=2.784492e-04 | tokens=117,964,800 | time=81.0s/100 | total=1.60h
+5804.7s 331 step=7200 | loss=5.3252 | lr=2.784492e-04 | tokens=117,964,800 | time=81.0s/100 | total=1.60h
+5885.0s 332 step=7300 | loss=5.4624 | lr=2.776362e-04 | tokens=119,603,200 | time=80.5s/100 | total=1.63h
+5885.2s 333 step=7300 | loss=5.4624 | lr=2.776362e-04 | tokens=119,603,200 | time=80.5s/100 | total=1.63h
+5965.5s 334 step=7400 | loss=5.0322 | lr=2.768096e-04 | tokens=121,241,600 | time=80.5s/100 | total=1.65h
+5965.7s 335 step=7400 | loss=5.0322 | lr=2.768096e-04 | tokens=121,241,600 | time=80.5s/100 | total=1.65h
+6045.4s 336 step=7500 | loss=5.4194 | lr=2.759694e-04 | tokens=122,880,000 | time=79.9s/100 | total=1.67h
+6045.6s 337 step=7500 | loss=5.4194 | lr=2.759694e-04 | tokens=122,880,000 | time=79.9s/100 | total=1.67h
+6126.3s 338 step=7600 | loss=5.8910 | lr=2.751158e-04 | tokens=124,518,400 | time=81.0s/100 | total=1.69h
+6126.6s 339 step=7600 | loss=5.8910 | lr=2.751158e-04 | tokens=124,518,400 | time=81.0s/100 | total=1.69h
+6209.1s 340 step=7700 | loss=5.6274 | lr=2.742488e-04 | tokens=126,156,800 | time=82.8s/100 | total=1.72h
+6209.3s 341 step=7700 | loss=5.6274 | lr=2.742488e-04 | tokens=126,156,800 | time=82.8s/100 | total=1.72h
+6289.6s 342 step=7800 | loss=5.3262 | lr=2.733685e-04 | tokens=127,795,200 | time=80.5s/100 | total=1.74h
+6289.8s 343 step=7800 | loss=5.3262 | lr=2.733685e-04 | tokens=127,795,200 | time=80.5s/100 | total=1.74h
+6369.1s 344 step=7900 | loss=5.6547 | lr=2.724750e-04 | tokens=129,433,600 | time=79.5s/100 | total=1.76h
+6369.3s 345 step=7900 | loss=5.6547 | lr=2.724750e-04 | tokens=129,433,600 | time=79.5s/100 | total=1.76h
+6448.7s 346 step=8000 | loss=5.7892 | lr=2.715686e-04 | tokens=131,072,000 | time=79.6s/100 | total=1.78h
+6448.8s 347 val: found 2 files
+6448.8s 348 val: tokenizer vocabulary size = 10000
+6448.8s 349 Reading val: val_0000.txt
+6449.0s 350 step=8000 | loss=5.7892 | lr=2.715686e-04 | tokens=131,072,000 | time=79.6s/100 | total=1.78h
+6449.0s 351 val: found 2 files
+6449.0s 352 val: tokenizer vocabulary size = 10000
+6449.0s 353 Reading val: val_0000.txt
+6449.6s 354 Validation loss: 6.0172 | PPL: 410.44
+6449.8s 355 Validation loss: 6.0172 | PPL: 410.44
+6529.9s 356 step=8100 | loss=5.9864 | lr=2.706492e-04 | tokens=132,710,400 | time=81.1s/100 | total=1.80h
+6530.1s 357 step=8100 | loss=5.9864 | lr=2.706492e-04 | tokens=132,710,400 | time=81.1s/100 | total=1.80h
+6610.3s 358 step=8200 | loss=5.4905 | lr=2.697169e-04 | tokens=134,348,800 | time=80.4s/100 | total=1.83h
+6610.5s 359 step=8200 | loss=5.4905 | lr=2.697169e-04 | tokens=134,348,800 | time=80.4s/100 | total=1.83h
+6691.0s 360 step=8300 | loss=6.0681 | lr=2.687720e-04 | tokens=135,987,200 | time=80.7s/100 | total=1.85h
+6691.2s 361 step=8300 | loss=6.0681 | lr=2.687720e-04 | tokens=135,987,200 | time=80.7s/100 | total=1.85h
+6770.9s 362 step=8400 | loss=6.0328 | lr=2.678145e-04 | tokens=137,625,600 | time=79.9s/100 | total=1.87h
+6771.1s 363 step=8400 | loss=6.0328 | lr=2.678145e-04 | tokens=137,625,600 | time=79.9s/100 | total=1.87h
+6850.7s 364 step=8500 | loss=5.9527 | lr=2.668445e-04 | tokens=139,264,000 | time=79.8s/100 | total=1.89h
+6850.9s 365 step=8500 | loss=5.9527 | lr=2.668445e-04 | tokens=139,264,000 | time=79.8s/100 | total=1.89h
+6931.8s 366 step=8600 | loss=6.0057 | lr=2.658621e-04 | tokens=140,902,400 | time=81.1s/100 | total=1.92h
+6932.0s 367 step=8600 | loss=6.0057 | lr=2.658621e-04 | tokens=140,902,400 | time=81.1s/100 | total=1.92h
+7014.3s 368 step=8700 | loss=5.6452 | lr=2.648675e-04 | tokens=142,540,800 | time=82.5s/100 | total=1.94h
+7014.5s 369 step=8700 | loss=5.6452 | lr=2.648675e-04 | tokens=142,540,800 | time=82.5s/100 | total=1.94h
+7095.6s 370 step=8800 | loss=5.3664 | lr=2.638608e-04 | tokens=144,179,200 | time=81.3s/100 | total=1.96h
+7095.8s 371 step=8800 | loss=5.3664 | lr=2.638608e-04 | tokens=144,179,200 | time=81.3s/100 | total=1.96h
+7177.5s 372 step=8900 | loss=6.0536 | lr=2.628421e-04 | tokens=145,817,600 | time=81.9s/100 | total=1.98h
+7177.7s 373 step=8900 | loss=6.0536 | lr=2.628421e-04 | tokens=145,817,600 | time=81.9s/100 | total=1.98h
+7259.7s 374 step=9000 | loss=5.9229 | lr=2.618115e-04 | tokens=147,456,000 | time=82.1s/100 | total=2.01h
+7259.7s 375 val: found 2 files
+7259.7s 376 val: tokenizer vocabulary size = 10000
+7259.7s 377 Reading val: val_0000.txt
+7259.9s 378 step=9000 | loss=5.9229 | lr=2.618115e-04 | tokens=147,456,000 | time=82.1s/100 | total=2.01h
+7259.9s 379 val: found 2 files
+7259.9s 380 val: tokenizer vocabulary size = 10000
+7259.9s 381 Reading val: val_0000.txt
+7260.6s 382 Validation loss: 5.8947 | PPL: 363.10
+7260.6s 383 
+7260.6s 384 ======================================================================
+7260.6s 385 SAVING CHECKPOINT 009000
+7260.6s 386 ======================================================================
+7260.8s 387 Validation loss: 5.8947 | PPL: 363.10
+7260.8s 388 
+7260.8s 389 ======================================================================
+7260.8s 390 SAVING CHECKPOINT 009000
+7260.8s 391 ======================================================================
+7261.0s 392 Checkpoint saved: /kaggle/working/assamese_10k/checkpoints/checkpoint_009000.pt
+7261.0s 393 Checkpoint size: 292.0 MB
+7261.2s 394 Checkpoint saved: /kaggle/working/assamese_10k/checkpoints/checkpoint_009000.pt
+7261.2s 395 Checkpoint size: 292.0 MB
+7342.9s 396 step=9100 | loss=5.8185 | lr=2.607691e-04 | tokens=149,094,400 | time=83.3s/100 | total=2.03h
+7343.2s 397 step=9100 | loss=5.8185 | lr=2.607691e-04 | tokens=149,094,400 | time=83.3s/100 | total=2.03h
+7424.3s 398 step=9200 | loss=5.4505 | lr=2.597152e-04 | tokens=150,732,800 | time=81.4s/100 | total=2.05h
+7424.6s 399 step=9200 | loss=5.4505 | lr=2.597152e-04 | tokens=150,732,800 | time=81.4s/100 | total=2.05h
+7505.5s 400 step=9300 | loss=6.1553 | lr=2.586497e-04 | tokens=152,371,200 | time=81.1s/100 | total=2.08h
+7505.7s 401 step=9300 | loss=6.1553 | lr=2.586497e-04 | tokens=152,371,200 | time=81.1s/100 | total=2.08h
+7587.3s 402 step=9400 | loss=6.2679 | lr=2.575729e-04 | tokens=154,009,600 | time=81.8s/100 | total=2.10h
+7587.5s 403 step=9400 | loss=6.2679 | lr=2.575729e-04 | tokens=154,009,600 | time=81.8s/100 | total=2.10h
+7669.0s 404 step=9500 | loss=6.0425 | lr=2.564848e-04 | tokens=155,648,000 | time=81.8s/100 | total=2.12h
+7669.2s 405 step=9500 | loss=6.0425 | lr=2.564848e-04 | tokens=155,648,000 | time=81.8s/100 | total=2.12h
+7750.7s 406 step=9600 | loss=5.8554 | lr=2.553857e-04 | tokens=157,286,400 | time=81.6s/100 | total=2.14h
+7750.9s 407 step=9600 | loss=5.8554 | lr=2.553857e-04 | tokens=157,286,400 | time=81.6s/100 | total=2.14h
+7828.6s 408 step=9700 | loss=5.9088 | lr=2.542755e-04 | tokens=158,924,800 | time=77.9s/100 | total=2.17h
+7828.8s 409 step=9700 | loss=5.9088 | lr=2.542755e-04 | tokens=158,924,800 | time=77.9s/100 | total=2.17h
+7904.3s 410 step=9800 | loss=5.7152 | lr=2.531546e-04 | tokens=160,563,200 | time=75.8s/100 | total=2.19h
+7904.5s 411 step=9800 | loss=5.7152 | lr=2.531546e-04 | tokens=160,563,200 | time=75.8s/100 | total=2.19h
+7979.7s 412 step=9900 | loss=5.6454 | lr=2.520229e-04 | tokens=162,201,600 | time=75.4s/100 | total=2.21h
+7979.9s 413 step=9900 | loss=5.6454 | lr=2.520229e-04 | tokens=162,201,600 | time=75.4s/100 | total=2.21h
+8054.8s 414 step=10000 | loss=6.1726 | lr=2.508807e-04 | tokens=163,840,000 | time=75.1s/100 | total=2.23h
+8054.8s 415 val: found 2 files
+8054.8s 416 val: tokenizer vocabulary size = 10000
+8054.8s 417 Reading val: val_0000.txt
+8055.0s 418 step=10000 | loss=6.1726 | lr=2.508807e-04 | tokens=163,840,000 | time=75.1s/100 | total=2.23h
+8055.0s 419 val: found 2 files
+8055.0s 420 val: tokenizer vocabulary size = 10000
+8055.0s 421 Reading val: val_0000.txt
+8055.6s 422 Validation loss: 5.6313 | PPL: 279.01
+8055.8s 423 Validation loss: 5.6313 | PPL: 279.01
+8131.3s 424 step=10100 | loss=5.6771 | lr=2.497281e-04 | tokens=165,478,400 | time=76.5s/100 | total=2.25h
+8131.5s 425 step=10100 | loss=5.6771 | lr=2.497281e-04 | tokens=165,478,400 | time=76.5s/100 | total=2.25h
+8207.0s 426 step=10200 | loss=5.2009 | lr=2.485651e-04 | tokens=167,116,800 | time=75.7s/100 | total=2.27h
+8207.2s 427 step=10200 | loss=5.2009 | lr=2.485651e-04 | tokens=167,116,800 | time=75.7s/100 | total=2.27h
+8282.2s 428 step=10300 | loss=6.0193 | lr=2.473921e-04 | tokens=168,755,200 | time=75.3s/100 | total=2.29h
+8282.5s 429 step=10300 | loss=6.0193 | lr=2.473921e-04 | tokens=168,755,200 | time=75.3s/100 | total=2.29h
+8357.3s 430 step=10400 | loss=6.0050 | lr=2.462090e-04 | tokens=170,393,600 | time=75.1s/100 | total=2.31h
+8357.5s 431 step=10400 | loss=6.0050 | lr=2.462090e-04 | tokens=170,393,600 | time=75.1s/100 | total=2.31h
+8431.7s 432 step=10500 | loss=5.5348 | lr=2.450161e-04 | tokens=172,032,000 | time=74.4s/100 | total=2.33h
+8431.9s 433 step=10500 | loss=5.5348 | lr=2.450161e-04 | tokens=172,032,000 | time=74.4s/100 | total=2.33h
+8505.9s 434 step=10600 | loss=5.4674 | lr=2.438134e-04 | tokens=173,670,400 | time=74.2s/100 | total=2.35h
+8506.1s 435 step=10600 | loss=5.4674 | lr=2.438134e-04 | tokens=173,670,400 | time=74.2s/100 | total=2.35h
+8579.9s 436 step=10700 | loss=5.3082 | lr=2.426013e-04 | tokens=175,308,800 | time=74.0s/100 | total=2.37h
+8580.1s 437 step=10700 | loss=5.3082 | lr=2.426013e-04 | tokens=175,308,800 | time=74.0s/100 | total=2.37h
+8654.1s 438 step=10800 | loss=5.4551 | lr=2.413796e-04 | tokens=176,947,200 | time=74.2s/100 | total=2.39h
+8654.3s 439 step=10800 | loss=5.4551 | lr=2.413796e-04 | tokens=176,947,200 | time=74.2s/100 | total=2.39h
+8728.2s 440 step=10900 | loss=5.3471 | lr=2.401488e-04 | tokens=178,585,600 | time=74.1s/100 | total=2.42h
+8728.5s 441 step=10900 | loss=5.3471 | lr=2.401488e-04 | tokens=178,585,600 | time=74.1s/100 | total=2.42h
+8802.1s 442 step=11000 | loss=5.2891 | lr=2.389088e-04 | tokens=180,224,000 | time=73.9s/100 | total=2.44h
+8802.1s 443 val: found 2 files
+8802.1s 444 val: tokenizer vocabulary size = 10000
+8802.1s 445 Reading val: val_0000.txt
+8802.3s 446 step=11000 | loss=5.2891 | lr=2.389088e-04 | tokens=180,224,000 | time=73.9s/100 | total=2.44h
+8802.3s 447 val: found 2 files
+8802.3s 448 val: tokenizer vocabulary size = 10000
+8802.3s 449 Reading val: val_0000.txt
+8802.9s 450 Validation loss: 5.7376 | PPL: 310.31
+8803.1s 451 Validation loss: 5.7376 | PPL: 310.31
+8877.0s 452 step=11100 | loss=5.9176 | lr=2.376598e-04 | tokens=181,862,400 | time=74.9s/100 | total=2.46h
+8877.2s 453 step=11100 | loss=5.9176 | lr=2.376598e-04 | tokens=181,862,400 | time=74.9s/100 | total=2.46h
+8950.9s 454 step=11200 | loss=5.3876 | lr=2.364020e-04 | tokens=183,500,800 | time=74.0s/100 | total=2.48h
+8951.2s 455 step=11200 | loss=5.3876 | lr=2.364020e-04 | tokens=183,500,800 | time=74.0s/100 | total=2.48h
+9025.1s 456 step=11300 | loss=5.4390 | lr=2.351355e-04 | tokens=185,139,200 | time=74.1s/100 | total=2.50h
+9025.3s 457 step=11300 | loss=5.4390 | lr=2.351355e-04 | tokens=185,139,200 | time=74.1s/100 | total=2.50h
+9099.2s 458 step=11400 | loss=5.5964 | lr=2.338606e-04 | tokens=186,777,600 | time=74.1s/100 | total=2.52h
+9099.5s 459 step=11400 | loss=5.5964 | lr=2.338606e-04 | tokens=186,777,600 | time=74.1s/100 | total=2.52h
+9173.2s 460 step=11500 | loss=5.2905 | lr=2.325773e-04 | tokens=188,416,000 | time=74.0s/100 | total=2.54h
+9173.5s 461 step=11500 | loss=5.2905 | lr=2.325773e-04 | tokens=188,416,000 | time=74.0s/100 | total=2.54h
+9247.5s 462 step=11600 | loss=5.9530 | lr=2.312857e-04 | tokens=190,054,400 | time=74.2s/100 | total=2.56h
+9247.7s 463 step=11600 | loss=5.9530 | lr=2.312857e-04 | tokens=190,054,400 | time=74.2s/100 | total=2.56h
+9321.7s 464 step=11700 | loss=5.0222 | lr=2.299862e-04 | tokens=191,692,800 | time=74.2s/100 | total=2.58h
+9321.9s 465 step=11700 | loss=5.0222 | lr=2.299862e-04 | tokens=191,692,800 | time=74.2s/100 | total=2.58h
+9395.8s 466 step=11800 | loss=4.6456 | lr=2.286787e-04 | tokens=193,331,200 | time=74.2s/100 | total=2.60h
+9396.1s 467 step=11800 | loss=4.6456 | lr=2.286787e-04 | tokens=193,331,200 | time=74.2s/100 | total=2.60h
+9469.9s 468 step=11900 | loss=6.0417 | lr=2.273635e-04 | tokens=194,969,600 | time=74.1s/100 | total=2.62h
+9470.2s 469 step=11900 | loss=6.0417 | lr=2.273635e-04 | tokens=194,969,600 | time=74.1s/100 | total=2.62h
+9543.6s 470 step=12000 | loss=6.1096 | lr=2.260408e-04 | tokens=196,608,000 | time=73.7s/100 | total=2.64h
+9543.6s 471 val: found 2 files
+9543.6s 472 val: tokenizer vocabulary size = 10000
+9543.6s 473 Reading val: val_0000.txt
+9543.8s 474 step=12000 | loss=6.1096 | lr=2.260408e-04 | tokens=196,608,000 | time=73.7s/100 | total=2.64h
+9543.8s 475 val: found 2 files
+9543.8s 476 val: tokenizer vocabulary size = 10000
+9543.8s 477 Reading val: val_0000.txt
+9544.4s 478 Validation loss: 5.6818 | PPL: 293.48
+9544.4s 479 
+9544.4s 480 ======================================================================
+9544.4s 481 SAVING CHECKPOINT 012000
+9544.4s 482 ======================================================================
+9544.6s 483 Validation loss: 5.6818 | PPL: 293.48
+9544.6s 484 
+9544.6s 485 ======================================================================
+9544.6s 486 SAVING CHECKPOINT 012000
+9544.6s 487 ======================================================================
+9544.8s 488 Checkpoint saved: /kaggle/working/assamese_10k/checkpoints/checkpoint_012000.pt
+9544.8s 489 Checkpoint size: 292.0 MB
+9545.1s 490 Checkpoint saved: /kaggle/working/assamese_10k/checkpoints/checkpoint_012000.pt
+9545.1s 491 Checkpoint size: 292.0 MB
+9618.8s 492 step=12100 | loss=5.2142 | lr=2.247106e-04 | tokens=198,246,400 | time=75.2s/100 | total=2.66h
+9619.0s 493 step=12100 | loss=5.2142 | lr=2.247106e-04 | tokens=198,246,400 | time=75.2s/100 | total=2.66h
+9692.7s 494 step=12200 | loss=5.4045 | lr=2.233732e-04 | tokens=199,884,800 | time=73.9s/100 | total=2.68h
+9692.9s 495 step=12200 | loss=5.4045 | lr=2.233732e-04 | tokens=199,884,800 | time=73.9s/100 | total=2.68h
+9766.4s 496 step=12300 | loss=5.3551 | lr=2.220288e-04 | tokens=201,523,200 | time=73.7s/100 | total=2.70h
+9766.6s 497 step=12300 | loss=5.3551 | lr=2.220288e-04 | tokens=201,523,200 | time=73.7s/100 | total=2.70h
+9840.1s 498 step=12400 | loss=5.4222 | lr=2.206773e-04 | tokens=203,161,600 | time=73.7s/100 | total=2.72h
+9840.3s 499 step=12400 | loss=5.4222 | lr=2.206773e-04 | tokens=203,161,600 | time=73.7s/100 | total=2.72h
+9913.9s 500 step=12500 | loss=5.2299 | lr=2.193192e-04 | tokens=204,800,000 | time=73.8s/100 | total=2.74h
+9914.1s 501 step=12500 | loss=5.2299 | lr=2.193192e-04 | tokens=204,800,000 | time=73.8s/100 | total=2.74h
+9987.4s 502 step=12600 | loss=4.9982 | lr=2.179544e-04 | tokens=206,438,400 | time=73.6s/100 | total=2.77h
+9987.6s 503 step=12600 | loss=4.9982 | lr=2.179544e-04 | tokens=206,438,400 | time=73.6s/100 | total=2.77h
+10061.2s 504 step=12700 | loss=5.5284 | lr=2.165832e-04 | tokens=208,076,800 | time=73.8s/100 | total=2.79h
+10061.4s 505 step=12700 | loss=5.5284 | lr=2.165832e-04 | tokens=208,076,800 | time=73.8s/100 | total=2.79h
+10134.8s 506 step=12800 | loss=5.0350 | lr=2.152058e-04 | tokens=209,715,200 | time=73.6s/100 | total=2.81h
+10135.1s 507 step=12800 | loss=5.0350 | lr=2.152058e-04 | tokens=209,715,200 | time=73.6s/100 | total=2.81h
+10208.5s 508 step=12900 | loss=6.0171 | lr=2.138223e-04 | tokens=211,353,600 | time=73.6s/100 | total=2.83h
+10208.7s 509 step=12900 | loss=6.0171 | lr=2.138223e-04 | tokens=211,353,600 | time=73.6s/100 | total=2.83h
+10281.9s 510 step=13000 | loss=6.4806 | lr=2.124328e-04 | tokens=212,992,000 | time=73.4s/100 | total=2.85h
+10281.9s 511 val: found 2 files
+10281.9s 512 val: tokenizer vocabulary size = 10000
+10281.9s 513 Reading val: val_0000.txt
+10282.1s 514 step=13000 | loss=6.4806 | lr=2.124328e-04 | tokens=212,992,000 | time=73.4s/100 | total=2.85h
+10282.1s 515 val: found 2 files
+10282.1s 516 val: tokenizer vocabulary size = 10000
+10282.1s 517 Reading val: val_0000.txt
+10282.7s 518 Validation loss: 5.6064 | PPL: 272.17
+10282.9s 519 Validation loss: 5.6064 | PPL: 272.17
+10356.3s 520 step=13100 | loss=5.7674 | lr=2.110376e-04 | tokens=214,630,400 | time=74.4s/100 | total=2.87h
+10356.5s 521 step=13100 | loss=5.7674 | lr=2.110376e-04 | tokens=214,630,400 | time=74.4s/100 | total=2.87h
+10429.7s 522 step=13200 | loss=5.6885 | lr=2.096368e-04 | tokens=216,268,800 | time=73.4s/100 | total=2.89h
+10430.0s 523 step=13200 | loss=5.6885 | lr=2.096368e-04 | tokens=216,268,800 | time=73.4s/100 | total=2.89h
+10503.4s 524 step=13300 | loss=5.5815 | lr=2.082306e-04 | tokens=217,907,200 | time=73.6s/100 | total=2.91h
+10503.6s 525 step=13300 | loss=5.5815 | lr=2.082306e-04 | tokens=217,907,200 | time=73.6s/100 | total=2.91h
+10577.1s 526 step=13400 | loss=5.4315 | lr=2.068191e-04 | tokens=219,545,600 | time=73.8s/100 | total=2.93h
+10577.4s 527 step=13400 | loss=5.4315 | lr=2.068191e-04 | tokens=219,545,600 | time=73.8s/100 | total=2.93h
+10651.0s 528 step=13500 | loss=5.7962 | lr=2.054026e-04 | tokens=221,184,000 | time=73.9s/100 | total=2.95h
+10651.2s 529 step=13500 | loss=5.7962 | lr=2.054026e-04 | tokens=221,184,000 | time=73.9s/100 | total=2.95h
+10725.1s 530 step=13600 | loss=5.2606 | lr=2.039811e-04 | tokens=222,822,400 | time=74.1s/100 | total=2.97h
+10725.3s 531 step=13600 | loss=5.2606 | lr=2.039811e-04 | tokens=222,822,400 | time=74.1s/100 | total=2.97h
+10799.2s 532 step=13700 | loss=5.0366 | lr=2.025550e-04 | tokens=224,460,800 | time=74.1s/100 | total=2.99h
+10799.4s 533 step=13700 | loss=5.0366 | lr=2.025550e-04 | tokens=224,460,800 | time=74.1s/100 | total=2.99h
+10873.9s 534 step=13800 | loss=5.7045 | lr=2.011242e-04 | tokens=226,099,200 | time=74.7s/100 | total=3.01h
+10874.1s 535 step=13800 | loss=5.7045 | lr=2.011242e-04 | tokens=226,099,200 | time=74.7s/100 | total=3.01h
+10948.2s 536 step=13900 | loss=5.6150 | lr=1.996891e-04 | tokens=227,737,600 | time=74.3s/100 | total=3.03h
+10948.4s 537 step=13900 | loss=5.6150 | lr=1.996891e-04 | tokens=227,737,600 | time=74.3s/100 | total=3.03h
+11022.5s 538 step=14000 | loss=5.6867 | lr=1.982498e-04 | tokens=229,376,000 | time=74.3s/100 | total=3.05h
+11022.5s 539 val: found 2 files
+11022.5s 540 val: tokenizer vocabulary size = 10000
+11022.5s 541 Reading val: val_0000.txt
+11022.7s 542 step=14000 | loss=5.6867 | lr=1.982498e-04 | tokens=229,376,000 | time=74.3s/100 | total=3.05h
+11022.7s 543 val: found 2 files
+11022.7s 544 val: tokenizer vocabulary size = 10000
+11022.7s 545 Reading val: val_0000.txt
+11023.3s 546 Validation loss: 5.3517 | PPL: 210.96
+11023.5s 547 Validation loss: 5.3517 | PPL: 210.96
+11097.7s 548 step=14100 | loss=5.8491 | lr=1.968064e-04 | tokens=231,014,400 | time=75.2s/100 | total=3.07h
+11097.9s 549 step=14100 | loss=5.8491 | lr=1.968064e-04 | tokens=231,014,400 | time=75.2s/100 | total=3.07h
+11171.9s 550 step=14200 | loss=5.6290 | lr=1.953592e-04 | tokens=232,652,800 | time=74.3s/100 | total=3.09h
+11172.2s 551 step=14200 | loss=5.6290 | lr=1.953592e-04 | tokens=232,652,800 | time=74.3s/100 | total=3.09h
+11246.6s 552 step=14300 | loss=5.9682 | lr=1.939083e-04 | tokens=234,291,200 | time=74.6s/100 | total=3.12h
+11246.8s 553 step=14300 | loss=5.9682 | lr=1.939083e-04 | tokens=234,291,200 | time=74.6s/100 | total=3.12h
+11321.0s 554 step=14400 | loss=5.3475 | lr=1.924539e-04 | tokens=235,929,600 | time=74.4s/100 | total=3.14h
+11321.2s 555 step=14400 | loss=5.3475 | lr=1.924539e-04 | tokens=235,929,600 | time=74.4s/100 | total=3.14h
+11395.5s 556 step=14500 | loss=5.4025 | lr=1.909962e-04 | tokens=237,568,000 | time=74.5s/100 | total=3.16h
+11395.7s 557 step=14500 | loss=5.4025 | lr=1.909962e-04 | tokens=237,568,000 | time=74.5s/100 | total=3.16h
+11469.6s 558 step=14600 | loss=5.4492 | lr=1.895353e-04 | tokens=239,206,400 | time=74.1s/100 | total=3.18h
+11469.9s 559 step=14600 | loss=5.4492 | lr=1.895353e-04 | tokens=239,206,400 | time=74.1s/100 | total=3.18h
+11543.6s 560 step=14700 | loss=5.8423 | lr=1.880714e-04 | tokens=240,844,800 | time=74.0s/100 | total=3.20h
+11543.8s 561 step=14700 | loss=5.8423 | lr=1.880714e-04 | tokens=240,844,800 | time=74.0s/100 | total=3.20h
+11617.6s 562 step=14800 | loss=6.0101 | lr=1.866047e-04 | tokens=242,483,200 | time=74.0s/100 | total=3.22h
+11617.8s 563 step=14800 | loss=6.0101 | lr=1.866047e-04 | tokens=242,483,200 | time=74.0s/100 | total=3.22h
+11692.0s 564 step=14900 | loss=5.5244 | lr=1.851354e-04 | tokens=244,121,600 | time=74.4s/100 | total=3.24h
+11692.2s 565 step=14900 | loss=5.5244 | lr=1.851354e-04 | tokens=244,121,600 | time=74.4s/100 | total=3.24h
+11766.6s 566 step=15000 | loss=5.2547 | lr=1.836637e-04 | tokens=245,760,000 | time=74.6s/100 | total=3.26h
+11766.6s 567 val: found 2 files
+11766.6s 568 val: tokenizer vocabulary size = 10000
+11766.6s 569 Reading val: val_0000.txt
+11766.8s 570 step=15000 | loss=5.2547 | lr=1.836637e-04 | tokens=245,760,000 | time=74.6s/100 | total=3.26h
+11766.8s 571 val: found 2 files
+11766.8s 572 val: tokenizer vocabulary size = 10000
+11766.8s 573 Reading val: val_0000.txt
+11767.4s 574 Validation loss: 5.3101 | PPL: 202.38
+11767.4s 575 
+11767.4s 576 ======================================================================
+11767.4s 577 SAVING CHECKPOINT 015000
+11767.4s 578 ======================================================================
+11767.6s 579 Validation loss: 5.3101 | PPL: 202.38
+11767.6s 580 
+11767.6s 581 ======================================================================
+11767.6s 582 SAVING CHECKPOINT 015000
+11767.6s 583 ======================================================================
+11767.8s 584 Checkpoint saved: /kaggle/working/assamese_10k/checkpoints/checkpoint_015000.pt
+11767.8s 585 Checkpoint size: 292.0 MB
+11768.0s 586 Checkpoint saved: /kaggle/working/assamese_10k/checkpoints/checkpoint_015000.pt
+11768.0s 587 Checkpoint size: 292.0 MB
+11842.5s 588 step=15100 | loss=4.4366 | lr=1.821897e-04 | tokens=247,398,400 | time=75.9s/100 | total=3.28h
+11842.7s 589 step=15100 | loss=4.4366 | lr=1.821897e-04 | tokens=247,398,400 | time=75.9s/100 | total=3.28h
+11916.8s 590 step=15200 | loss=4.6974 | lr=1.807136e-04 | tokens=249,036,800 | time=74.3s/100 | total=3.30h
+11917.0s 591 step=15200 | loss=4.6974 | lr=1.807136e-04 | tokens=249,036,800 | time=74.3s/100 | total=3.30h
+11991.4s 592 step=15300 | loss=4.6432 | lr=1.792356e-04 | tokens=250,675,200 | time=74.6s/100 | total=3.32h
+11991.7s 593 step=15300 | loss=4.6432 | lr=1.792356e-04 | tokens=250,675,200 | time=74.6s/100 | total=3.32h
+12066.0s 594 step=15400 | loss=3.9110 | lr=1.777558e-04 | tokens=252,313,600 | time=74.6s/100 | total=3.34h
+12066.2s 595 step=15400 | loss=3.9110 | lr=1.777558e-04 | tokens=252,313,600 | time=74.6s/100 | total=3.34h
+12140.4s 596 step=15500 | loss=3.9436 | lr=1.762746e-04 | tokens=253,952,000 | time=74.4s/100 | total=3.36h
+12140.6s 597 step=15500 | loss=3.9436 | lr=1.762746e-04 | tokens=253,952,000 | time=74.4s/100 | total=3.36h
+12214.7s 598 step=15600 | loss=4.5848 | lr=1.747919e-04 | tokens=255,590,400 | time=74.3s/100 | total=3.38h
+12214.9s 599 step=15600 | loss=4.5848 | lr=1.747919e-04 | tokens=255,590,400 | time=74.3s/100 | total=3.38h
+12288.4s 600 step=15700 | loss=3.2595 | lr=1.733081e-04 | tokens=257,228,800 | time=73.7s/100 | total=3.40h
+12288.6s 601 step=15700 | loss=3.2595 | lr=1.733081e-04 | tokens=257,228,800 | time=73.7s/100 | total=3.40h
+12362.3s 602 step=15800 | loss=2.4662 | lr=1.718233e-04 | tokens=258,867,200 | time=73.9s/100 | total=3.42h
+12362.5s 603 step=15800 | loss=2.4662 | lr=1.718233e-04 | tokens=258,867,200 | time=73.9s/100 | total=3.42h
+12436.1s 604 step=15900 | loss=1.8063 | lr=1.703376e-04 | tokens=260,505,600 | time=73.7s/100 | total=3.45h
+12436.3s 605 step=15900 | loss=1.8063 | lr=1.703376e-04 | tokens=260,505,600 | time=73.7s/100 | total=3.45h
+12509.9s 606 step=16000 | loss=5.1190 | lr=1.688513e-04 | tokens=262,144,000 | time=73.9s/100 | total=3.47h
+12510.0s 607 val: found 2 files
+12510.0s 608 val: tokenizer vocabulary size = 10000
+12510.0s 609 Reading val: val_0000.txt
+12510.2s 610 step=16000 | loss=5.1190 | lr=1.688513e-04 | tokens=262,144,000 | time=73.9s/100 | total=3.47h
+12510.2s 611 val: found 2 files
+12510.2s 612 val: tokenizer vocabulary size = 10000
+12510.2s 613 Reading val: val_0000.txt
+12510.8s 614 Validation loss: 5.9291 | PPL: 375.81
+12511.0s 615 Validation loss: 5.9291 | PPL: 375.81
+12585.0s 616 step=16100 | loss=5.2694 | lr=1.673645e-04 | tokens=263,782,400 | time=75.0s/100 | total=3.49h
+12585.2s 617 step=16100 | loss=5.2694 | lr=1.673645e-04 | tokens=263,782,400 | time=75.0s/100 | total=3.49h
+12659.1s 618 step=16200 | loss=4.9701 | lr=1.658774e-04 | tokens=265,420,800 | time=74.1s/100 | total=3.51h
+12659.3s 619 step=16200 | loss=4.9701 | lr=1.658774e-04 | tokens=265,420,800 | time=74.1s/100 | total=3.51h
+12733.3s 620 step=16300 | loss=4.7210 | lr=1.643903e-04 | tokens=267,059,200 | time=74.3s/100 | total=3.53h
+12733.6s 621 step=16300 | loss=4.7210 | lr=1.643903e-04 | tokens=267,059,200 | time=74.3s/100 | total=3.53h
+12807.5s 622 step=16400 | loss=4.6274 | lr=1.629032e-04 | tokens=268,697,600 | time=74.2s/100 | total=3.55h
+12807.8s 623 step=16400 | loss=4.6274 | lr=1.629032e-04 | tokens=268,697,600 | time=74.2s/100 | total=3.55h
+12881.7s 624 step=16500 | loss=4.5370 | lr=1.614163e-04 | tokens=270,336,000 | time=74.2s/100 | total=3.57h
+12882.0s 625 step=16500 | loss=4.5370 | lr=1.614163e-04 | tokens=270,336,000 | time=74.2s/100 | total=3.57h
+12956.0s 626 step=16600 | loss=4.6109 | lr=1.599299e-04 | tokens=271,974,400 | time=74.3s/100 | total=3.59h
+12956.2s 627 step=16600 | loss=4.6109 | lr=1.599299e-04 | tokens=271,974,400 | time=74.3s/100 | total=3.59h
+13030.4s 628 step=16700 | loss=4.2988 | lr=1.584441e-04 | tokens=273,612,800 | time=74.4s/100 | total=3.61h
+13030.6s 629 step=16700 | loss=4.2988 | lr=1.584441e-04 | tokens=273,612,800 | time=74.4s/100 | total=3.61h
+13104.7s 630 step=16800 | loss=4.3880 | lr=1.569591e-04 | tokens=275,251,200 | time=74.3s/100 | total=3.63h
+13104.9s 631 step=16800 | loss=4.3880 | lr=1.569591e-04 | tokens=275,251,200 | time=74.3s/100 | total=3.63h
+13180.5s 632 step=16900 | loss=4.4005 | lr=1.554751e-04 | tokens=276,889,600 | time=75.8s/100 | total=3.65h
+13180.7s 633 step=16900 | loss=4.4005 | lr=1.554751e-04 | tokens=276,889,600 | time=75.8s/100 | total=3.65h
+13256.5s 634 step=17000 | loss=4.6598 | lr=1.539922e-04 | tokens=278,528,000 | time=76.0s/100 | total=3.67h
+13256.5s 635 val: found 2 files
+13256.5s 636 val: tokenizer vocabulary size = 10000
+13256.5s 637 Reading val: val_0000.txt
+13256.7s 638 step=17000 | loss=4.6598 | lr=1.539922e-04 | tokens=278,528,000 | time=76.0s/100 | total=3.67h
+13256.7s 639 val: found 2 files
+13256.7s 640 val: tokenizer vocabulary size = 10000
+13256.7s 641 Reading val: val_0000.txt
+13257.3s 642 Validation loss: 5.3895 | PPL: 219.09
+13257.5s 643 Validation loss: 5.3895 | PPL: 219.09
+13331.7s 644 step=17100 | loss=4.3347 | lr=1.525107e-04 | tokens=280,166,400 | time=75.2s/100 | total=3.69h
+13331.9s 645 step=17100 | loss=4.3347 | lr=1.525107e-04 | tokens=280,166,400 | time=75.2s/100 | total=3.69h
+13406.0s 646 step=17200 | loss=4.8458 | lr=1.510307e-04 | tokens=281,804,800 | time=74.3s/100 | total=3.71h
+13406.2s 647 step=17200 | loss=4.8458 | lr=1.510307e-04 | tokens=281,804,800 | time=74.3s/100 | total=3.71h
+13480.4s 648 step=17300 | loss=4.0095 | lr=1.495523e-04 | tokens=283,443,200 | time=74.3s/100 | total=3.74h
+13480.6s 649 step=17300 | loss=4.0095 | lr=1.495523e-04 | tokens=283,443,200 | time=74.3s/100 | total=3.74h
+13554.6s 650 step=17400 | loss=3.6738 | lr=1.480759e-04 | tokens=285,081,600 | time=74.3s/100 | total=3.76h
+13554.9s 651 step=17400 | loss=3.6738 | lr=1.480759e-04 | tokens=285,081,600 | time=74.3s/100 | total=3.76h
+13629.0s 652 step=17500 | loss=4.0427 | lr=1.466015e-04 | tokens=286,720,000 | time=74.4s/100 | total=3.78h
+13629.2s 653 step=17500 | loss=4.0427 | lr=1.466015e-04 | tokens=286,720,000 | time=74.4s/100 | total=3.78h
+13703.1s 654 step=17600 | loss=4.1396 | lr=1.451293e-04 | tokens=288,358,400 | time=74.1s/100 | total=3.80h
+13703.3s 655 step=17600 | loss=4.1396 | lr=1.451293e-04 | tokens=288,358,400 | time=74.1s/100 | total=3.80h
+13777.2s 656 step=17700 | loss=4.2147 | lr=1.436596e-04 | tokens=289,996,800 | time=74.1s/100 | total=3.82h
+13777.4s 657 step=17700 | loss=4.2147 | lr=1.436596e-04 | tokens=289,996,800 | time=74.1s/100 | total=3.82h
+13854.1s 658 step=17800 | loss=4.2978 | lr=1.421924e-04 | tokens=291,635,200 | time=76.9s/100 | total=3.84h
+13854.3s 659 step=17800 | loss=4.2978 | lr=1.421924e-04 | tokens=291,635,200 | time=76.9s/100 | total=3.84h
+13932.3s 660 step=17900 | loss=3.8923 | lr=1.407280e-04 | tokens=293,273,600 | time=78.2s/100 | total=3.86h
+13932.5s 661 step=17900 | loss=3.8923 | lr=1.407280e-04 | tokens=293,273,600 | time=78.2s/100 | total=3.86h
+14010.6s 662 step=18000 | loss=4.1104 | lr=1.392666e-04 | tokens=294,912,000 | time=78.4s/100 | total=3.88h
+14010.6s 663 val: found 2 files
+14010.6s 664 val: tokenizer vocabulary size = 10000
+14010.6s 665 Reading val: val_0000.txt
+14010.8s 666 step=18000 | loss=4.1104 | lr=1.392666e-04 | tokens=294,912,000 | time=78.4s/100 | total=3.88h
+14010.8s 667 val: found 2 files
+14010.8s 668 val: tokenizer vocabulary size = 10000
+14010.8s 669 Reading val: val_0000.txt
+14011.5s 670 Validation loss: 5.3852 | PPL: 218.15
+14011.5s 671 
+14011.5s 672 ======================================================================
+14011.5s 673 SAVING CHECKPOINT 018000
+14011.5s 674 ======================================================================
+14011.7s 675 Validation loss: 5.3852 | PPL: 218.15
+14011.7s 676 
+14011.7s 677 ======================================================================
+14011.7s 678 SAVING CHECKPOINT 018000
+14011.7s 679 ======================================================================
+14012.0s 680 Checkpoint saved: /kaggle/working/assamese_10k/checkpoints/checkpoint_018000.pt
+14012.0s 681 Checkpoint size: 292.0 MB
+14012.2s 682 Checkpoint saved: /kaggle/working/assamese_10k/checkpoints/checkpoint_018000.pt
+14012.2s 683 Checkpoint size: 292.0 MB
+14092.6s 684 step=18100 | loss=3.4653 | lr=1.378083e-04 | tokens=296,550,400 | time=81.9s/100 | total=3.91h
+14092.8s 685 step=18100 | loss=3.4653 | lr=1.378083e-04 | tokens=296,550,400 | time=81.9s/100 | total=3.91h
+14172.5s 686 step=18200 | loss=4.0887 | lr=1.363532e-04 | tokens=298,188,800 | time=80.0s/100 | total=3.93h
+14172.7s 687 step=18200 | loss=4.0887 | lr=1.363532e-04 | tokens=298,188,800 | time=80.0s/100 | total=3.93h
+14251.4s 688 step=18300 | loss=3.7334 | lr=1.349017e-04 | tokens=299,827,200 | time=78.9s/100 | total=3.95h
+14251.6s 689 step=18300 | loss=3.7334 | lr=1.349017e-04 | tokens=299,827,200 | time=78.9s/100 | total=3.95h
+14330.0s 690 step=18400 | loss=3.9195 | lr=1.334538e-04 | tokens=301,465,600 | time=78.6s/100 | total=3.97h
+14330.2s 691 step=18400 | loss=3.9195 | lr=1.334538e-04 | tokens=301,465,600 | time=78.6s/100 | total=3.97h
+14407.4s 692 step=18500 | loss=4.3316 | lr=1.320097e-04 | tokens=303,104,000 | time=77.4s/100 | total=3.99h
+14407.6s 693 step=18500 | loss=4.3316 | lr=1.320097e-04 | tokens=303,104,000 | time=77.4s/100 | total=3.99h
+14484.9s 694 step=18600 | loss=4.8174 | lr=1.305697e-04 | tokens=304,742,400 | time=77.5s/100 | total=4.01h
+14485.1s 695 step=18600 | loss=4.8174 | lr=1.305697e-04 | tokens=304,742,400 | time=77.5s/100 | total=4.01h
+14562.0s 696 step=18700 | loss=5.2402 | lr=1.291338e-04 | tokens=306,380,800 | time=77.1s/100 | total=4.04h
+14562.2s 697 step=18700 | loss=5.2402 | lr=1.291338e-04 | tokens=306,380,800 | time=77.1s/100 | total=4.04h
+14638.7s 698 step=18800 | loss=6.0481 | lr=1.277022e-04 | tokens=308,019,200 | time=76.7s/100 | total=4.06h
+14638.9s 699 step=18800 | loss=6.0481 | lr=1.277022e-04 | tokens=308,019,200 | time=76.7s/100 | total=4.06h
+14715.2s 700 step=18900 | loss=5.5846 | lr=1.262752e-04 | tokens=309,657,600 | time=76.5s/100 | total=4.08h
+14715.4s 701 step=18900 | loss=5.5846 | lr=1.262752e-04 | tokens=309,657,600 | time=76.5s/100 | total=4.08h
+14792.2s 702 step=19000 | loss=5.5411 | lr=1.248529e-04 | tokens=311,296,000 | time=77.0s/100 | total=4.10h
+14792.2s 703 val: found 2 files
+14792.2s 704 val: tokenizer vocabulary size = 10000
+14792.2s 705 Reading val: val_0000.txt
+14792.5s 706 step=19000 | loss=5.5411 | lr=1.248529e-04 | tokens=311,296,000 | time=77.0s/100 | total=4.10h
+14792.5s 707 val: found 2 files
+14792.5s 708 val: tokenizer vocabulary size = 10000
+14792.5s 709 Reading val: val_0000.txt
+14793.1s 710 Validation loss: 5.3729 | PPL: 215.49
+14793.3s 711 Validation loss: 5.3729 | PPL: 215.49
+14813.8s 712 Reading train: train_0001.txt
+14814.0s 713 Reading train: train_0001.txt
+14869.7s 714 step=19100 | loss=5.2137 | lr=1.234355e-04 | tokens=312,934,400 | time=77.5s/100 | total=4.12h
+14869.9s 715 step=19100 | loss=5.2137 | lr=1.234355e-04 | tokens=312,934,400 | time=77.5s/100 | total=4.12h
+14946.2s 716 step=19200 | loss=5.3298 | lr=1.220231e-04 | tokens=314,572,800 | time=76.5s/100 | total=4.14h
+14946.4s 717 step=19200 | loss=5.3298 | lr=1.220231e-04 | tokens=314,572,800 | time=76.5s/100 | total=4.14h
+15023.6s 718 step=19300 | loss=5.0619 | lr=1.206159e-04 | tokens=316,211,200 | time=77.4s/100 | total=4.16h
+15023.9s 719 step=19300 | loss=5.0619 | lr=1.206159e-04 | tokens=316,211,200 | time=77.4s/100 | total=4.16h
+15101.2s 720 step=19400 | loss=4.8018 | lr=1.192141e-04 | tokens=317,849,600 | time=77.6s/100 | total=4.19h
+15101.4s 721 step=19400 | loss=4.8018 | lr=1.192141e-04 | tokens=317,849,600 | time=77.6s/100 | total=4.19h
+15178.7s 722 step=19500 | loss=4.8418 | lr=1.178179e-04 | tokens=319,488,000 | time=77.5s/100 | total=4.21h
+15179.0s 723 step=19500 | loss=4.8418 | lr=1.178179e-04 | tokens=319,488,000 | time=77.5s/100 | total=4.21h
+15256.4s 724 step=19600 | loss=4.8166 | lr=1.164274e-04 | tokens=321,126,400 | time=77.7s/100 | total=4.23h
+15256.7s 725 step=19600 | loss=4.8166 | lr=1.164274e-04 | tokens=321,126,400 | time=77.7s/100 | total=4.23h
+15333.8s 726 step=19700 | loss=4.9941 | lr=1.150428e-04 | tokens=322,764,800 | time=77.3s/100 | total=4.25h
+15334.0s 727 step=19700 | loss=4.9941 | lr=1.150428e-04 | tokens=322,764,800 | time=77.3s/100 | total=4.25h
+15411.0s 728 step=19800 | loss=4.8213 | lr=1.136642e-04 | tokens=324,403,200 | time=77.2s/100 | total=4.27h
+15411.2s 729 step=19800 | loss=4.8213 | lr=1.136642e-04 | tokens=324,403,200 | time=77.2s/100 | total=4.27h
+15488.2s 730 step=19900 | loss=5.0260 | lr=1.122919e-04 | tokens=326,041,600 | time=77.2s/100 | total=4.29h
+15488.4s 731 step=19900 | loss=5.0260 | lr=1.122919e-04 | tokens=326,041,600 | time=77.2s/100 | total=4.29h
+15565.3s 732 step=20000 | loss=4.8222 | lr=1.109260e-04 | tokens=327,680,000 | time=77.1s/100 | total=4.31h
+15565.3s 733 val: found 2 files
+15565.3s 734 val: tokenizer vocabulary size = 10000
+15565.3s 735 Reading val: val_0000.txt
+15565.6s 736 step=20000 | loss=4.8222 | lr=1.109260e-04 | tokens=327,680,000 | time=77.1s/100 | total=4.31h
+15565.6s 737 val: found 2 files
+15565.6s 738 val: tokenizer vocabulary size = 10000
+15565.6s 739 Reading val: val_0000.txt
+15566.2s 740 Validation loss: 5.1387 | PPL: 170.49
+15566.4s 741 Validation loss: 5.1387 | PPL: 170.49
+15642.4s 742 step=20100 | loss=4.6884 | lr=1.095666e-04 | tokens=329,318,400 | time=77.1s/100 | total=4.34h
+15642.6s 743 step=20100 | loss=4.6884 | lr=1.095666e-04 | tokens=329,318,400 | time=77.1s/100 | total=4.34h
+15717.5s 744 step=20200 | loss=4.9834 | lr=1.082140e-04 | tokens=330,956,800 | time=75.1s/100 | total=4.36h
+15717.7s 745 step=20200 | loss=4.9834 | lr=1.082140e-04 | tokens=330,956,800 | time=75.1s/100 | total=4.36h
+15756.6s 746 Reading train: train_0002.txt
+15756.8s 747 Reading train: train_0002.txt
+15792.1s 748 step=20300 | loss=4.6882 | lr=1.068683e-04 | tokens=332,595,200 | time=74.6s/100 | total=4.38h
+15792.3s 749 step=20300 | loss=4.6882 | lr=1.068683e-04 | tokens=332,595,200 | time=74.6s/100 | total=4.38h
+15866.2s 750 step=20400 | loss=4.6746 | lr=1.055296e-04 | tokens=334,233,600 | time=74.1s/100 | total=4.40h
+15866.4s 751 step=20400 | loss=4.6746 | lr=1.055296e-04 | tokens=334,233,600 | time=74.1s/100 | total=4.40h
+15940.1s 752 step=20500 | loss=4.7019 | lr=1.041981e-04 | tokens=335,872,000 | time=74.0s/100 | total=4.42h
+15940.4s 753 step=20500 | loss=4.7019 | lr=1.041981e-04 | tokens=335,872,000 | time=74.0s/100 | total=4.42h
+16014.3s 754 step=20600 | loss=4.6956 | lr=1.028740e-04 | tokens=337,510,400 | time=74.2s/100 | total=4.44h
+16014.5s 755 step=20600 | loss=4.6956 | lr=1.028740e-04 | tokens=337,510,400 | time=74.2s/100 | total=4.44h
+16088.4s 756 step=20700 | loss=4.8735 | lr=1.015574e-04 | tokens=339,148,800 | time=74.1s/100 | total=4.46h
+16088.6s 757 step=20700 | loss=4.8735 | lr=1.015574e-04 | tokens=339,148,800 | time=74.1s/100 | total=4.46h
+16162.6s 758 step=20800 | loss=4.9040 | lr=1.002486e-04 | tokens=340,787,200 | time=74.2s/100 | total=4.48h
+16162.8s 759 step=20800 | loss=4.9040 | lr=1.002486e-04 | tokens=340,787,200 | time=74.2s/100 | total=4.48h
+16236.7s 760 step=20900 | loss=4.7838 | lr=9.894759e-05 | tokens=342,425,600 | time=74.1s/100 | total=4.50h
+16236.9s 761 step=20900 | loss=4.7838 | lr=9.894759e-05 | tokens=342,425,600 | time=74.1s/100 | total=4.50h
+16310.9s 762 step=21000 | loss=4.9604 | lr=9.765461e-05 | tokens=344,064,000 | time=74.2s/100 | total=4.52h
+16310.9s 763 val: found 2 files
+16310.9s 764 val: tokenizer vocabulary size = 10000
+16310.9s 765 Reading val: val_0000.txt
+16311.2s 766 step=21000 | loss=4.9604 | lr=9.765461e-05 | tokens=344,064,000 | time=74.2s/100 | total=4.52h
+16311.2s 767 val: found 2 files
+16311.2s 768 val: tokenizer vocabulary size = 10000
+16311.2s 769 Reading val: val_0000.txt
+16311.8s 770 Validation loss: 5.0898 | PPL: 162.35
+16311.8s 771 
+16311.8s 772 ======================================================================
+16311.8s 773 SAVING CHECKPOINT 021000
+16311.8s 774 ======================================================================
+16312.0s 775 Validation loss: 5.0898 | PPL: 162.35
+16312.0s 776 
+16312.0s 777 ======================================================================
+16312.0s 778 SAVING CHECKPOINT 021000
+16312.0s 779 ======================================================================
+16312.1s 780 Checkpoint saved: /kaggle/working/assamese_10k/checkpoints/checkpoint_021000.pt
+16312.1s 781 Checkpoint size: 292.0 MB
+16312.3s 782 Checkpoint saved: /kaggle/working/assamese_10k/checkpoints/checkpoint_021000.pt
+16312.3s 783 Checkpoint size: 292.0 MB
+16386.4s 784 step=21100 | loss=4.9908 | lr=9.636980e-05 | tokens=345,702,400 | time=75.4s/100 | total=4.54h
+16386.6s 785 step=21100 | loss=4.9908 | lr=9.636980e-05 | tokens=345,702,400 | time=75.4s/100 | total=4.54h
+16460.6s 786 step=21200 | loss=4.6951 | lr=9.509332e-05 | tokens=347,340,800 | time=74.2s/100 | total=4.56h
+16460.8s 787 step=21200 | loss=4.6951 | lr=9.509332e-05 | tokens=347,340,800 | time=74.2s/100 | total=4.56h
+16534.7s 788 step=21300 | loss=4.9687 | lr=9.382533e-05 | tokens=348,979,200 | time=74.1s/100 | total=4.58h
+16534.9s 789 step=21300 | loss=4.9687 | lr=9.382533e-05 | tokens=348,979,200 | time=74.1s/100 | total=4.58h
+16569.0s 790 Reading train: train_0003.txt
+16569.2s 791 Reading train: train_0003.txt
+16608.6s 792 step=21400 | loss=4.8517 | lr=9.256597e-05 | tokens=350,617,600 | time=73.9s/100 | total=4.60h
+16608.8s 793 step=21400 | loss=4.8517 | lr=9.256597e-05 | tokens=350,617,600 | time=73.9s/100 | total=4.60h
+16682.5s 794 step=21500 | loss=4.6385 | lr=9.131540e-05 | tokens=352,256,000 | time=73.9s/100 | total=4.63h
+16682.7s 795 step=21500 | loss=4.6385 | lr=9.131540e-05 | tokens=352,256,000 | time=73.9s/100 | total=4.63h
+16756.4s 796 step=21600 | loss=5.0434 | lr=9.007377e-05 | tokens=353,894,400 | time=73.9s/100 | total=4.65h
+16756.6s 797 step=21600 | loss=5.0434 | lr=9.007377e-05 | tokens=353,894,400 | time=73.9s/100 | total=4.65h
+16830.5s 798 step=21700 | loss=4.8140 | lr=8.884124e-05 | tokens=355,532,800 | time=74.1s/100 | total=4.67h
+16830.7s 799 step=21700 | loss=4.8140 | lr=8.884124e-05 | tokens=355,532,800 | time=74.1s/100 | total=4.67h
+16904.6s 800 step=21800 | loss=4.6338 | lr=8.761795e-05 | tokens=357,171,200 | time=74.1s/100 | total=4.69h
+16904.8s 801 step=21800 | loss=4.6338 | lr=8.761795e-05 | tokens=357,171,200 | time=74.1s/100 | total=4.69h
+16978.6s 802 step=21900 | loss=4.8877 | lr=8.640405e-05 | tokens=358,809,600 | time=74.0s/100 | total=4.71h
+16978.8s 803 step=21900 | loss=4.8877 | lr=8.640405e-05 | tokens=358,809,600 | time=74.0s/100 | total=4.71h
+17052.6s 804 step=22000 | loss=4.8719 | lr=8.519969e-05 | tokens=360,448,000 | time=74.0s/100 | total=4.73h
+17052.6s 805 val: found 2 files
+17052.6s 806 val: tokenizer vocabulary size = 10000
+17052.6s 807 Reading val: val_0000.txt
+17052.8s 808 step=22000 | loss=4.8719 | lr=8.519969e-05 | tokens=360,448,000 | time=74.0s/100 | total=4.73h
+17052.8s 809 val: found 2 files
+17052.8s 810 val: tokenizer vocabulary size = 10000
+17052.8s 811 Reading val: val_0000.txt
+17053.4s 812 Validation loss: 5.0708 | PPL: 159.30
+17053.6s 813 Validation loss: 5.0708 | PPL: 159.30
+17127.7s 814 step=22100 | loss=4.8063 | lr=8.400501e-05 | tokens=362,086,400 | time=75.1s/100 | total=4.75h
+17127.9s 815 step=22100 | loss=4.8063 | lr=8.400501e-05 | tokens=362,086,400 | time=75.1s/100 | total=4.75h
+17201.8s 816 step=22200 | loss=4.6176 | lr=8.282016e-05 | tokens=363,724,800 | time=74.1s/100 | total=4.77h
+17202.1s 817 step=22200 | loss=4.6176 | lr=8.282016e-05 | tokens=363,724,800 | time=74.1s/100 | total=4.77h
+17275.8s 818 step=22300 | loss=4.8507 | lr=8.164528e-05 | tokens=365,363,200 | time=74.0s/100 | total=4.79h
+17276.0s 819 step=22300 | loss=4.8507 | lr=8.164528e-05 | tokens=365,363,200 | time=74.0s/100 | total=4.79h
+17349.9s 820 step=22400 | loss=4.8218 | lr=8.048052e-05 | tokens=367,001,600 | time=74.1s/100 | total=4.81h
+17350.1s 821 step=22400 | loss=4.8218 | lr=8.048052e-05 | tokens=367,001,600 | time=74.1s/100 | total=4.81h
+17370.8s 822 Reading train: train_0004.txt
+17371.0s 823 Reading train: train_0004.txt
+17424.3s 824 step=22500 | loss=4.5994 | lr=7.932601e-05 | tokens=368,640,000 | time=74.5s/100 | total=4.83h
+17424.6s 825 step=22500 | loss=4.5994 | lr=7.932601e-05 | tokens=368,640,000 | time=74.5s/100 | total=4.83h
+17498.5s 826 step=22600 | loss=4.6898 | lr=7.818191e-05 | tokens=370,278,400 | time=74.1s/100 | total=4.85h
+17498.7s 827 step=22600 | loss=4.6898 | lr=7.818191e-05 | tokens=370,278,400 | time=74.1s/100 | total=4.85h
+17572.7s 828 step=22700 | loss=4.7865 | lr=7.704834e-05 | tokens=371,916,800 | time=74.2s/100 | total=4.87h
+17572.9s 829 step=22700 | loss=4.7865 | lr=7.704834e-05 | tokens=371,916,800 | time=74.2s/100 | total=4.87h
+17647.0s 830 step=22800 | loss=4.7376 | lr=7.592544e-05 | tokens=373,555,200 | time=74.3s/100 | total=4.89h
+17647.2s 831 step=22800 | loss=4.7376 | lr=7.592544e-05 | tokens=373,555,200 | time=74.3s/100 | total=4.89h
+17721.1s 832 step=22900 | loss=4.6899 | lr=7.481335e-05 | tokens=375,193,600 | time=74.1s/100 | total=4.91h
+17721.3s 833 step=22900 | loss=4.6899 | lr=7.481335e-05 | tokens=375,193,600 | time=74.1s/100 | total=4.91h
+17795.2s 834 step=23000 | loss=4.9165 | lr=7.371221e-05 | tokens=376,832,000 | time=74.1s/100 | total=4.93h
+17795.2s 835 val: found 2 files
+17795.2s 836 val: tokenizer vocabulary size = 10000
+17795.2s 837 Reading val: val_0000.txt
+17795.4s 838 step=23000 | loss=4.9165 | lr=7.371221e-05 | tokens=376,832,000 | time=74.1s/100 | total=4.93h
+17795.4s 839 val: found 2 files
+17795.4s 840 val: tokenizer vocabulary size = 10000
+17795.4s 841 Reading val: val_0000.txt
+17796.0s 842 Validation loss: 5.0435 | PPL: 155.02
+17796.2s 843 Validation loss: 5.0435 | PPL: 155.02
+17870.1s 844 step=23100 | loss=4.7460 | lr=7.262214e-05 | tokens=378,470,400 | time=74.9s/100 | total=4.95h
+17870.3s 845 step=23100 | loss=4.7460 | lr=7.262214e-05 | tokens=378,470,400 | time=74.9s/100 | total=4.95h
+17945.0s 846 step=23200 | loss=4.7910 | lr=7.154328e-05 | tokens=380,108,800 | time=74.9s/100 | total=4.98h
+17945.2s 847 step=23200 | loss=4.7910 | lr=7.154328e-05 | tokens=380,108,800 | time=74.9s/100 | total=4.98h
+18027.1s 848 step=23300 | loss=4.9530 | lr=7.047577e-05 | tokens=381,747,200 | time=82.1s/100 | total=5.00h
+18027.3s 849 step=23300 | loss=4.9530 | lr=7.047577e-05 | tokens=381,747,200 | time=82.1s/100 | total=5.00h
+18109.6s 850 step=23400 | loss=4.7551 | lr=6.941973e-05 | tokens=383,385,600 | time=82.5s/100 | total=5.02h
+18109.9s 851 step=23400 | loss=4.7551 | lr=6.941973e-05 | tokens=383,385,600 | time=82.5s/100 | total=5.02h
+18190.0s 852 step=23500 | loss=4.6932 | lr=6.837528e-05 | tokens=385,024,000 | time=80.3s/100 | total=5.04h
+18190.2s 853 step=23500 | loss=4.6932 | lr=6.837528e-05 | tokens=385,024,000 | time=80.3s/100 | total=5.04h
+18208.7s 854 Reading train: train_0005.txt
+18208.9s 855 Reading train: train_0005.txt
+18270.2s 856 step=23600 | loss=4.9026 | lr=6.734257e-05 | tokens=386,662,400 | time=80.2s/100 | total=5.07h
+18270.4s 857 step=23600 | loss=4.9026 | lr=6.734257e-05 | tokens=386,662,400 | time=80.2s/100 | total=5.07h
+18348.3s 858 step=23700 | loss=4.6496 | lr=6.632170e-05 | tokens=388,300,800 | time=78.1s/100 | total=5.09h
+18348.5s 859 step=23700 | loss=4.6496 | lr=6.632170e-05 | tokens=388,300,800 | time=78.1s/100 | total=5.09h
+18425.2s 860 step=23800 | loss=4.5565 | lr=6.531281e-05 | tokens=389,939,200 | time=76.9s/100 | total=5.11h
+18425.4s 861 step=23800 | loss=4.5565 | lr=6.531281e-05 | tokens=389,939,200 | time=76.9s/100 | total=5.11h
+18501.4s 862 step=23900 | loss=4.7326 | lr=6.431601e-05 | tokens=391,577,600 | time=76.2s/100 | total=5.13h
+18501.6s 863 step=23900 | loss=4.7326 | lr=6.431601e-05 | tokens=391,577,600 | time=76.2s/100 | total=5.13h
+18577.8s 864 step=24000 | loss=4.6545 | lr=6.333144e-05 | tokens=393,216,000 | time=76.4s/100 | total=5.15h
+18577.8s 865 val: found 2 files
+18577.8s 866 val: tokenizer vocabulary size = 10000
+18577.8s 867 Reading val: val_0000.txt
+18578.0s 868 step=24000 | loss=4.6545 | lr=6.333144e-05 | tokens=393,216,000 | time=76.4s/100 | total=5.15h
+18578.0s 869 val: found 2 files
+18578.0s 870 val: tokenizer vocabulary size = 10000
+18578.0s 871 Reading val: val_0000.txt
+18578.7s 872 Validation loss: 5.0321 | PPL: 153.25
+18578.7s 873 
+18578.7s 874 ======================================================================
+18578.7s 875 SAVING CHECKPOINT 024000
+18578.7s 876 ======================================================================
+18578.9s 877 Validation loss: 5.0321 | PPL: 153.25
+18578.9s 878 
+18578.9s 879 ======================================================================
+18578.9s 880 SAVING CHECKPOINT 024000
+18578.9s 881 ======================================================================
+18579.0s 882 Checkpoint saved: /kaggle/working/assamese_10k/checkpoints/checkpoint_024000.pt
+18579.0s 883 Checkpoint size: 292.0 MB
+18579.2s 884 Checkpoint saved: /kaggle/working/assamese_10k/checkpoints/checkpoint_024000.pt
+18579.2s 885 Checkpoint size: 292.0 MB
+18656.0s 886 step=24100 | loss=4.7232 | lr=6.235920e-05 | tokens=394,854,400 | time=78.2s/100 | total=5.17h
+18656.2s 887 step=24100 | loss=4.7232 | lr=6.235920e-05 | tokens=394,854,400 | time=78.2s/100 | total=5.17h
+18732.6s 888 step=24200 | loss=4.8168 | lr=6.139942e-05 | tokens=396,492,800 | time=76.6s/100 | total=5.19h
+18732.8s 889 step=24200 | loss=4.8168 | lr=6.139942e-05 | tokens=396,492,800 | time=76.6s/100 | total=5.19h
+18808.7s 890 step=24300 | loss=4.6307 | lr=6.045221e-05 | tokens=398,131,200 | time=76.2s/100 | total=5.22h
+18809.0s 891 step=24300 | loss=4.6307 | lr=6.045221e-05 | tokens=398,131,200 | time=76.2s/100 | total=5.22h
+18885.0s 892 step=24400 | loss=4.5243 | lr=5.951769e-05 | tokens=399,769,600 | time=76.3s/100 | total=5.24h
+18885.3s 893 step=24400 | loss=4.5243 | lr=5.951769e-05 | tokens=399,769,600 | time=76.3s/100 | total=5.24h
+18961.2s 894 step=24500 | loss=4.7044 | lr=5.859597e-05 | tokens=401,408,000 | time=76.2s/100 | total=5.26h
+18961.5s 895 step=24500 | loss=4.7044 | lr=5.859597e-05 | tokens=401,408,000 | time=76.2s/100 | total=5.26h
+19037.4s 896 step=24600 | loss=4.5102 | lr=5.768716e-05 | tokens=403,046,400 | time=76.2s/100 | total=5.28h
+19037.6s 897 step=24600 | loss=4.5102 | lr=5.768716e-05 | tokens=403,046,400 | time=76.2s/100 | total=5.28h
+19040.4s 898 Reading train: train_0006.txt
+19040.6s 899 Reading train: train_0006.txt
+19113.5s 900 step=24700 | loss=4.8727 | lr=5.679137e-05 | tokens=404,684,800 | time=76.1s/100 | total=5.30h
+19113.8s 901 step=24700 | loss=4.8727 | lr=5.679137e-05 | tokens=404,684,800 | time=76.1s/100 | total=5.30h
+19189.7s 902 step=24800 | loss=4.8561 | lr=5.590872e-05 | tokens=406,323,200 | time=76.1s/100 | total=5.32h
+19189.9s 903 step=24800 | loss=4.8561 | lr=5.590872e-05 | tokens=406,323,200 | time=76.1s/100 | total=5.32h
+19265.8s 904 step=24900 | loss=4.6776 | lr=5.503930e-05 | tokens=407,961,600 | time=76.1s/100 | total=5.34h
+19266.0s 905 step=24900 | loss=4.6776 | lr=5.503930e-05 | tokens=407,961,600 | time=76.1s/100 | total=5.34h
+19341.5s 906 step=25000 | loss=4.5254 | lr=5.418323e-05 | tokens=409,600,000 | time=75.7s/100 | total=5.36h
+19341.5s 907 val: found 2 files
+19341.5s 908 val: tokenizer vocabulary size = 10000
+19341.5s 909 Reading val: val_0000.txt
+19341.7s 910 step=25000 | loss=4.5254 | lr=5.418323e-05 | tokens=409,600,000 | time=75.7s/100 | total=5.36h
+19341.7s 911 val: found 2 files
+19341.7s 912 val: tokenizer vocabulary size = 10000
+19341.7s 913 Reading val: val_0000.txt
+19342.3s 914 Validation loss: 5.0269 | PPL: 152.46
+19342.5s 915 Validation loss: 5.0269 | PPL: 152.46
+19417.9s 916 step=25100 | loss=4.5231 | lr=5.334061e-05 | tokens=411,238,400 | time=76.4s/100 | total=5.38h
+19418.1s 917 step=25100 | loss=4.5231 | lr=5.334061e-05 | tokens=411,238,400 | time=76.4s/100 | total=5.38h
+19493.6s 918 step=25200 | loss=4.8148 | lr=5.251154e-05 | tokens=412,876,800 | time=75.7s/100 | total=5.41h
+19493.8s 919 step=25200 | loss=4.8148 | lr=5.251154e-05 | tokens=412,876,800 | time=75.7s/100 | total=5.41h
+19569.4s 920 step=25300 | loss=4.6111 | lr=5.169612e-05 | tokens=414,515,200 | time=75.8s/100 | total=5.43h
+19569.6s 921 step=25300 | loss=4.6111 | lr=5.169612e-05 | tokens=414,515,200 | time=75.8s/100 | total=5.43h
+19645.3s 922 step=25400 | loss=4.6332 | lr=5.089445e-05 | tokens=416,153,600 | time=75.9s/100 | total=5.45h
+19645.5s 923 step=25400 | loss=4.6332 | lr=5.089445e-05 | tokens=416,153,600 | time=75.9s/100 | total=5.45h
+19720.6s 924 step=25500 | loss=4.7455 | lr=5.010662e-05 | tokens=417,792,000 | time=75.3s/100 | total=5.47h
+19720.9s 925 step=25500 | loss=4.7455 | lr=5.010662e-05 | tokens=417,792,000 | time=75.3s/100 | total=5.47h
+19795.5s 926 step=25600 | loss=4.8289 | lr=4.933274e-05 | tokens=419,430,400 | time=74.9s/100 | total=5.49h
+19795.7s 927 step=25600 | loss=4.8289 | lr=4.933274e-05 | tokens=419,430,400 | time=74.9s/100 | total=5.49h
+19863.4s 928 Reading train: train_0007.txt
+19863.6s 929 Reading train: train_0007.txt
+19870.5s 930 step=25700 | loss=4.4224 | lr=4.857290e-05 | tokens=421,068,800 | time=75.0s/100 | total=5.51h
+19870.7s 931 step=25700 | loss=4.4224 | lr=4.857290e-05 | tokens=421,068,800 | time=75.0s/100 | total=5.51h
+19945.8s 932 step=25800 | loss=4.6008 | lr=4.782718e-05 | tokens=422,707,200 | time=75.3s/100 | total=5.53h
+19946.1s 933 step=25800 | loss=4.6008 | lr=4.782718e-05 | tokens=422,707,200 | time=75.3s/100 | total=5.53h
+20021.0s 934 step=25900 | loss=4.7009 | lr=4.709569e-05 | tokens=424,345,600 | time=75.1s/100 | total=5.55h
+20021.2s 935 step=25900 | loss=4.7009 | lr=4.709569e-05 | tokens=424,345,600 | time=75.1s/100 | total=5.55h
+20096.0s 936 step=26000 | loss=4.7646 | lr=4.637850e-05 | tokens=425,984,000 | time=75.0s/100 | total=5.57h
+20096.0s 937 val: found 2 files
+20096.0s 938 val: tokenizer vocabulary size = 10000
+20096.0s 939 Reading val: val_0000.txt
+20096.2s 940 step=26000 | loss=4.7646 | lr=4.637850e-05 | tokens=425,984,000 | time=75.0s/100 | total=5.57h
+20096.2s 941 val: found 2 files
+20096.2s 942 val: tokenizer vocabulary size = 10000
+20096.2s 943 Reading val: val_0000.txt
+20096.8s 944 Validation loss: 5.0067 | PPL: 149.41
+20097.0s 945 Validation loss: 5.0067 | PPL: 149.41
+20171.8s 946 step=26100 | loss=4.8332 | lr=4.567571e-05 | tokens=427,622,400 | time=75.8s/100 | total=5.59h
+20172.0s 947 step=26100 | loss=4.8332 | lr=4.567571e-05 | tokens=427,622,400 | time=75.8s/100 | total=5.59h
+20247.6s 948 step=26200 | loss=4.6955 | lr=4.498740e-05 | tokens=429,260,800 | time=75.8s/100 | total=5.62h
+20247.8s 949 step=26200 | loss=4.6955 | lr=4.498740e-05 | tokens=429,260,800 | time=75.8s/100 | total=5.62h
+20323.2s 950 step=26300 | loss=4.6373 | lr=4.431365e-05 | tokens=430,899,200 | time=75.6s/100 | total=5.64h
+20323.4s 951 step=26300 | loss=4.6373 | lr=4.431365e-05 | tokens=430,899,200 | time=75.6s/100 | total=5.64h
+20398.3s 952 step=26400 | loss=4.4699 | lr=4.365455e-05 | tokens=432,537,600 | time=75.1s/100 | total=5.66h
+20398.5s 953 step=26400 | loss=4.4699 | lr=4.365455e-05 | tokens=432,537,600 | time=75.1s/100 | total=5.66h
+20473.4s 954 step=26500 | loss=4.7720 | lr=4.301017e-05 | tokens=434,176,000 | time=75.1s/100 | total=5.68h
+20473.7s 955 step=26500 | loss=4.7720 | lr=4.301017e-05 | tokens=434,176,000 | time=75.1s/100 | total=5.68h
+20548.4s 956 step=26600 | loss=4.4249 | lr=4.238060e-05 | tokens=435,814,400 | time=75.0s/100 | total=5.70h
+20548.7s 957 step=26600 | loss=4.4249 | lr=4.238060e-05 | tokens=435,814,400 | time=75.0s/100 | total=5.70h
+20623.4s 958 step=26700 | loss=4.6807 | lr=4.176591e-05 | tokens=437,452,800 | time=74.9s/100 | total=5.72h
+20623.6s 959 step=26700 | loss=4.6807 | lr=4.176591e-05 | tokens=437,452,800 | time=74.9s/100 | total=5.72h
+20698.2s 960 step=26800 | loss=4.4769 | lr=4.116617e-05 | tokens=439,091,200 | time=74.8s/100 | total=5.74h
+20698.4s 961 step=26800 | loss=4.4769 | lr=4.116617e-05 | tokens=439,091,200 | time=74.8s/100 | total=5.74h
+20773.0s 962 step=26900 | loss=4.7463 | lr=4.058146e-05 | tokens=440,729,600 | time=74.9s/100 | total=5.76h
+20773.2s 963 step=26900 | loss=4.7463 | lr=4.058146e-05 | tokens=440,729,600 | time=74.9s/100 | total=5.76h
+20848.1s 964 step=27000 | loss=4.3303 | lr=4.001185e-05 | tokens=442,368,000 | time=75.1s/100 | total=5.78h
+20848.1s 965 val: found 2 files
+20848.1s 966 val: tokenizer vocabulary size = 10000
+20848.1s 967 Reading val: val_0000.txt
+20848.4s 968 step=27000 | loss=4.3303 | lr=4.001185e-05 | tokens=442,368,000 | time=75.1s/100 | total=5.78h
+20848.4s 969 val: found 2 files
+20848.4s 970 val: tokenizer vocabulary size = 10000
+20848.4s 971 Reading val: val_0000.txt
+20848.9s 972 Validation loss: 4.9688 | PPL: 143.85
+20848.9s 973 
+20848.9s 974 ======================================================================
+20848.9s 975 SAVING CHECKPOINT 027000
+20848.9s 976 ======================================================================
+20849.1s 977 Validation loss: 4.9688 | PPL: 143.85
+20849.1s 978 
+20849.1s 979 ======================================================================
+20849.1s 980 SAVING CHECKPOINT 027000
+20849.1s 981 ======================================================================
+20849.3s 982 Checkpoint saved: /kaggle/working/assamese_10k/checkpoints/checkpoint_027000.pt
+20849.3s 983 Checkpoint size: 292.0 MB
+20849.5s 984 Checkpoint saved: /kaggle/working/assamese_10k/checkpoints/checkpoint_027000.pt
+20849.5s 985 Checkpoint size: 292.0 MB
+20924.5s 986 step=27100 | loss=4.4125 | lr=3.945741e-05 | tokens=444,006,400 | time=76.3s/100 | total=5.80h
+20924.7s 987 step=27100 | loss=4.4125 | lr=3.945741e-05 | tokens=444,006,400 | time=76.3s/100 | total=5.80h
+20999.2s 988 step=27200 | loss=4.4781 | lr=3.891821e-05 | tokens=445,644,800 | time=74.8s/100 | total=5.82h
+20999.5s 989 step=27200 | loss=4.4781 | lr=3.891821e-05 | tokens=445,644,800 | time=74.8s/100 | total=5.82h
+21074.2s 990 step=27300 | loss=4.2605 | lr=3.839430e-05 | tokens=447,283,200 | time=74.9s/100 | total=5.84h
+21074.4s 991 step=27300 | loss=4.2605 | lr=3.839430e-05 | tokens=447,283,200 | time=74.9s/100 | total=5.84h
+21146.6s 992 Reading train: train_0008.txt
+21146.8s 993 Reading train: train_0008.txt
+21152.3s 994 step=27400 | loss=4.3106 | lr=3.788576e-05 | tokens=448,921,600 | time=78.1s/100 | total=5.87h
+21152.5s 995 step=27400 | loss=4.3106 | lr=3.788576e-05 | tokens=448,921,600 | time=78.1s/100 | total=5.87h
+21232.9s 996 step=27500 | loss=4.4305 | lr=3.739264e-05 | tokens=450,560,000 | time=80.6s/100 | total=5.89h
+21233.1s 997 step=27500 | loss=4.4305 | lr=3.739264e-05 | tokens=450,560,000 | time=80.6s/100 | total=5.89h
+21314.1s 998 step=27600 | loss=4.3665 | lr=3.691501e-05 | tokens=452,198,400 | time=81.1s/100 | total=5.91h
+21314.3s 999 step=27600 | loss=4.3665 | lr=3.691501e-05 | tokens=452,198,400 | time=81.1s/100 | total=5.91h
+21395.3s 1000 step=27700 | loss=4.4587 | lr=3.645293e-05 | tokens=453,836,800 | time=81.2s/100 | total=5.93h
+21395.5s 1001 step=27700 | loss=4.4587 | lr=3.645293e-05 | tokens=453,836,800 | time=81.2s/100 | total=5.93h
+21476.7s 1002 step=27800 | loss=4.2365 | lr=3.600644e-05 | tokens=455,475,200 | time=81.5s/100 | total=5.96h
+21477.0s 1003 step=27800 | loss=4.2365 | lr=3.600644e-05 | tokens=455,475,200 | time=81.5s/100 | total=5.96h
+21558.6s 1004 step=27900 | loss=4.3577 | lr=3.557561e-05 | tokens=457,113,600 | time=81.9s/100 | total=5.98h
+21558.8s 1005 step=27900 | loss=4.3577 | lr=3.557561e-05 | tokens=457,113,600 | time=81.9s/100 | total=5.98h
+21641.1s 1006 step=28000 | loss=4.7827 | lr=3.516048e-05 | tokens=458,752,000 | time=82.5s/100 | total=6.00h
+21641.1s 1007 val: found 2 files
+21641.1s 1008 val: tokenizer vocabulary size = 10000
+21641.1s 1009 Reading val: val_0000.txt
+21641.3s 1010 step=28000 | loss=4.7827 | lr=3.516048e-05 | tokens=458,752,000 | time=82.5s/100 | total=6.00h
+21641.3s 1011 val: found 2 files
+21641.3s 1012 val: tokenizer vocabulary size = 10000
+21641.3s 1013 Reading val: val_0000.txt
+21642.0s 1014 Validation loss: 4.9858 | PPL: 146.32
+21642.2s 1015 Validation loss: 4.9858 | PPL: 146.32
+21724.1s 1016 step=28100 | loss=4.1703 | lr=3.476111e-05 | tokens=460,390,400 | time=83.0s/100 | total=6.03h
+21724.3s 1017 step=28100 | loss=4.1703 | lr=3.476111e-05 | tokens=460,390,400 | time=83.0s/100 | total=6.03h
+21805.4s 1018 step=28200 | loss=4.3156 | lr=3.437755e-05 | tokens=462,028,800 | time=81.3s/100 | total=6.05h
+21805.6s 1019 step=28200 | loss=4.3156 | lr=3.437755e-05 | tokens=462,028,800 | time=81.3s/100 | total=6.05h
+21887.4s 1020 step=28300 | loss=3.9396 | lr=3.400984e-05 | tokens=463,667,200 | time=81.9s/100 | total=6.07h
+21887.6s 1021 step=28300 | loss=3.9396 | lr=3.400984e-05 | tokens=463,667,200 | time=81.9s/100 | total=6.07h
+21969.0s 1022 step=28400 | loss=4.0081 | lr=3.365802e-05 | tokens=465,305,600 | time=81.6s/100 | total=6.09h
+21969.2s 1023 step=28400 | loss=4.0081 | lr=3.365802e-05 | tokens=465,305,600 | time=81.6s/100 | total=6.09h
+22050.7s 1024 step=28500 | loss=4.3516 | lr=3.332214e-05 | tokens=466,944,000 | time=81.7s/100 | total=6.12h
+22050.9s 1025 step=28500 | loss=4.3516 | lr=3.332214e-05 | tokens=466,944,000 | time=81.7s/100 | total=6.12h
+22132.2s 1026 step=28600 | loss=3.9110 | lr=3.300225e-05 | tokens=468,582,400 | time=81.5s/100 | total=6.14h
+22132.4s 1027 step=28600 | loss=3.9110 | lr=3.300225e-05 | tokens=468,582,400 | time=81.5s/100 | total=6.14h
+22213.9s 1028 step=28700 | loss=4.2977 | lr=3.269837e-05 | tokens=470,220,800 | time=81.7s/100 | total=6.16h
+22214.1s 1029 step=28700 | loss=4.2977 | lr=3.269837e-05 | tokens=470,220,800 | time=81.7s/100 | total=6.16h
+22296.9s 1030 step=28800 | loss=3.9969 | lr=3.241054e-05 | tokens=471,859,200 | time=83.0s/100 | total=6.18h
+22297.1s 1031 step=28800 | loss=3.9969 | lr=3.241054e-05 | tokens=471,859,200 | time=83.0s/100 | total=6.18h
+22380.2s 1032 step=28900 | loss=4.1806 | lr=3.213881e-05 | tokens=473,497,600 | time=83.3s/100 | total=6.21h
+22380.4s 1033 step=28900 | loss=4.1806 | lr=3.213881e-05 | tokens=473,497,600 | time=83.3s/100 | total=6.21h
+22462.4s 1034 step=29000 | loss=4.0509 | lr=3.188320e-05 | tokens=475,136,000 | time=82.2s/100 | total=6.23h
+22462.4s 1035 val: found 2 files
+22462.4s 1036 val: tokenizer vocabulary size = 10000
+22462.4s 1037 Reading val: val_0000.txt
+22462.6s 1038 step=29000 | loss=4.0509 | lr=3.188320e-05 | tokens=475,136,000 | time=82.2s/100 | total=6.23h
+22462.6s 1039 val: found 2 files
+22462.6s 1040 val: tokenizer vocabulary size = 10000
+22462.6s 1041 Reading val: val_0000.txt
+22463.3s 1042 Validation loss: 4.9873 | PPL: 146.54
+22463.5s 1043 Validation loss: 4.9873 | PPL: 146.54
+22545.1s 1044 step=29100 | loss=4.3053 | lr=3.164375e-05 | tokens=476,774,400 | time=82.7s/100 | total=6.25h
+22545.3s 1045 step=29100 | loss=4.3053 | lr=3.164375e-05 | tokens=476,774,400 | time=82.7s/100 | total=6.25h
+22626.4s 1046 step=29200 | loss=4.1164 | lr=3.142047e-05 | tokens=478,412,800 | time=81.3s/100 | total=6.28h
+22626.6s 1047 step=29200 | loss=4.1164 | lr=3.142047e-05 | tokens=478,412,800 | time=81.3s/100 | total=6.28h
+22711.5s 1048 step=29300 | loss=4.1630 | lr=3.121341e-05 | tokens=480,051,200 | time=85.1s/100 | total=6.30h
+22711.7s 1049 step=29300 | loss=4.1630 | lr=3.121341e-05 | tokens=480,051,200 | time=85.1s/100 | total=6.30h
+22789.6s 1050 step=29400 | loss=4.2149 | lr=3.102259e-05 | tokens=481,689,600 | time=78.1s/100 | total=6.32h
+22789.8s 1051 step=29400 | loss=4.2149 | lr=3.102259e-05 | tokens=481,689,600 | time=78.1s/100 | total=6.32h
+22865.7s 1052 step=29500 | loss=4.4051 | lr=3.084802e-05 | tokens=483,328,000 | time=76.2s/100 | total=6.34h
+22866.0s 1053 step=29500 | loss=4.4051 | lr=3.084802e-05 | tokens=483,328,000 | time=76.2s/100 | total=6.34h
+22941.7s 1054 step=29600 | loss=4.0564 | lr=3.068973e-05 | tokens=484,966,400 | time=76.0s/100 | total=6.36h
+22941.9s 1055 step=29600 | loss=4.0564 | lr=3.068973e-05 | tokens=484,966,400 | time=76.0s/100 | total=6.36h
+23017.5s 1056 step=29700 | loss=4.1334 | lr=3.054774e-05 | tokens=486,604,800 | time=75.8s/100 | total=6.38h
+23017.7s 1057 step=29700 | loss=4.1334 | lr=3.054774e-05 | tokens=486,604,800 | time=75.8s/100 | total=6.38h
+23092.9s 1058 step=29800 | loss=4.2982 | lr=3.042207e-05 | tokens=488,243,200 | time=75.4s/100 | total=6.41h
+23093.1s 1059 step=29800 | loss=4.2982 | lr=3.042207e-05 | tokens=488,243,200 | time=75.4s/100 | total=6.41h
+23168.4s 1060 step=29900 | loss=4.0455 | lr=3.031273e-05 | tokens=489,881,600 | time=75.5s/100 | total=6.43h
+23168.6s 1061 step=29900 | loss=4.0455 | lr=3.031273e-05 | tokens=489,881,600 | time=75.5s/100 | total=6.43h
+23244.2s 1062 step=30000 | loss=4.0549 | lr=3.021974e-05 | tokens=491,520,000 | time=75.8s/100 | total=6.45h
+23244.2s 1063 val: found 2 files
+23244.2s 1064 val: tokenizer vocabulary size = 10000
+23244.2s 1065 Reading val: val_0000.txt
+23244.4s 1066 step=30000 | loss=4.0549 | lr=3.021974e-05 | tokens=491,520,000 | time=75.8s/100 | total=6.45h
+23244.4s 1067 val: found 2 files
+23244.4s 1068 val: tokenizer vocabulary size = 10000
+23244.4s 1069 Reading val: val_0000.txt
+23245.0s 1070 Validation loss: 5.0069 | PPL: 149.44
+23245.0s 1071 
+23245.0s 1072 ======================================================================
+23245.0s 1073 SAVING CHECKPOINT 030000
+23245.0s 1074 ======================================================================
+23245.2s 1075 Validation loss: 5.0069 | PPL: 149.44
+23245.2s 1076 
+23245.2s 1077 ======================================================================
+23245.2s 1078 SAVING CHECKPOINT 030000
+23245.2s 1079 ======================================================================
+23245.4s 1080 Checkpoint saved: /kaggle/working/assamese_10k/checkpoints/checkpoint_030000.pt
+23245.4s 1081 Checkpoint size: 292.0 MB
+23245.6s 1082 Checkpoint saved: /kaggle/working/assamese_10k/checkpoints/checkpoint_030000.pt
+23245.6s 1083 Checkpoint size: 292.0 MB
+23321.4s 1084 step=30100 | loss=3.9977 | lr=3.014310e-05 | tokens=493,158,400 | time=77.2s/100 | total=6.47h
+23321.6s 1085 step=30100 | loss=3.9977 | lr=3.014310e-05 | tokens=493,158,400 | time=77.2s/100 | total=6.47h
+23396.9s 1086 step=30200 | loss=4.2712 | lr=3.008283e-05 | tokens=494,796,800 | time=75.5s/100 | total=6.49h
+23397.2s 1087 step=30200 | loss=4.2712 | lr=3.008283e-05 | tokens=494,796,800 | time=75.5s/100 | total=6.49h
+23471.8s 1088 step=30300 | loss=4.0238 | lr=3.003893e-05 | tokens=496,435,200 | time=74.9s/100 | total=6.51h
+23472.0s 1089 step=30300 | loss=4.0238 | lr=3.003893e-05 | tokens=496,435,200 | time=74.9s/100 | total=6.51h
+23546.2s 1090 step=30400 | loss=3.9871 | lr=3.001141e-05 | tokens=498,073,600 | time=74.4s/100 | total=6.53h
+23546.4s 1091 step=30400 | loss=3.9871 | lr=3.001141e-05 | tokens=498,073,600 | time=74.4s/100 | total=6.53h
+23620.2s 1092 step=30500 | loss=4.0601 | lr=3.000027e-05 | tokens=499,712,000 | time=74.1s/100 | total=6.55h
+23620.5s 1093 step=30500 | loss=4.0601 | lr=3.000027e-05 | tokens=499,712,000 | time=74.1s/100 | total=6.55h
+23633.6s 1094 
+23633.6s 1095 ======================================================================
+23633.6s 1096 TRAINING FINISHED
+23633.6s 1097 ======================================================================
+23633.6s 1098 
+23633.6s 1099 ======================================================================
+23633.6s 1100 SAVING CHECKPOINT 030518
+23633.6s 1101 ======================================================================
+23633.8s 1102 
+23633.8s 1103 ======================================================================
+23633.8s 1104 TRAINING FINISHED
+23633.8s 1105 ======================================================================
+23633.8s 1106 
+23633.8s 1107 ======================================================================
+23633.8s 1108 SAVING CHECKPOINT 030518
+23633.8s 1109 ======================================================================
+23634.0s 1110 Checkpoint saved: /kaggle/working/assamese_10k/checkpoints/checkpoint_030518.pt
+23634.0s 1111 Checkpoint size: 292.0 MB
+23634.0s 1112 Final step: 30518
+23634.0s 1113 Final tokens: 500,006,912
+23634.0s 1114 Loss log: /kaggle/working/assamese_10k/logs/training_log.csv
+23634.0s 1115 Total time: 6.56 hours
+23634.2s 1116 Checkpoint saved: /kaggle/working/assamese_10k/checkpoints/checkpoint_030518.pt
+23634.2s 1117 Checkpoint size: 292.0 MB
+23634.2s 1118 Final step: 30518
+23634.2s 1119 Final tokens: 500,006,912
+23634.2s 1120 Loss log: /kaggle/working/assamese_10k/logs/training_log.csv
+23634.2s 1121 Total time: 6.56 hours
+23637.8s 1122 
+23637.8s 1123 ================================================================================
+23637.8s 1124 TRAINING PROCESS RETURNED SUCCESSFULLY
+23637.8s 1125 ================================================================================
+23637.9s 1126 Writing /kaggle/working/ablation_standard_generation.py
+23637.9s 1127 Writing /kaggle/working/ablation_generation_metrics.py
+23638.0s 1128 Writing /kaggle/working/ablation_attention_aggregate.py
+23638.0s 1129 Writing /kaggle/working/assamese_positional_ablation_evaluation.py
+23638.1s 1130 PASS: ablation_standard_generation.py
+23638.1s 1131 PASS: ablation_generation_metrics.py
+23638.1s 1132 PASS: ablation_attention_aggregate.py
+23638.1s 1133 PASS: assamese_positional_ablation_evaluation.py
+23638.1s 1134 All evaluation scripts compiled successfully.
+23638.1s 1135 ================================================================================
+23638.1s 1136 STARTING FULL PHASE 2 ABLATION EVALUATION
+23638.1s 1137 ================================================================================
+23638.1s 1138 Order: Validation → BPB → Standard Generation → Generation Metrics → Attention
+23638.1s 1139 
+23639.8s 1140 ================================================================================
+23639.8s 1141 ASSAMESE POSITIONAL-EMBEDDING ABLATION — PHASE 2 EVALUATION
+23639.8s 1142 ================================================================================
+23639.8s 1143 Checkpoint : /kaggle/working/assamese_10k/checkpoints/checkpoint_030518.pt
+23639.8s 1144 Tokenizer  : /kaggle/working/assamese_10k.model
+23639.8s 1145 Data       : /kaggle/input/datasets/vidurshah04/assam-data
+23639.8s 1146 
+23639.9s 1147 Device: cuda
+23639.9s 1148 GPU: Tesla T4
+23640.0s 1149 ================================================================================
+23640.0s 1150 ASSAMESE POSITIONAL-EMBEDDING ABLATION — PHASE 2 EVALUATION
+23640.0s 1151 ================================================================================
+23640.0s 1152 Checkpoint : /kaggle/working/assamese_10k/checkpoints/checkpoint_030518.pt
+23640.0s 1153 Tokenizer  : /kaggle/working/assamese_10k.model
+23640.0s 1154 Data       : /kaggle/input/datasets/vidurshah04/assam-data
+23640.0s 1155 
+23640.0s 1156 Device: cuda
+23640.0s 1157 GPU: Tesla T4
+23640.7s 1158 Checkpoint step: 30518
+23640.7s 1159 Parameters    : 25350912
+23640.7s 1160 Vocabulary    : 10000
+23640.8s 1161 Tokenizer/model vocabulary match: PASS
+23640.8s 1162 No positional embedding attribute: PASS
+23640.8s 1163 Ablation parameter count: PASS
+23640.8s 1164 
+23640.8s 1165 ================================================================================
+23640.8s 1166 1. VALIDATION CROSS-ENTROPY + PERPLEXITY
+23640.8s 1167 ================================================================================
+23640.9s 1168 Checkpoint step: 30518
+23640.9s 1169 Parameters    : 25350912
+23640.9s 1170 Vocabulary    : 10000
+23640.9s 1171 Tokenizer/model vocabulary match: PASS
+23640.9s 1172 No positional embedding attribute: PASS
+23640.9s 1173 Ablation parameter count: PASS
+23640.9s 1174 
+23640.9s 1175 ================================================================================
+23640.9s 1176 1. VALIDATION CROSS-ENTROPY + PERPLEXITY
+23640.9s 1177 ================================================================================
+25181.5s 1178 Validation tokens: 58,352,623
+25181.5s 1179 Cross-Entropy    : 4.970217
+25181.5s 1180 Perplexity       : 144.058128
+25181.5s 1181 
+25181.5s 1182 ================================================================================
+25181.5s 1183 2. BITS PER BYTE (BPB)
+25181.5s 1184 ================================================================================
+25181.8s 1185 Validation tokens: 58,352,623
+25181.8s 1186 Cross-Entropy    : 4.970217
+25181.8s 1187 Perplexity       : 144.058128
+25181.8s 1188 
+25181.8s 1189 ================================================================================
+25181.8s 1190 2. BITS PER BYTE (BPB)
+25181.8s 1191 ================================================================================
+25288.3s 1192 Validation words     : 32,466,286
+25288.3s 1193 SentencePiece tokens : 58,466,926
+25288.3s 1194 UTF-8 bytes          : 530,517,951
+25288.3s 1195 Tokens / word        : 1.800850
+25288.3s 1196 BPB                  : 0.790242
+25288.3s 1197 
+25288.3s 1198 ================================================================================
+25288.3s 1199 RUNNING ablation_standard_generation.py
+25288.3s 1200 ================================================================================
+25288.4s 1201 /usr/bin/python3: can't open file '/kaggle/working/assamese_10k/evaluation/scripts/ablation_standard_generation.py': [Errno 2] No such file or directory
+25288.4s 1202 
+25288.4s 1203 Traceback (most recent call last):
+25288.4s 1204 File "/kaggle/working/assamese_positional_ablation_evaluation.py", line 264, in <module>
+25288.4s 1205 run_script(
+25288.4s 1206 File "/kaggle/working/assamese_positional_ablation_evaluation.py", line 256, in run_script
+25288.4s 1207 raise RuntimeError(f"{script_name} failed with exit code {result.returncode}")
+25288.4s 1208 RuntimeError: ablation_standard_generation.py failed with exit code 2
+25288.5s 1209 Validation words     : 32,466,286
+25288.5s 1210 SentencePiece tokens : 58,466,926
+25288.5s 1211 UTF-8 bytes          : 530,517,951
+25288.5s 1212 Tokens / word        : 1.800850
+25288.5s 1213 BPB                  : 0.790242
+25288.5s 1214 
+25288.5s 1215 ================================================================================
+25288.5s 1216 RUNNING ablation_standard_generation.py
+25288.5s 1217 ================================================================================
+25288.5s 1218 /usr/bin/python3: can't open file '/kaggle/working/assamese_10k/evaluation/scripts/ablation_standard_generation.py': [Errno 2] No such file or directory
+25288.5s 1219 
+25288.6s 1220 Traceback (most recent call last):
+25288.6s 1221 File "/kaggle/working/assamese_positional_ablation_evaluation.py", line 264, in <module>
+25288.6s 1222 run_script(
+25288.6s 1223 File "/kaggle/working/assamese_positional_ablation_evaluation.py", line 256, in run_script
+25288.6s 1224 raise RuntimeError(f"{script_name} failed with exit code {result.returncode}")
+25288.6s 1225 RuntimeError: ablation_standard_generation.py failed with exit code 2
+25288.6s 1226 
+25288.6s 1227 Traceback (most recent call last):
+25288.6s 1228 File "/kaggle/working/assamese_positional_ablation_evaluation.py", line 264, in <module>
+25288.6s 1229 run_script(
+25288.6s 1230 File "/kaggle/working/assamese_positional_ablation_evaluation.py", line 256, in run_script
+25288.6s 1231 raise RuntimeError(f"{script_name} failed with exit code {result.returncode}")
+25288.6s 1232 RuntimeError: ablation_standard_generation.py failed with exit code 2
+25289.7s 1233 Traceback (most recent call last):
+25289.7s 1234 File "<string>", line 1, in <module>
+25289.7s 1235 File "/usr/local/lib/python3.12/dist-packages/papermill/execute.py", line 131, in execute_notebook
+25289.7s 1236 raise_for_execution_errors(nb, output_path)
+25289.7s 1237 File "/usr/local/lib/python3.12/dist-packages/papermill/execute.py", line 251, in raise_for_execution_errors
+25289.7s 1238 raise error
+25289.7s 1239 papermill.exceptions.PapermillExecutionError:
+25289.7s 1240 ---------------------------------------------------------------------------
+25289.7s 1241 Exception encountered at "In [17]":
+25289.7s 1242 ---------------------------------------------------------------------------
+25289.7s 1243 CalledProcessError                        Traceback (most recent call last)
+25289.7s 1244 /tmp/ipykernel_23/914859620.py in <cell line: 0>()
+25289.7s 1245 13 print()
+25289.7s 1246 14
+25289.7s 1247 ---> 15 subprocess.run(
+25289.7s 1248 16     [sys.executable, "-u", str(evaluation_script)],
+25289.7s 1249 17     check=True,
+25289.7s 1250 
+25289.7s 1251 /usr/lib/python3.12/subprocess.py in run(input, capture_output, timeout, check, *popenargs, **kwargs)
+25289.7s 1252 569         retcode = process.poll()
+25289.7s 1253 570         if check and retcode:
+25289.7s 1254 --> 571             raise CalledProcessError(retcode, process.args,
+25289.7s 1255 572                                      output=stdout, stderr=stderr)
+25289.7s 1256 573     return CompletedProcess(process.args, retcode, stdout, stderr)
+25289.7s 1257 
+25289.7s 1258 CalledProcessError: Command '['/usr/bin/python3', '-u', '/kaggle/working/assamese_positional_ablation_evaluation.py']' returned non-zero exit status 1.
+25289.7s 1259 
+25292.1s 1260 /usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+25292.1s 1261 cells[i][c] = re.sub('\\\\\|', '|', cell)
+25292.3s 1262 /usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+25292.3s 1263 text = re.sub(r'_', '\_', text) # Escape underscores in display text
+25293.0s 1264 [NbConvertApp] Converting notebook __notebook__.ipynb to notebook
+25293.4s 1265 [NbConvertApp] Writing 186166 bytes to __notebook__.ipynb
+25295.7s 1266 [NbConvertApp] Converting notebook __notebook__.ipynb to html
+25296.7s 1267 [NbConvertApp] Writing 684709 bytes to __results__.html
