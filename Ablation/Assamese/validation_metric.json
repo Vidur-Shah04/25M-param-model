@@ -1,0 +1,10 @@
+{
+  "checkpoint": "checkpoint_030518.pt",
+  "checkpoint_step": 30518,
+  "validation_sequences": 114193,
+  "validation_tokens": 58352623,
+  "cross_entropy": 4.970216882307876,
+  "perplexity": 144.05812764225743,
+  "protocol_max_tokens": 100000000,
+  "elapsed_minutes": 25.679782032966614
+}

@@ -1,0 +1,18 @@
+======================================================================
+ASSAMESE GENERATION EVALUATION
+======================================================================
+Device: cuda
+GPU: NVIDIA GeForce RTX 3050 Laptop GPU
+Traceback (most recent call last):
+  File "D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Ablation\Assamese\ablation_standard_generation.py", line 325, in <module>
+    main()
+  File "D:\Desktop\IIIT HYD\LMA\individual-project-Vidur-Shah04\Ablation\Assamese\ablation_standard_generation.py", line 213, in main
+    if not tokenizer.load(
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\Vidur Shah\AppData\Local\Programs\Python\Python312\Lib\site-packages\sentencepiece\__init__.py", line 209, in Load
+    return self.LoadFromFile(model_file)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Vidur Shah\AppData\Local\Programs\Python\Python312\Lib\site-packages\sentencepiece\__init__.py", line 213, in LoadFromFile
+    return self._processor.LoadFromFile(filename)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: NOT_FOUND: "\kaggle\working\assamese_10k.model": No such file or directory Error #2

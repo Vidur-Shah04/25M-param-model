@@ -1,0 +1,10 @@
+{
+  "checkpoint": "checkpoint_030518.pt",
+  "validation_words": 32466286,
+  "sentencepiece_tokens": 58466926,
+  "utf8_bytes": 530517951,
+  "tokens_per_word": 1.800850457610088,
+  "cross_entropy_used": 4.970216882307876,
+  "perplexity": 144.05812764225743,
+  "bits_per_byte": 0.7902419058121368
+}
