@@ -1,19 +1,58 @@
 # LMA Individual Project — Gujarati & Assamese
 
-This repository contains two independent monolingual decoder-only language-model pipelines:
+## Building and Analyzing Monolingual Transformer LMs
+
+This repository contains two **independent monolingual decoder-only Transformer language models**:
 
 - **Model H:** Gujarati — higher-resource language
 - **Model L:** Assamese — lower-resource language
 
-Each language has its own corpus, preprocessing pipeline, tokenizer, vocabulary and model weights. Phase 1 established the final cleaned corpora and SentencePiece tokenizers; Phase 2 implements, pretrains and evaluates the two Transformer language models independently.
+Each language has its own corpus, preprocessing pipeline, tokenizer, vocabulary, model, training pipeline, and finetuning pipeline. No shared tokenizer, vocabulary, corpus, or weights are used.
 
-## Phase 1: Data Collection and Tokenizer Construction
+---
 
-The Phase 1 pipeline covers corpus collection, cleaning, exact and near-deduplication, document-level train/validation/test splitting, SentencePiece tokenizer training and tokenizer evaluation. The final cleaned datasets are supplied separately through Google Drive so that reproduction does not require repeating the original collection step.
+# Repository Structure
 
-### Phase 1 dataset links
+```text
+.
+├── Gujarati/
+│   ├── data/
+│   ├── tokenizer/
+│   ├── tokenizer_clean/
+│   ├── model/
+│   ├── generator/
+│   ├── sft/
+│   ├── evaluation/
+│   └── checkpoints/          # large checkpoints kept outside Git
+│
+├── Assamese/
+│   ├── data/
+│   ├── tokenizer/
+│   ├── tokenizer_clean/
+│   ├── model/
+│   ├── generator/
+│   ├── sft/
+│   ├── evaluation/
+│   └── checkpoints/          # large checkpoints kept outside Git
+│
+├── phase2_figures/
+├── report/
+├── requirements.txt
+└── README.md
+```
 
-**Gujarati**  
+---
+
+# Phase 1 — Data Collection and Tokenizer Construction
+
+Both languages use separate monolingual datasets and independently trained SentencePiece tokenizers.
+
+## Dataset Links
+
+### Gujarati
+
+Google Drive:
+
 https://drive.google.com/drive/folders/129j6mhhpm2RhNcGUcCj3BajeBfRYW93p?usp=sharing
 
 Place the extracted `splits_v2` at:
@@ -22,7 +61,10 @@ Place the extracted `splits_v2` at:
 Gujarati/data/splits_v2/
 ```
 
-**Assamese**  
+### Assamese
+
+Google Drive:
+
 https://drive.google.com/file/d/16zlWmnr8lRZn80Mc2s__1UXltB18AfsB/view?usp=sharing
 
 Place the extracted `splits_v2` at:
@@ -31,44 +73,37 @@ Place the extracted `splits_v2` at:
 Assamese/data/splits_v2/
 ```
 
-The repository retains the Phase 1 collection and preprocessing scripts for provenance.
+## Tokenizers
 
-### Phase 1 final tokenizer decision
+The final project models use **separate 10,000-token SentencePiece BPE vocabularies**, one tokenizer per language.
 
-SentencePiece BPE vocabularies of 16K, 24K and 32K were evaluated independently for both languages. All six tokenizers had 0% UNK on held-out text. Fertility decreased as vocabulary size increased, but larger vocabularies consume more of the approximately 25M model budget. The working 24K choice was therefore retained when the complete Transformer architecture was fixed.
+Tokenizer-related code and files are stored in the corresponding language directories.
 
-Relevant Phase 1 values:
+The two models never share tokenizer vocabulary or tokenizer state.
 
-| Language | 16K fertility | 24K fertility | 32K fertility | UNK |
-|---|---:|---:|---:|---:|
-| Gujarati | 1.6603 | 1.5701 | 1.5166 | 0% |
-| Assamese | 1.8791 | 1.7368 | 1.6633 | 0% |
+---
 
-## Phase 2: Model Implementation, Pretraining and Evaluation
+# Phase 2 — Transformer Implementation and Pretraining
 
-Phase 2 implements two **fully independent** GPT-style decoder-only Transformers from scratch in PyTorch. No Hugging Face model classes, `nn.Transformer*` modules, or pre-built attention blocks are used. Only primitive components such as `nn.Linear`, `nn.Embedding`, `nn.LayerNorm` and `nn.Dropout` are used.
+## Architecture
 
-### Final architecture
-
-Both models use the same architecture, but their tokenizers, vocabulary instances, data and weights remain independent.
+Both language models use the same architectural dimensions while remaining completely independent in their data, tokenizer, and weights.
 
 | Parameter | Value |
 |---|---:|
-| Vocabulary | 24,000 |
+| Vocabulary size | 10,000 |
 | Model dimension (`d_model`) | 512 |
-| Transformer layers | 5 |
+| Transformer layers | 7 |
 | Attention heads | 8 |
 | Head dimension | 64 |
-| FFN dimension (`d_ff`) | 1,536 |
+| FFN dimension (`d_ff`) | 1,792 |
 | Context length | 512 |
 | Dropout | 0.1 |
-| Parameters | 25,689,088 |
+| Parameters | 25,613,056 |
 
-The 24K vocabulary was kept after the full architecture was fixed because tied input/output embeddings cost 24,000 × 512 = 12,288,000 parameters, while a 32K vocabulary would push the same architecture beyond the target model budget. The final configuration therefore keeps substantial capacity in the five Transformer blocks while remaining close to the approximately 25M target.
+The Transformer is implemented from scratch in PyTorch using primitive components. No Hugging Face Transformer classes, `nn.Transformer*` modules, or pretrained language models/tokenizers are used.
 
-### Transformer implementation
-
-Each input sequence follows this path:
+## Forward Pass
 
 ```text
 Token IDs
@@ -77,213 +112,372 @@ Token embedding + learned positional embedding
    ↓
 Embedding dropout
    ↓
-5 × Transformer block
-      ├─ Pre-LayerNorm
-      ├─ Multi-head causal self-attention
-      │    ├─ Q, K, V projections
-      │    ├─ reshape to 8 heads × 64 dimensions
-      │    ├─ scaled dot-product attention
-      │    ├─ causal upper-triangular mask
-      │    └─ output projection
-      └─ Pre-LayerNorm + position-wise FFN
+7 × Transformer block
+      ├── Pre-LayerNorm
+      ├── Multi-head causal self-attention
+      │      ├── Q, K, V projections
+      │      ├── 8 attention heads
+      │      ├── scaled dot-product attention
+      │      ├── causal upper-triangular mask
+      │      └── output projection
+      └── Pre-LayerNorm + position-wise FFN
    ↓
 Final LayerNorm
    ↓
-Tied vocabulary projection
+Vocabulary projection
    ↓
-Logits over 24,000 tokens
+Next-token logits
    ↓
-Causal next-token cross-entropy
+Causal language-model cross-entropy
 ```
 
-### Training configuration
-
-The final training setup used:
+## Pretraining Configuration
 
 | Setting | Value |
 |---|---:|
 | Batch size | 1 |
 | Gradient accumulation | 32 |
-| Tokens per optimizer step | 16,384 |
-| Target pretraining tokens | approximately 500M |
+| Tokens / optimizer step | 16,384 |
+| Target pretraining tokens | ~500M |
 | Optimizer | AdamW |
 | Learning rate | 3e-4 |
-| Minimum LR | 3e-5 |
+| Minimum learning rate | 3e-5 |
 | Betas | (0.9, 0.95) |
 | Weight decay | 0.1 |
 | Gradient clipping | 1.0 |
-| LR schedule | 2,000-step linear warmup + cosine decay |
-| Precision on CUDA | float16 AMP |
-| Validation/checkpoint cadence | 1,500 optimizer steps |
+| LR schedule | 2,000-step warmup + cosine decay |
+| CUDA precision | float16 AMP |
+| Context length | 512 |
+| Final training step | 30,518 |
 
-With 1 × 32 × 512 = 16,384 source tokens per optimizer step, the approximate 500M-token target gives `ceil(500,000,000 / 16,384) = 30,518` optimizer steps. The final checkpoints are therefore `checkpoint_030518_gujarati.pt` and `checkpoint_030518_assamese.pt`.
+## Pretrained Checkpoints
 
-### Checkpoints and large files
+Large model checkpoints are not committed to Git because of their size.
 
-Final checkpoints are intentionally **not committed to Git**. They are protected by `.gitignore` and should be stored/downloaded separately from Google Drive or the designated project storage. Add the final Drive links here before submission if they are not already present in the repository:
+Kaggle checkpoint/evaluation datasets:
 
-- Gujarati checkpoint: <https://kaggle.com/datasets/7675e723bf3ee6067b0bdb2863eda06180da5f9a6ebdefb6b078522d70cb3707>
-- Assamese checkpoint: <https://kaggle.com/datasets/a66bb0be411e6283524dbc18977ff9cd952a4741cd82195f68509a1f2d417788>
+- **Gujarati:** https://www.kaggle.com/datasets/vidurshah04/guj-ckcpts-and-json
+- **Assamese:** https://www.kaggle.com/datasets/vidurshah04/assam-ckcpts-and-json
 
-Expected local locations:
+Expected local locations for Phase 2 checkpoints:
 
 ```text
 Gujarati/checkpoints/checkpoint_030518_gujarati.pt
 Assamese/checkpoints/checkpoint_030518_assamese.pt
 ```
 
-### Phase 2 reproduction / evaluation
+## Phase 2 Evaluation
 
-After cloning the repository, installing dependencies and placing the final `splits_v2` data and checkpoints in the expected locations, the following commands reproduce the main Phase 2 checks.
+Available evaluation code includes:
 
-#### 1. Verify the checkpoints
-
-```bash
-python Gujarati/evaluation/evaluate_checkpoint.py
-python Assamese/evaluation/evaluate_checkpoint.py
+```text
+Gujarati/evaluation/
+Assamese/evaluation/
 ```
 
-These verify the checkpoint state, configuration, parameter count and a finite forward pass.
+Main evaluation components include checkpoint validation, full validation LM evaluation, BPB, generation metrics, attention analysis, aggregate attention statistics, and causal-mask tests.
 
-#### 2. Run full validation LM evaluation
+A final Phase 2 audit was performed and produced **56/56 PASS**.
 
-```bash
-python Gujarati/evaluation/evaluate_lm.py
-python Assamese/evaluation/evaluate_lm.py
-```
-
-This streams `val_*.txt`, tokenizes with the 24K SentencePiece model, evaluates next-token cross-entropy over the full validation stream and reports perplexity.
-
-#### 3. Compute BPB
-
-```bash
-python Gujarati/evaluation/bpb.py
-python Assamese/evaluation/bpb.py
-```
-
-BPB converts the token-level cross-entropy into bits per UTF-8 byte, providing a metric less tied to the tokenization boundary than perplexity.
-
-#### 4. Generate validation continuations
-
-```bash
-python Gujarati/evaluation/generate.py
-python Assamese/evaluation/generate.py
-```
-
-The generation script uses held-out validation prompts and temperatures 0.0, 0.5, 1.0 and 1.5, with 100 generated tokens per sample.
-
-#### 5. Compute automatic generation metrics
-
-```bash
-python Gujarati/evaluation/generation_metrics_standard.py
-python Assamese/evaluation/generation_metrics_standard.py
-```
-
-The final reported generation table uses 50 held-out examples, a 128-token prompt, a 100-token reference continuation and a 100-token generated continuation for each temperature.
-
-#### 6. Inspect attention
-
-```bash
-python Gujarati/evaluation/attention_analysis.py
-python Assamese/evaluation/attention_analysis.py
-python Gujarati/evaluation/attention_analysis_aggregate.py
-python Assamese/evaluation/attention_analysis_aggregate.py
-```
-
-The first analysis records all 5 × 8 heads for one 128-token validation sequence and produces selected head heatmaps. The aggregate analysis repeats the statistics over 10 validation sequences and saves layer/head CSV summaries plus entropy and distance heatmaps.
-
-#### 7. Verify causal masking
-
-```bash
-python Gujarati/evaluation/causal_mask_test.py
-python Assamese/evaluation/causal_mask_test.py
-```
-
-These tests change a future input token and verify that logits at earlier positions remain unchanged.
-
-#### 8. Run the final combined audit
-
-```bash
-python final_phase2_audit.py
-```
-
-The final audit checks files, checkpoint state, configuration, tokenizer size, parameter count, forward shapes, attention extraction and causal masking for both models. The final run produced **56/56 PASS**.
-
-### Final Phase 2 validation results
+## Phase 2 Validation Results
 
 | Metric | Gujarati | Assamese |
 |---|---:|---:|
 | Validation prediction tokens | 199,677,338 | 51,967,678 |
-| Cross-Entropy | 5.685608 | 5.375766 |
+| Cross-entropy | 5.685608 | 5.375766 |
 | Perplexity | 294.5969 | 216.1053 |
 | BPB | 0.816889 | 0.761198 |
-| Model parameters | 25,689,088 | 25,689,088 |
+| Parameters | 25,613,056 | 25,613,056 |
 | Final checkpoint step | 30,518 | 30,518 |
 
-Cross-language perplexity/BPB values should be interpreted with care because the validation corpora and linguistic/tokenization characteristics differ. The metrics are most directly used to evaluate each model on its own held-out distribution.
+Generation evaluation and attention analysis outputs are stored in the corresponding `evaluation/` directories.
 
-### Generation evaluation
+---
 
-The final generation evaluation tracks reference overlap (BLEU-4, chrF, ROUGE-L) and diversity/repetition (repetition rate, Distinct-1 and Distinct-2). The results show a strong temperature trade-off: 0.0 is highly repetitive, 0.5 improves diversity but still repeats, 1.0 provides the strongest balance for these experiments, and 1.5 maximizes diversity at the cost of reference overlap/coherence.
+# Phase 3 — Reasoning Finetuning and Attention Analysis
 
-### Attention analysis
+Each pretrained model was finetuned **independently on reasoning data in its own language**. No finetuning data was mixed across languages.
 
-The final attention analysis reports mean entropy and mean attention distance for every layer/head over 10 validation sequences. Low entropy indicates concentrated attention; higher entropy indicates attention spread over more positions. Mean attention distance is the expected absolute positional gap under the attention distribution.
+## Synthetic Reasoning Dataset
 
-The analysis identifies candidate concentrated/local heads and candidate long-range heads, but the statistics alone do **not** prove a semantic role for any head.
+Reasoning examples are generated programmatically using controlled templates with known ground-truth answers.
 
-### Phase 2 artifact layout
+Tasks include:
 
 ```text
-Gujarati/
-  model/
-    config.py
-    dataset.py
-    train.py
-    transformer.py
-  evaluation/
-    evaluate_checkpoint.py
-    evaluate_lm.py
-    generate.py
-    generation_metrics_standard.py
-    bpb.py
-    attention_analysis.py
-    attention_analysis_aggregate.py
-    causal_mask_test.py
-    figures/attention/
-    results/
-
-Assamese/
-  model/
-    config.py
-    dataset.py
-    train.py
-    transformer.py
-  evaluation/
-    evaluate_checkpoint.py
-    evaluate_lm.py
-    generate.py
-    generation_metrics_standard.py
-    bpb.py
-    attention_analysis.py
-    attention_analysis_aggregate.py
-    causal_mask_test.py
-    figures/attention/
-    results/
-
-final_phase2_audit.py
-report/
+direct_comparison
+greater_smaller
+equal
+two_hop
+three_hop
+ordering
+reversed_wording
+distractor
 ```
 
-## Report
+Each language has:
 
-- Phase 1 report: `report/`
-- Phase 2 report: `report/Phase_2_Model_Implementation_Pretraining_and_Evaluation.docx`
+```text
+data_sft/
+    train.jsonl
+    val.jsonl
+    test.jsonl
 
-## Requirements
+generator/
+    generate_<language>.py
+    templates_<language>.py
+```
 
-Python 3.12 was used. Install the repository dependencies with:
+Dataset sizes for each language:
+
+| Split | Examples |
+|---|---:|
+| Train | 6,400 |
+| Validation | 800 |
+| Test | 800 |
+
+The reasoning dataset is monolingual and uses the target-language script and phrasing.
+
+## Gujarati SFT
+
+Notebook:
+
+```text
+Gujarati/sft/gujarati-train-phase3 98.ipynb
+```
+
+Configuration:
+
+| Setting | Value |
+|---|---:|
+| Epochs | 5 |
+| Batch size | 4 |
+| Gradient accumulation | 8 |
+| Learning rate | 2e-4 |
+| Weight decay | 0.01 |
+| Betas | (0.9, 0.95) |
+| Gradient clipping | 1.0 |
+| Vocabulary | 10,000 |
+| EOS ID | 2 |
+
+Final test result:
+
+**796 / 800 = 99.50%**
+
+Metrics:
+
+```text
+gujarati_phase3_metrics.json
+Gujarati/sft/gujarati_phase3_metrics 98.json
+```
+
+Predictions:
+
+```text
+gujarati_phase3_test_predictions.jsonl
+```
+
+## Assamese SFT
+
+Notebook:
+
+```text
+Assamese/sft/assamese-train-phase-3.ipynb
+```
+
+Configuration:
+
+| Setting | Value |
+|---|---:|
+| Epochs | 3 |
+| Batch size | 4 |
+| Gradient accumulation | 8 |
+| Learning rate | 1e-4 |
+| Weight decay | 0.01 |
+| Betas | (0.9, 0.95) |
+| Gradient clipping | 1.0 |
+| Vocabulary | 10,000 |
+| EOS ID | 2 |
+
+Final test result:
+
+**787 / 800 = 98.375%**
+
+Metrics:
+
+```text
+assamese_phase3_metrics.json
+Assamese/sft/assamese_phase3_metrics.json
+```
+
+Predictions:
+
+```text
+assamese_phase3_test_predictions.jsonl
+```
+
+---
+
+# Phase 3 Checkpoints
+
+Large SFT checkpoints are kept outside Git.
+
+### Gujarati
+
+https://www.kaggle.com/datasets/vidurshah04/guj-ckcpts-and-json
+
+### Assamese
+
+https://www.kaggle.com/datasets/vidurshah04/assam-ckcpts-and-json
+
+Each dataset contains:
+
+```text
+phase3_<language>_sft_best.pt
+phase3_<language>_sft_final.pt
+<language>_phase3_metrics.json
+<language>_phase3_test_predictions.jsonl
+```
+
+Resume-capable checkpoint variants are also maintained locally in the corresponding `checkpoints/` directories.
+
+---
+
+# Pretrained vs Finetuned Reasoning Evaluation
+
+| Language | Pretrained | Finetuned |
+|---|---:|---:|
+| Gujarati | 0 / 800 = 0.00% | 796 / 800 = 99.50% |
+| Assamese | 0 / 800 = 0.00% | 787 / 800 = 98.375% |
+
+The finetuned models show a large improvement on the synthetic reasoning test suite relative to the corresponding pretrained checkpoints.
+
+---
+
+# Phase 3 Attention Analysis
+
+The Phase 2 attention toolkit was reused to compare **pretrained vs finetuned** models on reasoning prompts.
+
+For each language, comparisons include:
+
+- Early layer: **Layer 1**
+- Late layer: **Layer 7**
+- Multiple heads: **Heads 0 and 4**
+- Pretrained and SFT heatmaps
+- Attention entropy
+- Mean attention distance
+- Aggregate layer/head statistics
+
+Artifacts are stored under:
+
+```text
+Gujarati/evaluation/figures/attention_reasoning/
+Assamese/evaluation/figures/attention_reasoning/
+
+Gujarati/evaluation/results/attention_sft/
+Assamese/evaluation/results/attention_sft/
+```
+
+Attention analysis is treated as evidence of attention patterns rather than proof of causal semantic roles for individual heads.
+
+---
+
+# Error Analysis
+
+Final prediction JSONL files are preserved for reproducible error analysis.
+
+Observed failures:
+
+- **Gujarati:** 4 errors out of 800; ordering accounts for 2 of the 4 errors.
+- **Assamese:** 13 errors out of 800; 12 of the 13 errors are ordering failures, with the remaining error on reversed wording.
+
+Full predictions:
+
+```text
+gujarati_phase3_test_predictions.jsonl
+assamese_phase3_test_predictions.jsonl
+```
+
+---
+
+# Reproduction
+
+## Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
+
+## Obtain data
+
+Download the Phase 1 `splits_v2` datasets from the links above and place them in the language-specific locations described in Phase 1.
+
+## Obtain checkpoints
+
+Download the pretrained checkpoints from the linked checkpoint datasets and place them at:
+
+```text
+Gujarati/checkpoints/checkpoint_030518_gujarati.pt
+Assamese/checkpoints/checkpoint_030518_assamese.pt
+```
+
+For Phase 3, the SFT checkpoint artifacts are available through the Gujarati and Assamese Kaggle datasets linked above.
+
+## Generate reasoning data
+
+Use:
+
+```text
+Gujarati/generator/generate_gujarati.py
+Assamese/generator/generate_assamese.py
+```
+
+The generated splits are stored in the corresponding `data_sft/` directories.
+
+## Run evaluation
+
+Use the evaluation scripts under:
+
+```text
+Gujarati/evaluation/
+Assamese/evaluation/
+```
+
+For Phase 3 attention comparison:
+
+```text
+Gujarati/evaluation/attention_reasoning_compare.py
+Assamese/evaluation/attention_reasoning_compare.py
+```
+
+---
+
+# Report
+
+The `report/` directory contains project reports and supporting figures/tables.
+
+The final Phase 3 report consolidates the Phase 1, Phase 2 and Phase 3 results.
+
+---
+
+# Requirements
+
+Python 3.12 was used.
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+# Constraints Followed
+
+- Two independent monolingual language models.
+- Separate datasets and tokenizers.
+- No pretrained language models.
+- No pretrained tokenizers.
+- No Hugging Face Transformer model classes.
+- Decoder-only Transformer implemented from scratch in PyTorch.
+- Causal self-attention and masking implemented explicitly.
+- Independent pretraining and finetuning pipelines.
+- Checkpoint-based training recovery supported.
