@@ -38,7 +38,7 @@ DATA_DIR = (
 TOKENIZER_PATH = (
     Path(__file__).resolve().parent.parent
     / "tokenizer_clean"
-    / "assamese_24k.model"
+    / "assamese_10k.model"
 )
 
 CHECKPOINT_PATH = (

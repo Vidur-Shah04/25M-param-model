@@ -23,7 +23,7 @@ CHECKPOINT_PATH = (
 TOKENIZER_PATH = (
     PROJECT_ROOT
     / "tokenizer_clean"
-    / "gujarati_24k.model"
+    / "gujarati_10k.model"
 )
 
 VAL_DIR = (
@@ -243,8 +243,8 @@ def main():
         weights_only=False,
     )
 
-    config = ModelConfig()
-
+    # config = ModelConfig()
+    config = ModelConfig(**checkpoint["config"])
     model = DecoderOnlyTransformer(
         config
     ).to(device)

@@ -27,7 +27,7 @@ DATA_DIR = PROJECT_DIR / "data" / "splits_v2"
 TOKENIZER_PATH = (
     PROJECT_DIR
     / "tokenizer_clean"
-    / "gujarati_24k.model"
+    / "gujarati_10k.model"
 )
 
 CHECKPOINT_PATH = (
@@ -53,7 +53,8 @@ SEQUENCE_LENGTH = 128
 # 0 = Layer 1
 # 2 = Layer 3
 # 4 = Layer 5
-SELECTED_LAYERS = [0, 2, 4]
+# SELECTED_LAYERS = [0, 2, 4]
+SELECTED_LAYERS = [0, 3, 6]
 
 # Heads 0 and 4 provide two different heads per selected layer.
 SELECTED_HEADS = [0, 4]

@@ -45,7 +45,8 @@ def main():
         print(f"  - {key}")
 
     # Load configuration
-    config = ModelConfig()
+    # config = ModelConfig()
+    config = ModelConfig(**checkpoint["config"])
 
     print("\nModel configuration:")
     print(f"  vocab_size      = {config.vocab_size}")
@@ -71,7 +72,8 @@ def main():
     print("\nParameter count:")
     print(f"  {total_params:,}")
 
-    expected_params = 25_689_088
+    # expected_params = 25_689_088
+    expected_params = 25_613_056
 
     if total_params == expected_params:
         print("  PASS: parameter count matches expected architecture.")

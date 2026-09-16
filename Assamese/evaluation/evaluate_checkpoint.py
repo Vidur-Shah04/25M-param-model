@@ -45,7 +45,8 @@ def main():
         print(f"  - {key}")
 
     # Load configuration
-    config = ModelConfig()
+    # config = ModelConfig()
+    config = ModelConfig(**checkpoint["config"])
 
     print("\nModel configuration:")
     print(f"  vocab_size      = {config.vocab_size}")

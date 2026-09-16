@@ -11,14 +11,14 @@ DATA_DIR = Path(__file__).resolve().parent.parent / "data" / "splits_v2"
 TOKENIZER_PATH = (
     Path(__file__).resolve().parent.parent
     / "tokenizer_clean"
-    / "gujarati_24k.model"
+    / "gujarati_10k.model"
 )
 
 SPLIT = "val"
 
 # Final validation CE from evaluate_lm.py
-VALIDATION_CE = 5.685608
-
+# VALIDATION_CE = 5.685608
+VALIDATION_CE = 5.078165
 
 # ============================================================
 # LOAD TOKENIZER

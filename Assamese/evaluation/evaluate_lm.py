@@ -3,6 +3,7 @@ import sys
 import math
 import time
 
+from duckdb import checkpoint
 import sentencepiece as spm
 import torch
 from torch.utils.data import IterableDataset, DataLoader
@@ -24,7 +25,7 @@ CHECKPOINT_PATH = (
 TOKENIZER_PATH = (
     PROJECT_ROOT
     / "tokenizer_clean"
-    / "assamese_24k.model"
+    / "assamese_10k.model"
 )
 
 VAL_DIR = PROJECT_ROOT / "data" / "splits_v2"
@@ -47,7 +48,7 @@ BATCH_SIZE = 1
 
 # Number of batches processed before printing progress.
 PRINT_EVERY = 100
-
+MAX_VALIDATION_TOKENS = 100_000_000
 
 # ---------------------------------------------------------
 # Validation dataset
@@ -180,8 +181,8 @@ def main():
         weights_only=False,
     )
 
-    config = ModelConfig()
-
+    # config = ModelConfig()
+    config = ModelConfig(**checkpoint["config"])
     model = DecoderOnlyTransformer(
         config
     ).to(device)
@@ -256,16 +257,30 @@ def main():
 
         for x, y in loader:
 
+            # Hard stop at 100M validation tokens
+            remaining_tokens = (
+                MAX_VALIDATION_TOKENS - total_tokens
+            )
+
+            if remaining_tokens <= 0:
+                break
+
             x = x.to(device)
             y = y.to(device)
+
+            # If this batch would exceed the limit,
+            # keep only the required number of tokens.
+            if y.numel() > remaining_tokens:
+                tokens_to_keep = remaining_tokens
+
+                x = x[:, :tokens_to_keep]
+                y = y[:, :tokens_to_keep]
 
             logits, loss = model(
                 x,
                 y,
             )
 
-            # loss is mean cross-entropy over
-            # all next-token predictions.
             batch_tokens = y.numel()
 
             total_loss += (
@@ -273,7 +288,6 @@ def main():
             )
 
             total_tokens += batch_tokens
-
             num_batches += 1
 
             if num_batches % PRINT_EVERY == 0:
@@ -297,7 +311,6 @@ def main():
                     f"PPL {current_ppl:.4f} | "
                     f"Time {elapsed/60:.2f} min"
                 )
-
     # -----------------------------------------------------
     # Final metrics
     # -----------------------------------------------------

@@ -29,7 +29,7 @@ PROJECT_DIR = Path(__file__).resolve().parent.parent
 TOKENIZER_PATH = (
     PROJECT_DIR
     / "tokenizer_clean"
-    / "assamese_24k.model"
+    / "assamese_10k.model"
 )
 
 CHECKPOINT_PATH = (

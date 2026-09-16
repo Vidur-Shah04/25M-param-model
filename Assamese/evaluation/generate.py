@@ -23,7 +23,7 @@ CHECKPOINT_PATH = (
 TOKENIZER_PATH = (
     PROJECT_ROOT
     / "tokenizer_clean"
-    / "assamese_24k.model"
+    / "assamese_10k.model"
 )
 
 VAL_DIR = (
@@ -243,7 +243,8 @@ def main():
         weights_only=False,
     )
 
-    config = ModelConfig()
+    # config = ModelConfig()
+    config = ModelConfig(**checkpoint["config"])
 
     model = DecoderOnlyTransformer(
         config
