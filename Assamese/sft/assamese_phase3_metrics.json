@@ -1,0 +1,41 @@
+{
+  "language": "assamese",
+  "phase": 3,
+  "stage": "SFT",
+  "train_size": 6400,
+  "val_size": 800,
+  "test_size": 800,
+  "epochs": 3,
+  "batch_size": 4,
+  "grad_accumulation": 8,
+  "learning_rate": 0.0001,
+  "weight_decay": 0.01,
+  "best_val_loss": 0.005319389826281622,
+  "final_train_loss": 0.03476873782155963,
+  "final_val_loss": 0.005319389826281622,
+  "test_correct": 793,
+  "test_total": 800,
+  "test_accuracy": 0.99125,
+  "vocab_size": 10000,
+  "eos_id": 2,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.612867112816366,
+      "val_loss": 0.14692027001161478,
+      "val_ppl": 1.1582616111634925
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.08672945423225428,
+      "val_loss": 0.053543591478664894,
+      "val_ppl": 1.0550029799051284
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.03476873782155963,
+      "val_loss": 0.005319389826281622,
+      "val_ppl": 1.005333562899901
+    }
+  ]
+}

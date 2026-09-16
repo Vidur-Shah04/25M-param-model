@@ -1,0 +1,53 @@
+{
+  "language": "Gujarati",
+  "phase": 3,
+  "stage": "SFT",
+  "train_size": 6400,
+  "val_size": 800,
+  "test_size": 800,
+  "epochs": 5,
+  "batch_size": 4,
+  "grad_accumulation": 8,
+  "learning_rate": 0.0002,
+  "weight_decay": 0.01,
+  "best_val_loss": 0.017985245613363076,
+  "final_train_loss": 0.05263914573160264,
+  "final_val_loss": 0.017985245613363076,
+  "test_correct": 785,
+  "test_total": 800,
+  "test_accuracy": 0.98125,
+  "vocab_size": 10000,
+  "eos_id": 2,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.7258844045623846,
+      "val_loss": 0.2893426266661845,
+      "val_ppl": 1.3355492449306887
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.2301032261513683,
+      "val_loss": 0.16751911515733808,
+      "val_ppl": 1.182367891117181
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.10560398940492632,
+      "val_loss": 0.03754312576231314,
+      "val_ppl": 1.0382567717311053
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.05787871611260925,
+      "val_loss": 0.02330748424495141,
+      "val_ppl": 1.0235812262646387
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.05263914573160264,
+      "val_loss": 0.017985245613363076,
+      "val_ppl": 1.018147954130403
+    }
+  ]
+}
