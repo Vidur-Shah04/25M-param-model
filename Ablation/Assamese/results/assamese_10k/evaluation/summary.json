@@ -1,0 +1,31 @@
+{
+  "experiment": "Assamese positional-embedding ablation",
+  "checkpoint": "checkpoint_030518.pt",
+  "checkpoint_step": 30518,
+  "parameters": 25350912,
+  "validation": {
+    "checkpoint": "checkpoint_030518.pt",
+    "checkpoint_step": 30518,
+    "validation_sequences": 114193,
+    "validation_tokens": 58352623,
+    "cross_entropy": 4.970216882307876,
+    "perplexity": 144.05812764225743,
+    "protocol_max_tokens": 100000000,
+    "elapsed_minutes": 25.019227103392282
+  },
+  "bpb": {
+    "checkpoint": "checkpoint_030518.pt",
+    "validation_words": 32466286,
+    "sentencepiece_tokens": 58466926,
+    "utf8_bytes": 530517951,
+    "tokens_per_word": 1.800850457610088,
+    "cross_entropy_used": 4.970216882307876,
+    "perplexity": 144.05812764225743,
+    "bits_per_byte": 0.7902419058121368
+  },
+  "generation_metrics_file": "/kaggle/working/assamese_10k/evaluation/generation_metrics/assamese_generation_metrics.json",
+  "standard_generation_dir": "/kaggle/working/assamese_10k/evaluation/generations",
+  "attention_csv": "/kaggle/working/assamese_10k/evaluation/attention/assamese_attention_aggregate.csv",
+  "attention_figures_dir": "/kaggle/working/assamese_10k/evaluation/attention_figures",
+  "completed_at_epoch_seconds": 1789581691.309327
+}

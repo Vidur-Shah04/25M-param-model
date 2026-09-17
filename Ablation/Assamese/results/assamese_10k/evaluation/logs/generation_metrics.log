@@ -1,0 +1,54 @@
+======================================================================
+assamese GENERATION METRICS
+======================================================================
+Device: cuda
+Checkpoint step: 30518
+Vocabulary: 10000
+Samples: 50
+Prompt tokens: 128
+Reference tokens: 100
+
+Generating/evaluating T=0.0...
+Generating/evaluating T=0.5...
+Generating/evaluating T=1.0...
+Generating/evaluating T=1.5...
+
+======================================================================
+assamese GENERATION METRICS
+======================================================================
+
+Temperature: 0.0
+  BLEU-4          : 0.026715
+  chrF            : 0.144557
+  ROUGE-L         : 0.045137
+  Repetition Rate : 0.830902
+  Distinct-1      : 0.147583
+  Distinct-2      : 0.169098
+
+Temperature: 0.5
+  BLEU-4          : 0.029524
+  chrF            : 0.183800
+  ROUGE-L         : 0.062984
+  Repetition Rate : 0.556729
+  Distinct-1      : 0.324304
+  Distinct-2      : 0.443271
+
+Temperature: 1.0
+  BLEU-4          : 0.023988
+  chrF            : 0.256962
+  ROUGE-L         : 0.049869
+  Repetition Rate : 0.028279
+  Distinct-1      : 0.905936
+  Distinct-2      : 0.971721
+
+Temperature: 1.5
+  BLEU-4          : 0.018922
+  chrF            : 0.246883
+  ROUGE-L         : 0.022664
+  Repetition Rate : 0.000858
+  Distinct-1      : 0.984367
+  Distinct-2      : 0.999142
+
+Saved summary: /kaggle/working/assamese_10k/evaluation/generation_metrics/assamese_generation_metrics.csv
+Saved JSON:    /kaggle/working/assamese_10k/evaluation/generation_metrics/assamese_generation_metrics.json
+======================================================================

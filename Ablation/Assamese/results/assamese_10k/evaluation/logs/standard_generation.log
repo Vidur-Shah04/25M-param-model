@@ -1,0 +1,22 @@
+======================================================================
+ASSAMESE GENERATION EVALUATION
+======================================================================
+Device: cuda
+GPU: Tesla T4
+Tokenizer vocabulary: 10000
+Checkpoint step: 30518
+Using 10 validation prompts.
+
+Generating at temperature 0.0...
+Saved: /kaggle/working/assamese_10k/evaluation/generations/assamese_temp_0.0.txt
+
+Generating at temperature 0.5...
+Saved: /kaggle/working/assamese_10k/evaluation/generations/assamese_temp_0.5.txt
+
+Generating at temperature 1.0...
+Saved: /kaggle/working/assamese_10k/evaluation/generations/assamese_temp_1.0.txt
+
+Generating at temperature 1.5...
+Saved: /kaggle/working/assamese_10k/evaluation/generations/assamese_temp_1.5.txt
+
+Generation complete.

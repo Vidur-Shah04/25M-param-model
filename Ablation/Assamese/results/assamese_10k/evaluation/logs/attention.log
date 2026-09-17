@@ -1,0 +1,99 @@
+======================================================================
+assamese AGGREGATED ATTENTION ANALYSIS
+======================================================================
+Device: cuda
+Vocabulary size: 10000
+Checkpoint step: 30518
+Parameters: 25,350,912
+Validation sequences selected: 10
+Processing sequence 1/10...
+Processing sequence 2/10...
+Processing sequence 3/10...
+Processing sequence 4/10...
+Processing sequence 5/10...
+Processing sequence 6/10...
+Processing sequence 7/10...
+Processing sequence 8/10...
+Processing sequence 9/10...
+Processing sequence 10/10...
+
+======================================================================
+AGGREGATED ATTENTION STATISTICS
+======================================================================
+
+Layer 1
+  Head 0: Entropy = 3.6488 (±0.0815), Distance = 30.6005 (±1.7106)
+  Head 1: Entropy = 3.6771 (±0.0695), Distance = 30.4198 (±1.4273)
+  Head 2: Entropy = 3.4580 (±0.1368), Distance = 29.6576 (±1.6699)
+  Head 3: Entropy = 3.3776 (±0.0715), Distance = 29.6008 (±1.5409)
+  Head 4: Entropy = 3.7005 (±0.0583), Distance = 30.5700 (±0.5333)
+  Head 5: Entropy = 3.6274 (±0.0775), Distance = 29.8913 (±1.4412)
+  Head 6: Entropy = 3.6681 (±0.0898), Distance = 30.1047 (±1.9838)
+  Head 7: Entropy = 3.5147 (±0.1100), Distance = 29.8057 (±1.7012)
+
+Layer 2
+  Head 0: Entropy = 3.8001 (±0.0249), Distance = 34.2306 (±0.9267)
+  Head 1: Entropy = 3.7565 (±0.0436), Distance = 35.1890 (±1.3380)
+  Head 2: Entropy = 3.7138 (±0.0722), Distance = 33.3215 (±1.2278)
+  Head 3: Entropy = 3.5520 (±0.0790), Distance = 27.9278 (±2.0863)
+  Head 4: Entropy = 3.1295 (±0.3069), Distance = 28.6596 (±3.7414)
+  Head 5: Entropy = 3.2986 (±0.2573), Distance = 28.2444 (±3.6548)
+  Head 6: Entropy = 2.8427 (±0.1442), Distance = 26.4670 (±3.5534)
+  Head 7: Entropy = 3.3851 (±0.2156), Distance = 30.9366 (±2.8321)
+
+Layer 3
+  Head 0: Entropy = 3.1447 (±0.2916), Distance = 31.9172 (±3.2072)
+  Head 1: Entropy = 3.7351 (±0.0803), Distance = 27.8783 (±1.7645)
+  Head 2: Entropy = 3.5954 (±0.1328), Distance = 30.5638 (±1.5820)
+  Head 3: Entropy = 3.5145 (±0.1937), Distance = 21.2022 (±3.9302)
+  Head 4: Entropy = 3.7250 (±0.0453), Distance = 28.9615 (±1.3133)
+  Head 5: Entropy = 3.7527 (±0.0363), Distance = 30.3898 (±1.1477)
+  Head 6: Entropy = 3.4489 (±0.1159), Distance = 29.5008 (±2.5138)
+  Head 7: Entropy = 3.7197 (±0.0631), Distance = 29.1460 (±0.7732)
+
+Layer 4
+  Head 0: Entropy = 3.5140 (±0.2096), Distance = 19.1355 (±6.3139)
+  Head 1: Entropy = 2.9133 (±0.3992), Distance = 11.8780 (±6.0772)
+  Head 2: Entropy = 3.0476 (±0.3897), Distance = 12.2610 (±6.5244)
+  Head 3: Entropy = 3.7503 (±0.0525), Distance = 26.6514 (±2.7773)
+  Head 4: Entropy = 2.7436 (±0.3919), Distance = 9.3330 (±6.1443)
+  Head 5: Entropy = 3.0860 (±0.3519), Distance = 12.3218 (±6.3167)
+  Head 6: Entropy = 3.0179 (±0.3694), Distance = 11.3415 (±6.4581)
+  Head 7: Entropy = 3.7700 (±0.0678), Distance = 34.9363 (±2.8938)
+
+Layer 5
+  Head 0: Entropy = 2.8194 (±0.3714), Distance = 11.9847 (±5.9910)
+  Head 1: Entropy = 3.4416 (±0.1710), Distance = 24.8589 (±4.0879)
+  Head 2: Entropy = 1.8496 (±0.5573), Distance = 6.9742 (±5.6945)
+  Head 3: Entropy = 2.8374 (±0.3997), Distance = 13.9997 (±6.3042)
+  Head 4: Entropy = 2.3998 (±0.5101), Distance = 9.3917 (±5.6595)
+  Head 5: Entropy = 2.7718 (±0.4825), Distance = 15.4886 (±5.8836)
+  Head 6: Entropy = 3.5561 (±0.0787), Distance = 25.5798 (±3.5451)
+  Head 7: Entropy = 2.9484 (±0.3778), Distance = 11.8677 (±6.2999)
+
+Layer 6
+  Head 0: Entropy = 3.4212 (±0.1318), Distance = 29.3477 (±3.5076)
+  Head 1: Entropy = 2.8209 (±0.2273), Distance = 28.0950 (±4.0562)
+  Head 2: Entropy = 3.2509 (±0.2145), Distance = 20.2336 (±4.5353)
+  Head 3: Entropy = 2.8110 (±0.2234), Distance = 28.3966 (±4.4382)
+  Head 4: Entropy = 3.1156 (±0.1442), Distance = 29.9700 (±3.7564)
+  Head 5: Entropy = 2.7735 (±0.2089), Distance = 30.4430 (±4.1917)
+  Head 6: Entropy = 3.3019 (±0.1679), Distance = 27.3966 (±3.9969)
+  Head 7: Entropy = 2.8306 (±0.1841), Distance = 30.9187 (±3.9561)
+
+Layer 7
+  Head 0: Entropy = 3.2230 (±0.2646), Distance = 30.6534 (±3.1546)
+  Head 1: Entropy = 3.6357 (±0.0974), Distance = 28.5082 (±1.6472)
+  Head 2: Entropy = 3.2487 (±0.1088), Distance = 28.8312 (±2.7580)
+  Head 3: Entropy = 3.1393 (±0.2036), Distance = 28.5568 (±3.7047)
+  Head 4: Entropy = 3.3379 (±0.1694), Distance = 29.6190 (±4.1478)
+  Head 5: Entropy = 3.2069 (±0.2082), Distance = 29.1746 (±3.6837)
+  Head 6: Entropy = 3.2821 (±0.1278), Distance = 30.4729 (±3.1926)
+  Head 7: Entropy = 3.2432 (±0.1631), Distance = 31.2002 (±4.2975)
+
+======================================================================
+assamese AGGREGATED ATTENTION ANALYSIS COMPLETE
+======================================================================
+CSV: /kaggle/working/assamese_10k/evaluation/attention/assamese_attention_aggregate.csv
+Entropy figure: /kaggle/working/assamese_10k/evaluation/attention_figures/assamese_attention_entropy_heatmap.png
+Distance figure: /kaggle/working/assamese_10k/evaluation/attention_figures/assamese_attention_distance_heatmap.png
